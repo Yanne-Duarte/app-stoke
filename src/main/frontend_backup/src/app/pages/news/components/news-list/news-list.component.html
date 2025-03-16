@@ -1,0 +1,85 @@
+<div class="card mb-5">
+    <div class="card-body">
+        <div class="filtros-container">
+            <h3 class="d-flex justify-content-between" (click)="isCollapsed = !isCollapsed">
+                <span>Filtros</span>
+                <span>
+                    <i class="fas" [class.fa-chevron-up]="!isCollapsed" [class.fa-chevron-down]="isCollapsed"></i>
+                </span>
+            </h3>
+            <div [ngbCollapse]="isCollapsed">
+                <div class="form-group d-flex gap-2">
+                    <input type="text" class="form-control" [(ngModel)]="searchTitle" placeholder="Título">
+                    <input type="text" class="form-control" [(ngModel)]="searchCategory" placeholder="Categoria">
+                    <input type="text" class="form-control" [(ngModel)]="searchAuthor" placeholder="Autor">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <!-- Loading state -->
+        <div class="text-center" *ngIf="loading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Carregando notícias...</p>
+        </div>
+
+        <!-- Content -->
+        <div class="row g-3" *ngIf="!loading">
+            <div class="col-12" *ngFor="let item of filteredNews">
+                <div class="card h-100" [ngClass]="{'border-warning': !item.status}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-user-circle me-2"></i>
+                                <strong>{{item.author}}</strong>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-muted">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    {{item.date | date:'dd/MM/yyyy HH:mm'}}
+                                </span>
+                                <span class="badge-notificacao gap-2"
+                                    [ngClass]="item.status ? 'bg-success' : 'bg-warning'">
+                                    <i class="fas" [class.fa-check-circle]="item.status"
+                                        [class.fa-exclamation-circle]="!item.status"></i>
+                                    {{ item.status ? 'Ativo' : 'Inativo'}}
+                                </span>
+                                <span class="badge-notificacao bg-info gap-2">
+                                    <i class="fas fa-tag me-1"></i>
+                                    {{item.category}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <h5 class="card-title mb-2">
+                            <i class="fas fa-newspaper me-2"></i>
+                            {{item.title}}
+                        </h5>
+                        <p class="card-text mb-2">{{item.content}}</p>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button class="btn btn-sm btn-warning" (click)="onEdit.emit(item)" title="Editar notícia">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" (click)="onDelete.emit(item)" title="Excluir notícia">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="filteredNews.length === 0">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Nenhuma notícia encontrada
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="page-container">
+    <h1>Planos</h1>
+    <p>Gestão de planos e assinaturas</p>
+
+    <div class="mb-4">
+        <button class="btn btn-primary w-100" (click)="navigateToCreate()">
+            <i class="fas fa-plus-circle"></i> Novo
+        </button>
+    </div>
+
+    <app-plano-list
+        (onEdit)="navigateToEdit($event)">
+    </app-plano-list>
+</div>

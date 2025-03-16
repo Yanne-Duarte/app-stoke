@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h4 class="modal-title">Confirmar Alteração de Status</h4>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <p>Tem certeza que deseja alterar o status do utilizador "{{user?.fullName}}"?</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="activeModal.close(true)">Confirmar</button>
+</div> 

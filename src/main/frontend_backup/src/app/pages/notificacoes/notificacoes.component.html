@@ -1,0 +1,19 @@
+<div class="page-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Notificações</h1>
+            <p>Gestão das notificações do sistema</p>
+        </div>
+        <button class="btn btn-primary" [routerLink]="['/notificacoes/criar']">
+            <i class="bi bi-plus-circle me-2"></i>Nova Notificação
+        </button>
+    </div>
+
+    <!-- Lista de Notificações -->
+    <app-notificacao-list 
+        [notificacoes]="notificacoes" 
+        (onDelete)="openDeleteModal($event)"
+        (onToggleRead)="toggleReadStatus($event)"
+        (onMarkAllRead)="markAllAsRead()">
+    </app-notificacao-list>
+</div>

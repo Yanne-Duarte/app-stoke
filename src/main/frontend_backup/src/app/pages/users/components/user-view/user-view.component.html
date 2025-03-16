@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2>Detalhes do Utilizador</h2>
+      <button class="btn btn-secondary" (click)="goBack()">Voltar</button>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">
+        {{error}}
+      </div>
+
+      <div *ngIf="user && !loading" class="row">
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold">Nome Completo:</label>
+          <p>{{user.fullName}}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold">Username:</label>
+          <p>{{user.username}}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold">Data de Nascimento:</label>
+          <p>{{user.birthdate | date:'dd/MM/yyyy'}}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold">Perfil:</label>
+          <p>{{user.perfil}}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold">Plano:</label>
+          <p>{{user.plano || 'Não atribuído'}}</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="fw-bold">Fisioterapeuta:</label>
+          <p>{{user.fisioterapeuta || 'Não atribuído'}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,15 @@
+<modal-global>
+    <div header>
+        <h4>Confirmar </h4>
+    </div>
+
+    <div body>
+        <p>Tem certeza que deseja excluir esta notificação?</p>
+        <p><strong>Título:</strong> {{notificacao?.titulo}}</p>
+    </div>
+
+    <div footer>
+        <button type="button" class="btn btn-secondary" (click)="dismiss()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirm()">Excluir</button>
+    </div>
+</modal-global> 

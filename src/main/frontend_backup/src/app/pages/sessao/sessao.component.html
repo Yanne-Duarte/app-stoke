@@ -1,0 +1,13 @@
+<div class="page-container">
+    <h1>Sessões </h1>
+    <p>Gestão de sessões</p>
+
+    <div class="mb-4">
+        <button class="btn btn-primary w-100" (click)="openCriarModal()">
+            <i class="bi bi-plus-circle"></i> Nova
+        </button>
+
+    </div>
+    <app-lista-sessoes [sessoes]="sessoes" (delete)="onDeleteSessao($event)" (editar)="onEditarSessao($event)">
+    </app-lista-sessoes>
+</div>

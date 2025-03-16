@@ -1,0 +1,11 @@
+<div class="modal-overlay">
+  <div class="modal-content">
+    <h2>Confirmar </h2>
+    <p>Tem certeza que deseja excluir a sessão "{{sessao.titulo}}" do paciente {{sessao.nomeUtente}}?</p>
+    
+    <div class="modal-actions">
+      <button class="btn-cancelar" (click)="onCancelar()">Cancelar</button>
+      <button class="btn- delete" (click)="onConfirmar()">Confirmar </button>
+    </div>
+  </div>
+</div> 

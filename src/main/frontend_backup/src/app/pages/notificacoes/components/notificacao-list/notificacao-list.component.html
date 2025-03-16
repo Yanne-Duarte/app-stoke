@@ -1,0 +1,98 @@
+<!-- Área de filtros colapsável -->
+<div class="">
+    <div class="card mb-5">
+        <div class="card-body">
+            <div class="filtros-container">
+                <h3 class="d-flex justify-content-between" (click)="isCollapsed = !isCollapsed">
+                    <span>Filtros</span>
+                    <span>
+                        <i class="bi" [class.bi-chevron-up]="!isCollapsed" [class.bi-chevron-down]="isCollapsed"></i>
+                    </span>
+                </h3>
+                <div [ngbCollapse]="isCollapsed">
+                    <div class="form-group d-flex gap-2">
+                        <div class="col-md-3">
+                            <label>Data Início</label>
+                            <input type="date" class="form-control" [(ngModel)]="startDate">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Data Fim</label>
+                            <input type="date" class="form-control" [(ngModel)]="endDate">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Status</label>
+                            <select class="form-select" [(ngModel)]="readStatus">
+                                <option value="">Todos</option>
+                                <option value="lida">Lida</option>
+                                <option value="nao_lida">Não Lida</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-secondary" (click)="clearFilters()">
+                                Limpar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-primary" (click)="handleMarkAllRead()">
+                Marcar todas como lidas
+            </button>
+        </div>
+
+        <!-- Nova visualização em cards -->
+        <div class="row g-3">
+            <div class="col-12" *ngFor="let notificacao of filteredNotificacoes">
+                <div class="card h-100" [ngClass]="{'border-warning': !notificacao.read}">
+                    <div class="card-body">
+                        <!-- Cabeçalho do card -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-user-circle me-2"></i>
+                                <strong>{{notificacao.senderName || 'Sistema'}}</strong>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-muted">{{notificacao.createdAt | date:'dd/MM/yyyy HH:mm'}}</span>
+                                <span class="badge-notificacao" [ngClass]="notificacao.read ? 'read' : 'unread'">
+                                    {{ notificacao.read ? 'Lido' : 'Não Lido'}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Conteúdo do card -->
+                        <h5 class="card-title mb-3">{{notificacao.title}}</h5>
+                        <p class="card-text mb-3">{{notificacao.message}}</p>
+
+                        <!-- Ações -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <button class="btn btn-icon"
+                                [ngClass]="notificacao.read ? 'btn-outline-warning' : 'btn-outline-success'"
+                                (click)="handleToggleRead(notificacao)"
+                                [title]="notificacao.read ? 'Marcar como não lido' : 'Marcar como lido'">
+                                <i class="fas" [ngClass]="notificacao.read ? 'fa-eye-slash' : 'fa-eye'"></i>
+                            </button>
+                            <button class="btn btn-icon btn-outline-danger" (click)="handleDelete(notificacao)"
+                                title="Excluir notificação">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensagem quando não há notificações -->
+            <div class="col-12" *ngIf="filteredNotificacoes.length === 0">
+                <div class="alert alert-info text-center">
+                    Nenhuma notificação encontrada
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

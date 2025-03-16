@@ -1,0 +1,36 @@
+<!--<div class="plano-form">
+  <div class="">
+    <div class="d-flex justify-content-between  ">
+      <h2>Confirmar</h2>
+      <i class="fas fa-times" (click)="onCancel()"></i>
+     
+    </div>
+    <p>Tem a certeza que pretende eliminar o plano "{{ plano?.nome }}"?</p>
+    <div class="d-flex justify-content-center gap-5">
+      <button class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+      <button class="btn btn-danger" (click)="onConfirm()">Confirmar</button>
+    </div>
+  </div>
+</div>
+-->
+<modal-global>
+  <ng-container header>
+    <span>Confirmar Exclusão</span>
+  </ng-container>
+
+  <ng-container body>
+    <p>Tem a certeza que pretende eliminar este plano?</p>
+    <div class="alert alert-warning">
+      <strong>Detalhes do Plano:</strong><br>
+      Utente: {{ plano?.user?.fullName }}<br>
+      Username: {{ plano?.user?.username }}<br>
+      Descrição: {{ plano?.description }}<br>
+      Exercícios: {{ plano?.exercises?.length || 0 }}
+    </div>
+  </ng-container>
+
+  <ng-container footer>
+    <button class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button class="btn btn-danger" (click)="onConfirm()">Confirmar</button>
+  </ng-container>
+</modal-global>

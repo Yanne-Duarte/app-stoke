@@ -1,0 +1,14 @@
+<div class="page-container">
+    <h1>Utilizadores</h1>
+    <p>Gestão dos utilizadores do sistema</p>
+
+    <div class="mb-4">
+        <button class="btn btn-primary w-100" [routerLink]="['/users/create']">
+            <i class="bi bi-plus-circle"></i> Novo Utilizador
+        </button>
+    </div>
+
+    <app-user-list [users]="users" (onEdit)="openEditUserModal($event)" (onView)="openUserDetails($event)"
+        (onDelete)="openDeleteConfirmation($event)" (onStatus)="openStatusConfirmation($event)">
+    </app-user-list>
+</div>

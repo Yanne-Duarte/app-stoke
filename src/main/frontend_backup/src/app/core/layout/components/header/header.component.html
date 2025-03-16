@@ -1,0 +1,27 @@
+<header class="header">
+  <!-- Lado esquerdo -->
+  <div class="header-left">
+    <img src="favicon.ico" alt="Logo" class="logo">
+  </div>
+
+  <!-- Lado direito -->
+  <div class="header-right">
+    <!-- Ícone de notificações com badge -->
+    <div class="notifications" [routerLink]="['/notificacoes']">
+      <i class="fas fa-bell"></i>
+      <span class="badge" *ngIf="unreadCount > 0">{{unreadCount}}</span>
+    </div>
+
+    <!-- Informações do utilizador -->
+    <div class="user-info">
+      <img src="favicon.ico" alt="User" class="user-avatar">
+      <span class="user-name">{{ fullName }}</span>
+    </div>
+
+    <!-- Botão de logout -->
+    <div class="logout" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </div>
+  </div>
+</header>

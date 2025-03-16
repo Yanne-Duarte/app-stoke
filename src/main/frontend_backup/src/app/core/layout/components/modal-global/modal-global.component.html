@@ -1,0 +1,21 @@
+<div class="modal-container">
+    <!-- Header -->
+    <div class="modal-header">
+        <div class="modal-title">
+            <ng-content select="[header]"></ng-content>
+        </div>
+
+        <i class="fas fa-times" (click)="onClose()"></i>
+
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+        <ng-content select="[body]"></ng-content>
+    </div>
+
+    <!-- Footer -->
+    <div class="d-flex justify-content-end gap-2 m-3">
+        <ng-content select="[footer]"></ng-content>
+    </div>
+</div>

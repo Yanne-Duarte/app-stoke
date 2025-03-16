@@ -1,0 +1,57 @@
+<div class="chat-container">
+  <div class="chat-list">
+    <div class="chats-list">
+      <h3>Conversas com Pacientes</h3>
+      <div *ngIf="chats.length === 0" class="no-chats">
+        <p>Nenhuma conversa disponível.</p>
+      </div>
+      <div *ngFor="let chat of chats" 
+           class="chat-item" 
+           [class.active]="selectedChat?.id === chat.id"
+           (click)="selectChat(chat)">
+        <div class="chat-info">
+          <h4>{{ chat.userName }}</h4>
+          <p>{{ chat.lastMessage || 'Nenhuma mensagem' }}</p>
+        </div>
+        <div class="chat-meta">
+          <span class="chat-time" *ngIf="chat.lastMessageTime">
+            {{ chat.lastMessageTime | date:'short' }}
+          </span>
+          <span class="unread-badge" *ngIf="chat.unreadCount > 0">
+            {{ chat.unreadCount }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chat-area" *ngIf="selectedChat">
+    <div class="chat-header">
+      <h2>{{ selectedChat.userName }}</h2>
+    </div>
+    
+    <div class="messages">
+      <div *ngFor="let msg of messages" 
+           class="message" 
+           [class.sent]="msg.senderId === currentUserId">
+        <div class="message-content">
+          <p>{{ msg.content }}</p>
+          <span class="timestamp">{{ msg.timestamp | date:'short' }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <form [formGroup]="form" (ngSubmit)="enviarMensagem()" class="message-form">
+      <input type="text" 
+             formControlName="mensagem" 
+             placeholder="Digite sua mensagem...">
+      <button type="submit" [disabled]="!form.value.mensagem?.trim()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+
+  <div class="no-chat-selected" *ngIf="!selectedChat">
+    <p>Selecione uma conversa para começar</p>
+  </div>
+</div>

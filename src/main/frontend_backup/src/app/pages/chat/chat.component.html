@@ -1,0 +1,45 @@
+<!-- Botão flutuante -->
+<div class="chat-widget" [class.open]="isOpen">
+  <div class="chat-header" (click)="toggleChat()">
+    <h3>Chat</h3>
+    <i class="fas" [class.fa-chevron-up]="isOpen" [class.fa-chevron-down]="!isOpen"></i>
+  </div>
+  
+  <div class="chat-content">
+    <div *ngIf="!currentUser?.fisioterapeuta" class="no-chat">
+      <p>Você não tem um fisioterapeuta associado.</p>
+      <p>Entre em contato com o administrador.</p>
+    </div>
+
+    <ng-container *ngIf="currentUser?.fisioterapeuta">
+      <div class="chat-info">
+        <p>Conversando com seu fisioterapeuta</p>
+      </div>
+
+      <div class="messages" #messagesContainer>
+        <div *ngIf="messages.length === 0" class="no-messages">
+          <p>Nenhuma mensagem ainda. Comece uma conversa!</p>
+        </div>
+        
+        <div *ngFor="let message of messages" 
+             class="message" 
+             [class.sent]="message.senderId === currentUserId">
+          <div class="message-content">
+            <p>{{ message.content }}</p>
+            <span class="timestamp">{{ message.timestamp | date:'short' }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <form [formGroup]="form" (ngSubmit)="sendMessage()" class="message-form">
+        <input type="text" 
+               formControlName="mensagem" 
+               placeholder="Digite sua mensagem..."
+               (keyup.enter)="sendMessage()">
+        <button type="submit" [disabled]="!form.value.mensagem?.trim()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </ng-container>
+  </div>
+</div>

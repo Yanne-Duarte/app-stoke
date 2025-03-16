@@ -1,0 +1,22 @@
+<div class="card mt-5">
+    <div class="card-body">
+        <h5 class="card-title">Newsletters</h5>
+
+        <!-- Lista de Newsletters -->
+        <div class="newsletter-list">
+            <div *ngFor="let news of newsletters" class="m-4 newsletter-item">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0">{{ news.title }}</h4>
+                    <div class="d-flex gap-3 text-muted">
+                        <span><i class="bi bi-person"></i> {{ news.author }}</span>
+                        <span><i class="bi bi-calendar"></i> {{ news.date | date:'dd/MM/yyyy' }}</span>
+                    </div>
+                </div>
+                <div class="newsletter-content">
+                    <div [innerHTML]="news.content"></div>
+                </div>
+                <hr class="mt-4">
+            </div>
+        </div>
+    </div>
+</div>

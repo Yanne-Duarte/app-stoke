@@ -1,0 +1,89 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header">
+      <h2>{{ isEdit ? 'Editar' : 'Criar Novo' }} Plano</h2>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="error" class="alert alert-danger">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        {{ error }}
+        <div *ngIf="error.includes('perfis técnicos')" class="mt-2 small">
+          <strong>Nota:</strong> Apenas utilizadores com perfil técnico podem criar ou editar planos.
+          Por favor, contacte o administrador do sistema se precisar de acesso.
+        </div>
+      </div>
+
+      <form [formGroup]="planoForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label for="userId">Utente*</label>
+          <select 
+            id="userId" 
+            class="form-select"
+            formControlName="user">
+            <option value="">Selecione um utente</option>
+            <option *ngFor="let user of availableUsers" [ngValue]="user">
+              {{ user.fullName }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="planoForm.get('user')?.errors?.['required'] && planoForm.get('user')?.touched">
+            O utente é obrigatório
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="description">Descrição*</label>
+          <textarea 
+            id="description" 
+            class="form-control"
+            formControlName="description"
+            placeholder="Digite a descrição do plano"
+            rows="4">
+          </textarea>
+          <div class="invalid-feedback" *ngIf="planoForm.get('description')?.errors?.['required'] && planoForm.get('description')?.touched">
+            A descrição é obrigatória
+          </div>
+          <div class="invalid-feedback" *ngIf="planoForm.get('description')?.errors?.['minlength'] && planoForm.get('description')?.touched">
+            A descrição deve ter pelo menos 10 caracteres
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label>Exercícios</label>
+          <div formArrayName="exercises">
+            <div *ngFor="let exercise of exercises.controls; let i=index" [formGroupName]="i" class="card mb-2">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h6 class="mb-0">Exercício {{ i + 1 }}</h6>
+                  <button type="button" class="btn btn-sm btn-danger" (click)="removeExercise(i)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+
+                <div class="form-group mb-2">
+                  <label>Descrição*</label>
+                  <input type="text" class="form-control" formControlName="description">
+                </div>
+
+                <div class="form-group">
+                  <label>Caminho do Vídeo*</label>
+                  <input type="text" class="form-control" formControlName="videoPath">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-primary mt-2" (click)="addExercise()">
+            <i class="fas fa-plus-circle"></i> Adicionar Exercício
+          </button>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!planoForm.valid || loading">
+            {{ loading ? 'A guardar...' : (isEdit ? 'Guardar' : 'Criar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
