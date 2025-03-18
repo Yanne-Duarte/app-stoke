@@ -167,3 +167,10 @@ export interface AttachmentDTO {
 }
 
  
+export interface PlanFilterDTO {
+  userName?: string;
+  creationDateStart?: string;
+  creationDateEnd?: string;
+  validityDateStart?: string;
+  validityDateEnd?: string;
+}

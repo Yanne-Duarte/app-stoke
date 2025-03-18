@@ -44,7 +44,9 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "p-stoke/src/main/frontend/public"
+              
             ],
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",

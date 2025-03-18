@@ -10,11 +10,11 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-plano-list',
   standalone: true,
-  imports: [CommonModule, NgbCollapse, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './plano-list.component.html',
 })
-export class PlanoListComponent implements OnInit {
-  planos: PlanDTO[] = [];
+export class PlanoListComponent {} //implements OnInit
+/* planos: PlanDTO[] = [];
   loading = false;
   error: string | null = null;
   isCollapsed = false;
@@ -119,5 +119,4 @@ export class PlanoListComponent implements OnInit {
       validityDateEnd: ''
     };
     this.carregarPlanos();
-  }
-}
+  }*/

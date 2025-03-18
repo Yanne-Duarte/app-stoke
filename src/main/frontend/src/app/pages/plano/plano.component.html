@@ -1,4 +1,55 @@
 <div class="page-container">
+    <app-search-results [title]="'Planos'" [subtitle]="'Gestão de planos e assinaturas'" [newButtonLabel]="'Novo Plano'"
+        [btnClass]="'btn btn-primary w-100'" [newButtonIcon]="'fas fa-plus'" [filterFields]="filterFields"
+        [tableHeaders]="headers" [data]="planos" [loading]="loading" (onNew)="handleNew()"
+        (onFilter)="handleFilter($event)" (onClear)="handleClear()">
+
+        <ng-template #customCell let-value let-item="item" let-column="column">
+
+            <ng-container *ngIf="column.key === 'user'">
+                {{ item.user.fullName }}
+            </ng-container>
+
+            <ng-container *ngIf="column.key === 'creationDate'">
+                {{ item.creationDate | date:'dd/MM/yyyy HH:mm' }}
+            </ng-container>
+
+            <ng-container *ngIf="column.key === 'validityDate'">
+                {{ item.validityDate | date:'dd/MM/yyyy HH:mm' }}
+            </ng-container>
+
+            <ng-container *ngIf="column.key === 'enabled'">
+                {{ item.enabled ? 'Ativo' : 'Inativo' }}
+            </ng-container>
+
+
+            <ng-container *ngIf="column.key === 'actions'">
+                <span class="d-flex gap-2">
+                    <button class="btn btn-secondary" (click)="handleView(item)" title="Ver">
+                        <i class="fas fa-eye"></i>
+                    </button>
+
+                    <button class="btn btn-primary" (click)="handleEdit(item)" title="Editar">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn btn-danger" (click)="handleDelete(item)" title="Apagar">
+                        <i class="fas fa-trash"></i>
+                    </button>
+
+                    @if(canPlayPlano) {
+                    <button class="btn btn-success" (click)="handlePlay(item)" title="Jogar">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    }
+                </span>
+            </ng-container>
+
+        </ng-template>
+    </app-search-results>
+</div>
+
+<!--- ->
+<div class="page-container">
     <h1>Planos</h1>
     <p>Gestão de planos e assinaturas</p>
 
@@ -8,7 +59,8 @@
         </button>
     </div>
 
-    <app-plano-list
-        (onEdit)="navigateToEdit($event)">
+
+    <app-plano-list (onEdit)="navigateToEdit($event)">
     </app-plano-list>
-</div>
+
+</div>-->
