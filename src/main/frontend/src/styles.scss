@@ -345,8 +345,16 @@ i {
 
 .content-wrapper {
   flex: 1;
-  margin-left: 15%; /* Mesma largura da sidebar */
+  margin-left: 15%;
   padding: 1.5rem;
+
+  @media (max-width: 992px) {
+    margin-left: 60px;
+  }
+
+  @media (max-width: 778px) {
+    margin-left: 0;
+  }
 }
 
 .page-container {
@@ -810,20 +818,44 @@ i {
 //____________________________________________________
 //  SIDEBAR
 .sidebar {
-  height: calc(100vh - 64px); /* Altura total menos altura do header */
-
+  height: calc(100vh - 64px);
   position: fixed;
   left: 0;
   top: 64px;
   transition: all 0.3s ease;
-
-  background-color: #f2f2f2; // Cinza Claro
+  background-color: #f2f2f2;
   width: 15%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+  // Telas médias - apenas ícones
+  @media (max-width: 992px) {
+    width: 60px;
+    padding: 20px 10px;
+
+    .nav-label {
+      display: none;
+    }
+
+    .nav-link {
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    i {
+      margin-right: 0;
+      font-size: 1.3rem;
+    }
+  }
+
+  // Telas pequenas - esconder sidebar
+  @media (max-width: 778px) {
+    display: none;
+  }
 }
+
 /* Links dentro do menu lateral */
 .sidebar a {
   color: #333333;
@@ -863,9 +895,15 @@ i {
   display: flex;
   align-items: center;
   padding: 1rem 1.5rem;
-  color: #ecf0f1;
+  color: #333333;
   text-decoration: none;
   transition: all 0.3s ease;
+
+  i {
+    width: 20px;
+    margin-right: 10px;
+    font-size: 1.1rem;
+  }
 }
 
 .nav-link:hover {
@@ -1311,7 +1349,7 @@ a {
   color: #2d9cdb;
   text-decoration: none;
   font-weight: 600;
-  white-space: nowrap;
+ // white-space: nowrap;
 }
 
 a:hover {
