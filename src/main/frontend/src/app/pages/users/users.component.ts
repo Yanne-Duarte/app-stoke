@@ -3,24 +3,60 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { CommonModule } from '@angular/common';
-import { UserListComponent } from './components/user-list/user-list.component';
 import { ApiService } from '../../api/api.service';
 import { UserDTO, UserFilterDTO } from '../../api/models.dto';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { DeleteConfirmationComponent } from '../news/components/delete-confirmation/delete-confirmation.component';
 import { ChangeStatusConfirmationComponent } from './components/change-status-confirmation/change-status-confirmation.component';
+import { SearchResultsComponent } from '../../core/layout/components/search-results/search-results.component';
+import {
+  FilterField,
+  TableHeader,
+} from 'src/app/core/layout/components/search-results/search.model';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, UserListComponent, RouterModule],
+  imports: [CommonModule, RouterModule, SearchResultsComponent],
   templateUrl: './users.component.html',
 })
 export class UsersComponent implements OnInit {
   users: UserDTO[] = [];
   loading = false;
+  filterFields: FilterField[] = [
+    { name: 'fullName', label: 'Nome', type: 'text' },
+    { name: 'username', label: 'Username', type: 'text' },
+    {
+      name: 'perfil',
+      label: 'Perfil',
+      type: 'select',
+      options: [
+        { id: 'USER', value: 'Utilizador' },
+        { id: 'ADMIN', value: 'Administrador' },
+        { id: 'TECHNICAL', value: 'Técnico' },
+      ],
+    },
+    { name: 'birthdate', label: 'Data de Nascimento', type: 'date' },
+    { name: 'plano', label: 'Plano de Reabilitação', type: 'text' },
+    { name: 'fisioterapeuta', label: 'Fisioterapeuta', type: 'text' },
+  ];
 
-  constructor(private modalService: NgbModal, private apiService: ApiService, private router: Router) {}
+  headers: TableHeader[] = [
+    { key: 'fullName', label: 'Nome Completo' },
+    { key: 'username', label: 'Username' },
+    { key: 'perfil', label: 'Perfil', useTemplate: true },
+    { key: 'birthdate', label: 'Data de Nascimento' },
+    { key: 'plano', label: 'Plano de Reabilitação' },
+    { key: 'fisioterapeuta', label: 'Fisioterapeuta', useTemplate: true },
+    { key: 'actions', label: 'Ações', useTemplate: true },
+  ];
+
+  constructor(
+    private modalService: NgbModal,
+    private apiService: ApiService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.loadUsers();
@@ -40,35 +76,15 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  handleFilter(filter: UserFilterDTO) {
-    this.loadUsers(filter);
+  handleEdit(user: UserDTO) {
+    this.router.navigate([user.id, 'edit'], { relativeTo: this.route });
   }
 
-  openCreateUserModal(): void {
-    const modalRef = this.modalService.open(UserFormComponent, { size: 'lg' });
-    modalRef.componentInstance.isEditing = false;
-    modalRef.result.then(
-      (result) => {
-        if (result) {
-          console.log('Novo utilizador:', result);
-          this.apiService.registerUser(result).subscribe(() => {
-            this.loadUsers();
-          });
-        }
-      },
-      () => {}
-    );
+  handleView(user: UserDTO) {
+    this.router.navigate([user.id], { relativeTo: this.route });
   }
 
-  openEditUserModal(user: UserDTO): void {
-    this.router.navigate(['/users', user.id, 'edit']);
-  }
-
-  openUserDetails(user: UserDTO): void {
-    this.router.navigate(['/users', user.id]);
-  }
-
-  openDeleteConfirmation(user: UserDTO): void {
+  handleDelete(user: UserDTO) {
     if (!user.id) {
       console.error('ID do usuário não encontrado');
       return;
@@ -89,7 +105,7 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  openStatusConfirmation(user: UserDTO) {
+  handleStatus(user: UserDTO) {
     const modalRef = this.modalService.open(ChangeStatusConfirmationComponent);
     modalRef.componentInstance.user = user;
     modalRef.result.then(
@@ -105,19 +121,30 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  handleEdit(user: UserDTO) {
-    // Implement the logic for editing a user
-  }
+  //____________________________________________________
+  isCollapsed = false;
 
-  handleView(user: UserDTO) {
-    // Implement the logic for viewing user details
+  handleClear() {
+    this.getData({});
   }
-
-  handleDelete(user: UserDTO) {
-    // Implement the logic for deleting a user
+  handleFilter($event: any) {
+    const filters = $event;
+    this.getData(filters);
   }
-
-  handleStatus(user: UserDTO) {
-    // Implement the logic for changing user status
+  handleNew() {
+    this.router.navigate(['create'], { relativeTo: this.route });
+  }
+  getData(filters: any) {
+    this.loading = true;
+    this.apiService.getAllUsers(filters).subscribe({
+      next: (data) => {
+        this.users = data;
+        this.loading = false;
+        // this.onFilter.emit(filters);
+      },
+      error: () => {
+        this.loading = false;
+      },
+    });
   }
 }

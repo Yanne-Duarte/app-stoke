@@ -1,14 +1,51 @@
 <div class="page-container">
-    <h1>Utilizadores</h1>
+    <!-- <h1></h1>
     <p>Gestão dos utilizadores do sistema</p>
 
     <div class="mb-4">
         <button class="btn btn-primary w-100" [routerLink]="['/users/create']">
             <i class="bi bi-plus-circle"></i> Novo Utilizador
         </button>
-    </div>
+    </div>-->
 
-    <app-user-list [users]="users" (onEdit)="openEditUserModal($event)" (onView)="openUserDetails($event)"
+    <!--<app-user-list [users]="users" (onEdit)="openEditUserModal($event)" (onView)="openUserDetails($event)"
         (onDelete)="openDeleteConfirmation($event)" (onStatus)="openStatusConfirmation($event)">
-    </app-user-list>
+    </app-user-list>--->
+
+    <app-search-results [title]="'Utilizadores'" [subtitle]="'Gestão dos utilizadores do sistema'"
+        [newButtonLabel]="'Novo Utilizador'" [btnClass]="'btn btn-primary w-100'" [newButtonIcon]="'fas fa-plus'"
+        [filterFields]="filterFields" [tableHeaders]="headers" [data]="users" [loading]="loading" (onNew)="handleNew()"
+        (onFilter)="handleFilter($event)" (onClear)="handleClear()">
+
+        <ng-template #customCell let-value let-item="item" let-column="column">
+
+            <ng-container *ngIf="column.key === 'perfil'">
+                <span *ngIf="value === 'USER'">Utente</span>
+                <span *ngIf="value === 'ADMIN'">Administrador</span>
+                <span *ngIf="value === 'TECHNICAL'">Técnico</span>
+            </ng-container>
+
+            <ng-container *ngIf="column.key === 'fisioterapeuta'">
+                {{item.fisioterapeuta?.fullName || 'Sem fisioterapeuta'}}
+            </ng-container>
+
+            <ng-container *ngIf="column.key === 'actions'">
+                <span class="d-flex gap-2">
+                    <button class="btn btn-primary" (click)="handleEdit(item)" title="Editar">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn btn-success" (click)="handleView(item)" title="Ver">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-warning" (click)="handleStatus(item)" title="Alterar Status">
+                        <i class="fas fa-toggle-on"></i>
+                    </button>
+                    <button class="btn btn-danger" (click)="handleDelete(item)" title="Apagar">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </span>
+            </ng-container>
+
+        </ng-template>
+    </app-search-results>
 </div>

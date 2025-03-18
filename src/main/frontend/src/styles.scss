@@ -554,14 +554,7 @@ i {
       cursor: pointer;
       font-weight: 500;
 
-      &.btn-secondary {
-        background-color: #95a5a6;
-        color: white;
-
-        &:hover {
-          background-color: #7f8c8d;
-        }
-      }
+     
 
       &.btn-danger {
         background-color: #e74c3c;
@@ -942,7 +935,7 @@ i {
 
   h3 {
     margin: 0 0 10px 0;
-    color: #333;
+   // color: #333;
   }
 
   .sessao-info {
@@ -1098,7 +1091,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #2d9cdb; // Azul Calmo para headers
+  //color: #2d9cdb; // Azul Calmo para headers
   font-weight: 700;
   margin-bottom: 10px;
 }
@@ -1153,15 +1146,7 @@ button,
 .btn-primary:hover {
   background-color: #1b7bbf;
 }
-
-.btn-secondary {
-  background-color: #27ae60;
-  color: #ffffff;
-}
-
-.btn-secondary:hover {
-  background-color: #219150;
-}
+ 
 
 .btn-warning {
   background-color: #f2c94c;

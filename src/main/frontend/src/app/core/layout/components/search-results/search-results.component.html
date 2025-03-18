@@ -1,1 +1,100 @@
-<p>search-results works!</p>
+<div class="search-results">
+    <!-- Header Section -->
+    <div class="search-results-header">
+        <div class="title-section">
+            <h1>{{title}}</h1>
+        </div>
+        <button *ngIf="newButtonLabel" [class]="btnClass" (click)="onNew.emit()">
+            <i *ngIf="newButtonIcon" [class]="newButtonIcon"></i>
+            {{newButtonLabel}}
+        </button>
+    </div>
+
+    <p *ngIf="subtitle">{{subtitle}}</p>
+    <!-- Filters Section -->
+    <div class="filters-card">
+        <div class="filters-header" (click)="toggleCollapse()">
+            <h3>Filtros</h3>
+            <span class="collapse-icon" [class.collapsed]="isCollapsed">▼</span>
+        </div>
+
+        <div class="filters-content" [class.collapsed]="isCollapsed">
+            <form [formGroup]="filterForm" class="filter-grid">
+                <div *ngFor="let field of filterFields" class="form-field">
+                    <label [for]="field.name">{{field.label}}</label>
+
+                    <ng-container [ngSwitch]="field.type">
+                        <input *ngSwitchCase="'text'" [type]="field.type" [id]="field.name"
+                            [formControlName]="field.name">
+
+                        <input *ngSwitchCase="'number'" [type]="field.type" [id]="field.name"
+                            [formControlName]="field.name">
+
+                        <input *ngSwitchCase="'date'" [type]="field.type" [id]="field.name"
+                            [formControlName]="field.name">
+
+                        <select *ngSwitchCase="'select'" [id]="field.name" [formControlName]="field.name">
+                            <option value="">Selecione...</option>
+                            <option *ngFor="let opt of field.options" [value]="opt.id">
+                                {{opt.value}}
+                            </option>
+                        </select>
+                    </ng-container>
+                </div>
+            </form>
+
+            <div class="filter-actions">
+                <button class="btn btn-secondary w-100" (click)="clearFilters()">
+                    Limpar Filtros
+                </button>
+                <button class="btn btn-primary w-100" (click)="applyFilters()">
+                    Pesquisar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-card">
+        <!-- Loading State -->
+        <div *ngIf="loading" class="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Data Table -->
+        <div *ngIf="!loading" class="table-container">
+            <table *ngIf="data.length > 0">
+                <thead>
+                    <tr>
+                        <th *ngFor="let header of tableHeaders">{{header.label}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data">
+                        <td *ngFor="let header of tableHeaders">
+                            <!-- Verifica se existe template customizado -->
+                            <ng-container *ngIf="customCell && header.useTemplate; else defaultCell">
+                                <ng-container [ngTemplateOutlet]="customCell" [ngTemplateOutletContext]="{
+                                            $implicit: item[header.key],
+                                            item: item,
+                                            column: header
+                                        }">
+                                </ng-container>
+                            </ng-container>
+
+                            <!-- Template padrão -->
+                            <ng-template #defaultCell>
+                                {{item[header.key]}}
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- No Results Message -->
+            <div *ngIf="data.length === 0" class="no-results">
+                Nenhum resultado encontrado
+            </div>
+        </div>
+    </div>
+</div>
