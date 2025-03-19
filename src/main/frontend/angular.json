@@ -44,8 +44,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "p-stoke/src/main/frontend/public"
+              "src/assets"
+             
               
             ],
             "styles": [
