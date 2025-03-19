@@ -1,7 +1,7 @@
-<div class="container mx-auto p-4">
+<div class="   ">
   <div class="flex justify-between items-center mb-5">
     <h1 class="text-2xl font-bold">
-      <ng-container *ngIf="!isRecording && !isSaving">Nova Gravação --- {{lastID}}</ng-container>
+      <ng-container *ngIf="!isRecording && !isSaving">Nova Gravação | Nº {{lastID}}</ng-container>
       <ng-container *ngIf="isRecording">
         Gravando... {{ duration | number:'2.0' }}s
         <span class="animate-pulse text-red-500 ml-2">●</span>
@@ -12,13 +12,13 @@
       </ng-container>
     </h1>
 
-    <button *ngIf="!isRecording && !isSaving" routerLink="/gravacoes" class="btn btn-secondary">
+    <button *ngIf="!isRecording && !isSaving" routerLink="/gravacoes" class="btn btn-secondary w-100">
       <i class="fas fa-arrow-left mr-2"></i>
       Voltar
     </button>
   </div>
 
-  <div class="max-w-3xl mx-auto">
+  <div class="   ">
     <div class="relative bg-black rounded-lg overflow-hidden shadow-lg">
       <!-- Preview da câmera -->
       <video #videoElement 
@@ -47,7 +47,7 @@
     <div class="flex justify-center gap-4 mt-6">
       <button *ngIf="!isRecording && !isSaving" 
         (click)="startRecording()" 
-        class="btn btn-primary"
+        class="btn btn-primary w-100"
         [disabled]="!isPreviewActive">
         <i class="fas fa-record-vinyl mr-2"></i>
         Iniciar Gravação
@@ -55,7 +55,7 @@
 
       <button *ngIf="isRecording" 
         (click)="stopRecording()" 
-        class="btn btn-danger">
+        class="btn btn-danger w-100">
         <i class="fas fa-stop mr-2"></i>
         Parar Gravação
       </button>
