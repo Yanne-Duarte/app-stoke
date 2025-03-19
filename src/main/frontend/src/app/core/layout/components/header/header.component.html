@@ -1,6 +1,10 @@
 <header class="header">
   <!-- Lado esquerdo -->
   <div class="header-left">
+    <!-- Botão menu mobile -->
+    <button class="menu-mobile-btn" (click)="toggleMobileMenu()" *ngIf="isMobile">
+      <i class="fas fa-bars"></i>
+    </button>
     <img src="assets/images/favicon.ico" alt="Logo" class="logo">
   </div>
 
@@ -12,17 +16,54 @@
       <span class="badge" *ngIf="unreadCount > 0">{{unreadCount}}</span>
     </div>
 
-    <!-- Informações do utilizador -->
-    <div class="user-info">
-      <!-- <img src="assets/images/favicon.ico" alt="User" class="user-avatar"> -->
-      <i class="fas fa-user  "></i>
+    <!-- Informações do utilizador (esconder em mobile) -->
+    <div class="user-info" *ngIf="!isMobile">
+      <i class="fas fa-user"></i>
       <span class="user-name">{{ fullName }}</span>
     </div>
 
-    <!-- Botão de logout -->
-    <div class="logout" (click)="logout()">
+    <!-- Botão de logout (esconder em mobile) -->
+    <div class="logout" (click)="logout()" *ngIf="!isMobile">
       <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </div>
   </div>
 </header>
+
+<!-- Menu Mobile Overlay -->
+@if (isMobile) {
+<div class="mobile-menu" [class.active]="isMobileMenuOpen">
+  <div class="mobile-menu-header">
+    <button class="close-menu-btn" (click)="toggleMobileMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Informações do usuário -->
+  <div class="mobile-user-info">
+    <i class="fas fa-user"></i>
+    <span class="user-name">{{ fullName }}</span>
+  </div>
+
+  <!-- Menu de navegação -->
+  <nav class="mobile-nav">
+    <ul>
+      <li *ngFor="let item of menuItems">
+        <a [routerLink]="item.route" (click)="toggleMobileMenu()" routerLinkActive="active">
+          <i [class]="item.icon"></i>
+          <span>{{item.label}}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Botão de logout -->
+  <div class="mobile-logout" (click)="logout()">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Logout</span>
+  </div>
+</div>
+
+<!-- Overlay de fundo quando menu mobile está aberto -->
+<div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
+}

@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
+import { SidebarItem } from '../navbar/sidebar.model';
 
 @Component({
   selector: 'app-header',
@@ -10,29 +11,58 @@ import { ApiService } from '../../../../api/api.service';
   imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Input() unreadCount = 0;
-
   @Input() fullName: any;
-  constructor(private router: Router, private apiService: ApiService) {}
+  @Input() perfil: any;
 
-  ngOnInit() {}
+  isMobile: boolean = false;
+  isMobileMenuOpen: boolean = false;
+  menuItems: any[] = [];
+
+  constructor(private router: Router, private apiService: ApiService) {
+    this.checkScreenSize();
+  }
+
+  ngOnInit() {
+    // Adicionar listener para mudanças no tamanho da tela
+    window.addEventListener('resize', () => this.checkScreenSize());
+
+    // Configurar menu items baseado no perfil
+    if (this.perfil === 'ADMIN') {
+      this.menuItems = SidebarItem.adminMenu;
+    } else if (this.perfil === 'TECHNICAL') {
+      this.menuItems = SidebarItem.technicalMenu;
+    } else if (this.perfil === 'USER') {
+      this.menuItems = SidebarItem.userMenu;
+    }
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 778;
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    // Prevenir scroll quando menu está aberto
+    document.body.style.overflow = this.isMobileMenuOpen ? 'hidden' : 'auto';
+  }
 
   logout() {
     this.apiService.logout().subscribe({
       next: () => {
-        // Clear all data from local storage
         localStorage.clear();
-        // Redirect to login page
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Error during logout:', error);
-        // Even if the server request fails, we should still logout locally
         localStorage.clear();
         this.router.navigate(['/login']);
       },
     });
-    // Adicione aqui sua lógica de logout
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('resize', () => this.checkScreenSize());
   }
 }

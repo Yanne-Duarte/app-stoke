@@ -16,7 +16,7 @@ export class SidebarItem {
       route: '/sessao',
     },
     {
-      label: 'Histórico de Gravações',
+      label: 'Gravações',
       icon: 'fas fa-record-vinyl',
       route: '/gravacoes',
     },
@@ -44,7 +44,7 @@ export class SidebarItem {
       route: '/sessao',
     },
     {
-      label: 'Histórico de Gravações',
+      label: 'Gravações',
       icon: 'fas fa-record-vinyl',
       route: '/gravacoes',
     },
@@ -55,7 +55,7 @@ export class SidebarItem {
       route: '/mensagens',
     },
     {
-      label: 'Criar Conteúdo',
+      label: 'Conteúdos',
       icon: 'fas fa-plus',
       route: '/criar-conteudo',
     },
@@ -88,7 +88,7 @@ export class SidebarItem {
       route: '/sessao',
     },
     {
-      label: 'Histórico de Gravações',
+      label: 'Gravações',
       icon: 'fas fa-record-vinyl',
       route: '/gravacoes',
     },
