@@ -8,10 +8,7 @@ import { ChatComponent } from './pages/chat/chat.component';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, ChatComponent],
-  template: `
-    <router-outlet></router-outlet>
-    <app-chat *ngIf="showChat"></app-chat>
-  `,
+  templateUrl: './app.component.html',
   styles: []
 })
 export class AppComponent {

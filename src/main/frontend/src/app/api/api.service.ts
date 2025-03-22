@@ -57,19 +57,13 @@ export class ApiService {
   //__________________________________________________________________________
   // DADOS DO UTILIZADOR
   getUserLogin(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/users/me`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<any>(`${this.apiUrl}/users/me`);
   }
   //__________________________________________________________________________
 
   // logout
   logout(): Observable<void> {
-    return this.http.post<void>(
-      `${this.apiUrl}/auth/logout`,
-      {},
-      { headers: this.getHeaders() }
-    );
+    return this.http.post<void>(`${this.apiUrl}/auth/logout`, {});
   }
 
   //__________________________________________________________________________
@@ -77,8 +71,7 @@ export class ApiService {
   register(registerDTO: RegisterDTO): Observable<RegisterDTO> {
     return this.http.post<RegisterDTO>(
       `${this.apiUrl}/auth/signup`,
-      registerDTO,
-      { headers: this.getHeaders() }
+      registerDTO
     );
   }
 
@@ -86,9 +79,7 @@ export class ApiService {
   //  USER
   //__________________________________________________________________________
   getCurrentUser(): Observable<UserDTO> {
-    return this.http.get<UserDTO>(`${this.apiUrl}/users/me`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<UserDTO>(`${this.apiUrl}/users/me`);
   }
 
   getAllUsers(filter?: {
@@ -112,30 +103,26 @@ export class ApiService {
 
     return this.http.get<UserDTO[]>(`${this.apiUrl}/users`, {
       params,
-      headers: this.getHeaders(),
     });
   }
 
-  getAllTechnicalUsers(): Observable<{id: number, fullName: string}[]> {
-    return this.http.get<{id: number, fullName: string}[]>(
-      `${this.apiUrl}/users/getAllTechnical`,
-      { headers: this.getHeaders() }
+  getAllTechnicalUsers(): Observable<{ id: number; fullName: string }[]> {
+    return this.http.get<{ id: number; fullName: string }[]>(
+      `${this.apiUrl}/users/getAllTechnical`
     );
   }
 
   registerUser(registerDTO: RegisterDTO): Observable<UserDTO> {
     return this.http.post<UserDTO>(
       `${this.apiUrl}/users/register`,
-      registerDTO,
-      { headers: this.getHeaders() }
+      registerDTO
     );
   }
 
   toggleUserStatus(userId: number): Observable<UserDTO> {
     return this.http.patch<UserDTO>(
       `${this.apiUrl}/users/${userId}/toggle-status`,
-      {},
-      { headers: this.getHeaders() }
+      {}
     );
   }
 
@@ -145,8 +132,7 @@ export class ApiService {
   ): Observable<UserDTO> {
     return this.http.patch<UserDTO>(
       `${this.apiUrl}/users/${userId}/update-user-by-user`,
-      updateData,
-      { headers: this.getHeaders() }
+      updateData
     );
   }
 
@@ -156,8 +142,7 @@ export class ApiService {
   ): Observable<UserDTO> {
     return this.http.patch<UserDTO>(
       `${this.apiUrl}/users/${userId}/update-user-by-admin`,
-      updateData,
-      { headers: this.getHeaders() }
+      updateData
     );
   }
 
@@ -165,29 +150,24 @@ export class ApiService {
   // NOTIFICATION
   //__________________________________________________________________________
   getNotifications(): Observable<NotificationDTO[]> {
-    return this.http.get<NotificationDTO[]>(`${this.apiUrl}/notifications`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<NotificationDTO[]>(`${this.apiUrl}/notifications`, {});
   }
 
   getUnreadNotifications(): Observable<NotificationDTO[]> {
     return this.http.get<NotificationDTO[]>(
-      `${this.apiUrl}/notifications/unread`,
-      { headers: this.getHeaders() }
+      `${this.apiUrl}/notifications/unread`
     );
   }
 
   getUnreadCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/notifications/unread/count`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<number>(
+      `${this.apiUrl}/notifications/unread/count`,
+      {}
+    );
   }
 
   getNotificationById(id: number): Observable<NotificationDTO> {
-    return this.http.get<NotificationDTO>(
-      `${this.apiUrl}/notifications/${id}`,
-      { headers: this.getHeaders() }
-    );
+    return this.http.get<NotificationDTO>(`${this.apiUrl}/notifications/${id}`);
   }
 
   createNotification(notification: {
@@ -197,53 +177,43 @@ export class ApiService {
   }): Observable<NotificationDTO> {
     return this.http.post<NotificationDTO>(
       `${this.apiUrl}/notifications`,
-      notification,
-      { headers: this.getHeaders() }
+      notification
     );
   }
 
   markAsRead(id: number): Observable<NotificationDTO> {
     return this.http.patch<NotificationDTO>(
       `${this.apiUrl}/notifications/${id}/read`,
-      {},
-      { headers: this.getHeaders() }
+      {}
     );
   }
 
   markAsUnread(id: number): Observable<NotificationDTO> {
     return this.http.patch<NotificationDTO>(
       `${this.apiUrl}/notifications/${id}/unread`,
-      {},
-      { headers: this.getHeaders() }
+      {}
     );
   }
 
   markAllAsRead(): Observable<void> {
     return this.http.patch<void>(
       `${this.apiUrl}/notifications/mark-all-read`,
-      {},
-      { headers: this.getHeaders() }
+      {}
     );
   }
 
   deleteNotification(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/notifications/${id}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.delete<void>(`${this.apiUrl}/notifications/${id}`, {});
   }
 
   // Obter utilizador por ID
   getUserById(id: number): Observable<UserDTO> {
-    return this.http.get<UserDTO>(`${this.apiUrl}/users/${id}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<UserDTO>(`${this.apiUrl}/users/${id}`, {});
   }
 
   // Atualizar utilizador
   updateUser(id: number, userDTO: UserDTO): Observable<UserDTO> {
-    return this.http.put<UserDTO>(`${this.apiUrl}/users/${id}`, userDTO, {
-      headers: this.getHeaders(),
-    });
+    return this.http.put<UserDTO>(`${this.apiUrl}/users/${id}`, userDTO, {});
   }
 
   // Atualizar utilizador
@@ -253,82 +223,61 @@ export class ApiService {
   ): Observable<UserDTO> {
     return this.http.patch<UserDTO>(
       `${this.apiUrl}/users/${id}/status`,
-      userStatusDTO,
-      { headers: this.getHeaders() }
+      userStatusDTO
     );
   }
 
   // Deletar utilizador
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/users/${id}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.delete<void>(`${this.apiUrl}/users/${id}`, {});
   }
 
   //__________________________________________________________________________
   // MESSAGES
   //__________________________________________________________________________
   getUserChats(): Observable<ChatDTO[]> {
-    return this.http.get<ChatDTO[]>(`${this.apiUrl}/messages`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<ChatDTO[]>(`${this.apiUrl}/messages`, {});
   }
 
   getChatMessages(chatId: number): Observable<MessageDTO[]> {
-    return this.http.get<MessageDTO[]>(`${this.apiUrl}/messages/${chatId}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<MessageDTO[]>(`${this.apiUrl}/messages/${chatId}`, {});
   }
 
   sendMessage(content: string, recipientId: number): Observable<MessageDTO> {
-    return this.http.post<MessageDTO>(
-      `${this.apiUrl}/messages`,
-      { content, recipientId },
-      { headers: this.getHeaders() }
-    );
+    return this.http.post<MessageDTO>(`${this.apiUrl}/messages`, {
+      content,
+      recipientId,
+    });
   }
 
   markMessageAsRead(messageId: number): Observable<MessageDTO> {
     return this.http.patch<MessageDTO>(
       `${this.apiUrl}/messages/${messageId}/read`,
-      {},
-      { headers: this.getHeaders() }
+      {}
     );
   }
 
   markAllMessagesAsRead(): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/messages/mark-all-read`,
-      {},
-      { headers: this.getHeaders() }
-    );
+    return this.http.patch<void>(`${this.apiUrl}/messages/mark-all-read`, {});
   }
 
   //__________________________________________________________________________
   // NEWS
   //__________________________________________________________________________
   getAllNews(): Observable<NewsDTO[]> {
-    return this.http.get<NewsDTO[]>(`${this.apiUrl}/news`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<NewsDTO[]>(`${this.apiUrl}/news`, {});
   }
 
   getNewsById(id: number): Observable<NewsDTO> {
-    return this.http.get<NewsDTO>(`${this.apiUrl}/news/${id}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<NewsDTO>(`${this.apiUrl}/news/${id}`, {});
   }
 
   createNews(news: Omit<NewsDTO, 'id'>): Observable<NewsDTO> {
-    return this.http.post<NewsDTO>(`${this.apiUrl}/news`, news, {
-      headers: this.getHeaders(),
-    });
+    return this.http.post<NewsDTO>(`${this.apiUrl}/news`, news, {});
   }
 
   updateNews(id: number, news: Omit<NewsDTO, 'id'>): Observable<NewsDTO> {
-    return this.http.put<NewsDTO>(`${this.apiUrl}/news/${id}`, news, {
-      headers: this.getHeaders(),
-    });
+    return this.http.put<NewsDTO>(`${this.apiUrl}/news/${id}`, news, {});
   }
 
   deleteNews(id: number): Observable<void> {
@@ -366,7 +315,7 @@ export class ApiService {
   }): Observable<PlanDTO[]> {
     console.log('Getting plans with filters:', filters);
     console.log('Current token:', localStorage.getItem('token'));
-    
+
     let params = new HttpParams();
     if (filters) {
       if (filters.userName)
@@ -381,37 +330,36 @@ export class ApiService {
         params = params.append('validityDateEnd', filters.validityDateEnd);
     }
 
-    return this.http.get<PlanDTO[]>(`${this.apiUrl}/plans`, { 
-      params,
-      headers: this.getHeaders()
-    }).pipe(
-      tap(response => console.log('Plans response:', response)),
-      catchError(error => {
-        console.error('Error getting plans:', error);
-        console.error('Error details:', {
-          status: error.status,
-          message: error.message,
-          error: error.error
-        });
-        return throwError(() => error);
+    return this.http
+      .get<PlanDTO[]>(`${this.apiUrl}/plans`, {
+        params,
       })
-    );
+      .pipe(
+        tap((response) => console.log('Plans response:', response)),
+        catchError((error) => {
+          console.error('Error getting plans:', error);
+          console.error('Error details:', {
+            status: error.status,
+            message: error.message,
+            error: error.error,
+          });
+          return throwError(() => error);
+        })
+      );
   }
 
   getPlanById(id: number): Observable<PlanDTO> {
     console.log('Getting plan by id:', id);
     console.log('Current token:', localStorage.getItem('token'));
-    
-    return this.http.get<PlanDTO>(`${this.apiUrl}/plans/${id}`, {
-      headers: this.getHeaders()
-    }).pipe(
-      tap(response => console.log('Get plan response:', response)),
-      catchError(error => {
+
+    return this.http.get<PlanDTO>(`${this.apiUrl}/plans/${id}`, {}).pipe(
+      tap((response) => console.log('Get plan response:', response)),
+      catchError((error) => {
         console.error('Error getting plan:', error);
         console.error('Error details:', {
           status: error.status,
           message: error.message,
-          error: error.error
+          error: error.error,
         });
         return throwError(() => error);
       })
@@ -421,37 +369,35 @@ export class ApiService {
   getAvailableUsers(): Observable<UserDTO[]> {
     console.log('Getting available users');
     console.log('Current token:', localStorage.getItem('token'));
-    
-    return this.http.get<UserDTO[]>(`${this.apiUrl}/plans/available-users`, {
-      headers: this.getHeaders()
-    }).pipe(
-      tap(response => console.log('Available users response:', response)),
-      catchError(error => {
-        console.error('Error getting available users:', error);
-        console.error('Error details:', {
-          status: error.status,
-          message: error.message,
-          error: error.error
-        });
-        return throwError(() => error);
-      })
-    );
+
+    return this.http
+      .get<UserDTO[]>(`${this.apiUrl}/plans/available-users`, {})
+      .pipe(
+        tap((response) => console.log('Available users response:', response)),
+        catchError((error) => {
+          console.error('Error getting available users:', error);
+          console.error('Error details:', {
+            status: error.status,
+            message: error.message,
+            error: error.error,
+          });
+          return throwError(() => error);
+        })
+      );
   }
 
   createPlan(plan: PlanDTO): Observable<PlanDTO> {
     console.log('Creating plan:', plan);
     console.log('Current token:', localStorage.getItem('token'));
-    
-    return this.http.post<PlanDTO>(`${this.apiUrl}/plans`, plan, {
-      headers: this.getHeaders()
-    }).pipe(
-      tap(response => console.log('Create plan response:', response)),
-      catchError(error => {
+
+    return this.http.post<PlanDTO>(`${this.apiUrl}/plans`, plan, {}).pipe(
+      tap((response) => console.log('Create plan response:', response)),
+      catchError((error) => {
         console.error('Error creating plan:', error);
         console.error('Error details:', {
           status: error.status,
           message: error.message,
-          error: error.error
+          error: error.error,
         });
         return throwError(() => error);
       })
@@ -459,11 +405,9 @@ export class ApiService {
   }
 
   updatePlan(id: number, plan: PlanDTO): Observable<PlanDTO> {
-    return this.http.put<PlanDTO>(`${this.apiUrl}/plans/${id}`, plan, {
-      headers: this.getHeaders()
-    }).pipe(
-      tap(response => console.log('Update plan response:', response)),
-      catchError(error => {
+    return this.http.put<PlanDTO>(`${this.apiUrl}/plans/${id}`, plan, {}).pipe(
+      tap((response) => console.log('Update plan response:', response)),
+      catchError((error) => {
         console.error('Error updating plan:', error);
         console.error('Error details:', error);
         return throwError(() => error);
@@ -471,42 +415,46 @@ export class ApiService {
     );
   }
 
-  updatePlanValidityDate(id: number, newValidityDate: string): Observable<PlanDTO> {
-    return this.http.patch<PlanDTO>(
-      `${this.apiUrl}/plans/${id}/validity-date`,
-      newValidityDate,
-      { headers: this.getHeaders() }
-    ).pipe(
-      tap(response => console.log('Update validity date response:', response)),
-      catchError(error => {
-        console.error('Error updating validity date:', error);
-        console.error('Error details:', error);
-        return throwError(() => error);
-      })
-    );
+  updatePlanValidityDate(
+    id: number,
+    newValidityDate: string
+  ): Observable<PlanDTO> {
+    return this.http
+      .patch<PlanDTO>(
+        `${this.apiUrl}/plans/${id}/validity-date`,
+        newValidityDate
+      )
+      .pipe(
+        tap((response) =>
+          console.log('Update validity date response:', response)
+        ),
+        catchError((error) => {
+          console.error('Error updating validity date:', error);
+          console.error('Error details:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   updatePlanEnabled(id: number, enabled: boolean): Observable<PlanDTO> {
-    return this.http.patch<PlanDTO>(
-      `${this.apiUrl}/plans/${id}/enabled`,
-      enabled,
-      { headers: this.getHeaders() }
-    ).pipe(
-      tap(response => console.log('Update enabled status response:', response)),
-      catchError(error => {
-        console.error('Error updating enabled status:', error);
-        console.error('Error details:', error);
-        return throwError(() => error);
-      })
-    );
+    return this.http
+      .patch<PlanDTO>(`${this.apiUrl}/plans/${id}/enabled`, enabled, {})
+      .pipe(
+        tap((response) =>
+          console.log('Update enabled status response:', response)
+        ),
+        catchError((error) => {
+          console.error('Error updating enabled status:', error);
+          console.error('Error details:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   deletePlan(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/plans/${id}`, {
-      headers: this.getHeaders()
-    }).pipe(
+    return this.http.delete<void>(`${this.apiUrl}/plans/${id}`, {}).pipe(
       tap(() => console.log('Plan deleted successfully')),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error deleting plan:', error);
         console.error('Error details:', error);
         return throwError(() => error);

@@ -32,7 +32,7 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/signup")
+   /* @PostMapping("/signup")
     @Operation(
         summary = "Registrar novo usuário",
         description = "Cria um novo usuário no sistema"
@@ -40,7 +40,7 @@ public class AuthenticationController {
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
         return ResponseEntity.ok(registeredUser);
-    }
+    }*/
 
     @PostMapping("/login")
     @Operation(
