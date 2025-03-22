@@ -8,11 +8,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from '../../api/api.service';
-import { TEMPRegisterComponent } from '../temp-register/temp-register.component';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, TEMPRegisterComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   standalone: true,
 })
