@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pt.uevora.fisio_stoke.dtos.LoginUserDto;
-import pt.uevora.fisio_stoke.dtos.RegisterUserDto;
 import pt.uevora.fisio_stoke.entities.User;
 import pt.uevora.fisio_stoke.responses.LoginResponse;
 import pt.uevora.fisio_stoke.services.impl.AuthenticationService;

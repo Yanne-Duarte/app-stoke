@@ -69,26 +69,9 @@ export interface NotificationDTO {
   senderName?: string;
 }
 
-export interface ChatDTO {
-  id: number;
-  userId: number;
-  userName: string;
-  technicalId: number;
-  technicalName: string;
-  lastMessage?: string;
-  lastMessageTime?: string;
-  unreadCount: number;
-}
+ 
 
-export interface MessageDTO {
-  id: number;
-  chatId: number;
-  senderId: number;
-  content: string;
-  timestamp: string;
-  read: boolean;
-}
-
+ 
 export interface UpdateUserByUserDto {
   fullName?: string;
   username?: string;
@@ -147,15 +130,7 @@ export interface FiltroSessao {
   local: string;
 }
 
-export interface MessageDTO {
-  id: number;
-  chatId: number;
-  senderId: number;
-  text: string;
-  attachments: AttachmentDTO[];
-  createdAt: Date;
-  updatedAt: Date;
-}
+ 
 
 export interface AttachmentDTO {
   id: number;

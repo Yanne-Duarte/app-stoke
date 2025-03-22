@@ -2,7 +2,6 @@ package pt.uevora.fisio_stoke.dtos;
 
 import lombok.Data;
 import pt.uevora.fisio_stoke.enums.Perfil;
-import java.time.LocalDate;
 
 @Data
 public class RegisterUserDto {

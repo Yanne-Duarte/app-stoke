@@ -8,8 +8,7 @@ import {
   UserStatusDTO,
   UserFilterDTO,
   NotificationDTO,
-  ChatDTO,
-  MessageDTO,
+ 
   UpdateUserByUserDto,
   UpdateUserByAdminDto,
   NewsDTO,
@@ -232,34 +231,7 @@ export class ApiService {
     return this.http.delete<void>(`${this.apiUrl}/users/${id}`, {});
   }
 
-  //__________________________________________________________________________
-  // MESSAGES
-  //__________________________________________________________________________
-  getUserChats(): Observable<ChatDTO[]> {
-    return this.http.get<ChatDTO[]>(`${this.apiUrl}/messages`, {});
-  }
-
-  getChatMessages(chatId: number): Observable<MessageDTO[]> {
-    return this.http.get<MessageDTO[]>(`${this.apiUrl}/messages/${chatId}`, {});
-  }
-
-  sendMessage(content: string, recipientId: number): Observable<MessageDTO> {
-    return this.http.post<MessageDTO>(`${this.apiUrl}/messages`, {
-      content,
-      recipientId,
-    });
-  }
-
-  markMessageAsRead(messageId: number): Observable<MessageDTO> {
-    return this.http.patch<MessageDTO>(
-      `${this.apiUrl}/messages/${messageId}/read`,
-      {}
-    );
-  }
-
-  markAllMessagesAsRead(): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/messages/mark-all-read`, {});
-  }
+   
 
   //__________________________________________________________________________
   // NEWS
