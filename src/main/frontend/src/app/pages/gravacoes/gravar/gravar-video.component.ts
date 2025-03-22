@@ -16,7 +16,6 @@ import { PlatformService } from '../../../api/platform.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './gravar-video.component.html',
-  styleUrls: ['./gravar-video.component.scss'],
 })
 export class GravarVideoComponent implements OnInit, OnDestroy {
   @ViewChild('videoElement', { static: true })
