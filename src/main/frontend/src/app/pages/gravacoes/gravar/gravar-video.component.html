@@ -19,25 +19,20 @@
   </div>
 
   <div class="   ">
-    <div class="relative bg-black rounded-lg overflow-hidden shadow-lg">
+    <div class="relative   rounded-lg overflow-hidden ">
       <!-- Preview da câmera -->
-      <video #videoElement 
-        class="w-full aspect-video" 
-        [class.hidden]="!isPreviewActive"
-        autoplay 
-        playsinline>
+      <video #videoElement class="w-full aspect-video" [class.hidden]="!isPreviewActive" autoplay playsinline>
       </video>
 
       <!-- Overlay com informações da gravação -->
-      <div *ngIf="isRecording" 
+      <div *ngIf="isRecording"
         class="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full flex items-center gap-2">
         <i class="fas fa-circle text-sm"></i>
         <span>{{ duration | number:'2.0' }}s</span>
       </div>
 
       <!-- Mensagem quando não há preview -->
-      <div *ngIf="!isPreviewActive" 
-        class="flex flex-col items-center justify-center p-8 bg-gray-100 aspect-video">
+      <div *ngIf="!isPreviewActive" class="flex flex-col items-center justify-center p-8 bg-gray-100 aspect-video">
         <i class="fas fa-video text-4xl text-gray-400 mb-3"></i>
         <p class="text-gray-500">Aguardando acesso à câmera...</p>
       </div>
@@ -45,25 +40,20 @@
 
     <!-- Controles -->
     <div class="flex justify-center gap-4 mt-6">
-      <button *ngIf="!isRecording && !isSaving" 
-        (click)="startRecording()" 
-        class="btn btn-primary w-100"
+      <button *ngIf="!isRecording && !isSaving" (click)="startRecording()" class="btn btn-primary w-100"
         [disabled]="!isPreviewActive">
         <i class="fas fa-record-vinyl mr-2"></i>
         Iniciar Gravação
       </button>
 
-      <button *ngIf="isRecording" 
-        (click)="stopRecording()" 
-        class="btn btn-danger w-100">
+      <button *ngIf="isRecording" (click)="stopRecording()" class="btn btn-danger w-100">
         <i class="fas fa-stop mr-2"></i>
         Parar Gravação
       </button>
     </div>
 
     <!-- Mensagem de erro -->
-    <div *ngIf="recordingError" 
-      class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+    <div *ngIf="recordingError" class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
       <i class="fas fa-exclamation-circle mr-2"></i>
       {{ recordingError }}
     </div>

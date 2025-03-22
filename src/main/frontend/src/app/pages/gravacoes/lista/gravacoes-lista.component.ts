@@ -9,6 +9,7 @@ import { ApiService } from '../../../api/api.service';
   standalone: true,
   imports: [CommonModule, RouterModule, DatePipe],
   templateUrl: './gravacoes-lista.component.html',
+  styleUrls: ['./gravacoes-lista.component.scss'],
 })
 export class GravacoesListaComponent implements OnInit {
   videos: VideoRecordDTO[] = [];
