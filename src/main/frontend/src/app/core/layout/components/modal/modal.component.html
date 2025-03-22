@@ -12,7 +12,11 @@
     </div>
 
     <div class="modal-footer">
+        @if (showCancelButton) {
         <button type="button" class="btn btn-danger" (click)="onCancel()">{{ buttonCancelLabel }}</button>
+        }
+        @if (showConfirmButton) {
         <button type="button" class="btn btn-success" (click)="onConfirm()">{{ buttonConfirmLabel }}</button>
+        }
     </div>
 </div>

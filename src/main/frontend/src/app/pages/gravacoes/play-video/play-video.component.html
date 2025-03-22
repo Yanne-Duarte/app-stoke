@@ -5,7 +5,9 @@
   </div>
 
   <div class="modal-body">
+
     <div *ngIf="!isPlaying">
+      <p>Selecione o vídeo com o nome <span class="fw-bold">{{videoName}}</span> para poder reproduzir</p>
       <div class="mb-3">
         <label for="videoFile" class="form-label">Selecione o vídeo</label>
         <input type="file" class="form-control" id="videoFile" accept="video/*" (change)="onFileSelected($event)">

@@ -191,7 +191,7 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
       await this.apiService.saveVideo(videoData).toPromise();
 
       // Mostrar mensagem de sucesso com a localização do vídeo
-     /* alert(
+      /* alert(
         `Vídeo guardado com sucesso na sua ${videoData.downloadFolder}!\nNome do ficheiro: ${fileName}`
       );*/
 
@@ -214,6 +214,8 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
 
     modalRef.componentInstance.title = 'Vídeo Guardado';
     modalRef.componentInstance.message = `Vídeo guardado com sucesso na sua ${src}!\nNome do ficheiro: ${name}`;
+    modalRef.componentInstance.showCancelButton = false;
+    modalRef.componentInstance.buttonConfirmLabel = 'Ok';
 
     modalRef.componentInstance.result.subscribe((result: boolean) => {
       if (result) {

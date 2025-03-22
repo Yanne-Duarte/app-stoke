@@ -14,6 +14,9 @@ export class ModalComponent {
   @Input() buttonConfirmLabel: string = 'Confirmar';
   @Input() buttonCancelLabel: string = 'Cancelar';
 
+  @Input() showConfirmButton: boolean = true;
+  @Input() showCancelButton: boolean = true;
+
   @Output() result = new EventEmitter<boolean>();
 
   constructor(private activeModal: NgbActiveModal) {}
