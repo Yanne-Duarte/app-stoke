@@ -12,6 +12,7 @@
 
     <p *ngIf="subtitle">{{subtitle}}</p>
     <!-- Filters Section -->
+    @if(filterFields.length > 0) {
     <div class="filters-card">
         <div class="filters-header" (click)="toggleCollapse()">
             <h3>Filtros</h3>
@@ -53,6 +54,7 @@
             </div>
         </div>
     </div>
+    }
 
     <!-- Results Section -->
     <div class="results-card">
@@ -67,6 +69,7 @@
                 <thead>
                     <tr>
                         <th *ngFor="let header of tableHeaders">{{header.label}}</th>
+                        <th *ngIf="actions">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,6 +89,31 @@
                             <ng-template #defaultCell>
                                 {{item[header.key]}}
                             </ng-template>
+                        </td>
+                        <td *ngIf="actions">
+                            <div class="d-flex gap-2">
+                                @if(title === 'Gravações') {
+                                <button (click)="handlePlay(item)" class="btn btn-sm btn-success  " title="Reproduzir">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                }
+                                @if(title !== 'Gravações') {
+                                <button class="btn btn-secondary" (click)="handleView(item)" title="Ver">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                }
+                                @if(title !== 'Gravações') {
+                                <button class="btn btn-primary" (click)="handleEdit(item)" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                }
+
+                                <button class="btn btn-danger" (click)="handleDelete(item)" title="Apagar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+
+                            </div>
                         </td>
                     </tr>
                 </tbody>

@@ -1,25 +1,42 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { VideoRecordDTO } from '../../../api/models.dto';
 import { ApiService } from '../../../api/api.service';
-
+import { SearchResultsComponent } from 'src/app/core/layout/components/search-results/search-results.component';
+import { TableHeader } from 'src/app/core/layout/components/search-results/search.model';
+import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlayVideoComponent } from '../play-video/play-video.component';
 @Component({
   selector: 'app-gravacoes-lista',
   standalone: true,
-  imports: [CommonModule, RouterModule, DatePipe],
+  imports: [CommonModule, RouterModule, SearchResultsComponent],
   templateUrl: './gravacoes-lista.component.html',
   styleUrls: ['./gravacoes-lista.component.scss'],
 })
 export class GravacoesListaComponent implements OnInit {
+
   videos: VideoRecordDTO[] = [];
   loading = false;
   error: string | null = null;
   selectedVideo: VideoRecordDTO | null = null;
 
   lastID = signal(0);
+  headers: TableHeader[] = [
+    { key: 'name', label: 'Nome' },
+    { key: 'duration', label: 'Duração', useTemplate: true },
+    { key: 'timestamp', label: 'Data de Criação' },
+    { key: 'size', label: 'Tamanho', useTemplate: true },
+    { key: 'actions', label: 'Ações' },
+  ];
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.loadVideos();
@@ -178,7 +195,7 @@ export class GravacoesListaComponent implements OnInit {
   }
 
   deleteVideo(video: VideoRecordDTO) {
-    if (confirm('Tem certeza que deseja excluir este vídeo?')) {
+    /*if (confirm('Tem certeza que deseja excluir este vídeo?')) {
       this.apiService.deleteVideo(video.id).subscribe({
         next: () => {
           this.loadVideos(); // Recarregar a lista após excluir
@@ -188,6 +205,67 @@ export class GravacoesListaComponent implements OnInit {
           this.error = 'Erro ao excluir o vídeo. Por favor, tente novamente.';
         },
       });
-    }
+    }*/
+  }
+
+  handleView(item: any) {
+    // Implement view logic
+  }
+
+  handleEdit(item: any) {
+    // Implement edit logic
+  }
+
+  handleDelete(item: any) {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.title = 'Excluir Vídeo';
+    modalRef.componentInstance.message =
+      'Tem certeza que deseja excluir este vídeo?';
+
+    modalRef.componentInstance.result.subscribe((result: boolean) => {
+      this.apiService.deleteVideo(item.id).subscribe({
+        next: () => {
+          this.loadVideos(); // Recarregar a lista após excluir
+        },
+        error: (error) => {
+          console.error('Erro ao excluir vídeo:', error);
+          this.error = 'Erro ao excluir o vídeo. Por favor, tente novamente.';
+        },
+      });
+    });
+  }
+
+  handleNew() {
+    // Implement new item logic
+
+    this.router.navigate(['gravar'], {
+      relativeTo: this.route,
+      fragment: this.lastID().toString(),
+    });
+  }
+
+  handleFilter(event: any) {
+    // Implement filter logic
+  }
+
+  handleClear() {
+    // Implement clear logic
+  }
+
+  handlePlay(item: any) {
+    const modalRef = this.modalService.open(PlayVideoComponent);
+    modalRef.componentInstance.videoName = item.name;
+
+    modalRef.componentInstance.result.subscribe((result: boolean) => {
+      this.apiService.deleteVideo(item.id).subscribe({
+        next: () => {
+          this.loadVideos(); // Recarregar a lista após excluir
+        },
+        error: (error) => {
+          console.error('Erro ao excluir vídeo:', error);
+          this.error = 'Erro ao excluir o vídeo. Por favor, tente novamente.';
+        },
+      });
+    });
   }
 }

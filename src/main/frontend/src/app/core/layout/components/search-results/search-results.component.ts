@@ -28,10 +28,15 @@ export class SearchResultsComponent implements OnInit {
   @Input() tableHeaders: TableHeader[] = [];
   @Input() data: any[] = [];
   @Input() loading = false;
+  @Input() actions = false;
 
   @Output() onNew = new EventEmitter<void>();
   @Output() onFilter = new EventEmitter<any>();
   @Output() onClear = new EventEmitter<void>();
+  @Output() onView = new EventEmitter<any>();
+  @Output() onEdit = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<any>();
+  @Output() onPlay = new EventEmitter<any>();
 
   @ContentChild('customCell') customCell!: TemplateRef<any>;
 
@@ -70,5 +75,21 @@ export class SearchResultsComponent implements OnInit {
 
   applyFilters() {
     this.onFilter.emit(this.filterForm.value);
+  }
+
+  handleView(row: any) {
+    this.onView.emit(row);
+  }
+
+  handleEdit(row: any) {
+    this.onEdit.emit(row);
+  }
+
+  handleDelete(row: any) {
+    this.onDelete.emit(row);
+  }
+
+  handlePlay(row: any) {
+    this.onPlay.emit(row);
   }
 }

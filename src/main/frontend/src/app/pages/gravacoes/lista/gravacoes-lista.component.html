@@ -1,4 +1,4 @@
-<div class="container mx-auto p-4">
+<!--<div class="container mx-auto p-4">
   <div class="flex justify-between items-center mb-5">
     <h1 class="text-2xl font-bold">Lista de Gravações</h1>
     <button [routerLink]="['gravar']" fragment="{{lastID()}}" class="btn btn-primary">
@@ -7,7 +7,7 @@
     </button>
   </div>
 
-  <!-- Loading State -->
+  < !-- Loading State -- >
   <div *ngIf="loading" class="text-center py-8">
     <div class="inline-block">
       <i class="fas fa-spinner fa-spin text-4xl text-blue-500"></i>
@@ -15,13 +15,13 @@
     </div>
   </div>
 
-  <!-- Error State -->
+  < !-- Error State -- >
   <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
     <i class="fas fa-exclamation-circle mr-2"></i>
     {{ error }}
   </div>
 
-  <!-- Videos Grid -->
+  < !-- Videos Grid -- >
   <div *ngIf="!loading && !error" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4    ">
     <div *ngFor="let video of videos"
       class="bg-body-secondary rounded-lg shadow-md p-4 d-flex justify-content-between mb-3">
@@ -57,11 +57,46 @@
     </div>
   </div>
 
-  <!-- Empty State -->
+  < !-- Empty State -- >
   <div *ngIf="!loading && !error && videos.length === 0" class="text-center py-8">
     <div class="bg-gray-50 rounded-lg p-6 inline-block">
       <i class="fas fa-video text-4xl text-gray-400 mb-3"></i>
       <p class="text-gray-500">Nenhuma gravação encontrada</p>
     </div>
   </div>
-</div>
+</div>-->
+
+<app-search-results [title]="'Gravações'" [subtitle]="'Gestão das gravações do sistema'"
+  [newButtonLabel]="'Nova Gravação'" [btnClass]="'btn btn-primary w-100'" [newButtonIcon]="'fas fa-plus'"
+  [tableHeaders]="headers" [data]="videos" [loading]="loading" (onNew)="handleNew()" (onClear)="handleClear()"
+  [actions]="true" (onDelete)="handleDelete($event)" (onPlay)="handlePlay($event)">
+
+  <ng-template #customCell let-value let-item="item" let-column="column">
+
+    <ng-container *ngIf="column.key === 'duration'">
+      <span>{{item.duration}} s</span>
+    </ng-container>
+
+    <ng-container *ngIf="column.key === 'size'">
+      <span>{{item.size | number:'1.2-2'}} MB</span>
+    </ng-container>
+
+    <!-- <ng-container *ngIf="column.key === 'actions'">
+        <span class="d-flex gap-2">
+            <button class="btn btn-secondary" (click)="handleView(item)" title="Ver">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-primary" (click)="handleEdit(item)" title="Editar">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button class="btn btn-warning" (click)="handleStatus(item)" title="Alterar Status">
+                <i class="fas fa-toggle-on"></i>
+            </button>
+            <button class="btn btn-danger" (click)="handleDelete(item)" title="Apagar">
+                <i class="fas fa-trash"></i>
+            </button>
+        </span>
+    </ng-container>-->
+
+  </ng-template>
+</app-search-results>
