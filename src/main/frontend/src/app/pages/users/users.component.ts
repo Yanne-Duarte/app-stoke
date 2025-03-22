@@ -94,7 +94,6 @@ export class UsersComponent implements OnInit {
       modalRef.result.then(
         (result) => {
           if (result) {
-            console.log('Utilizador deletado:', user);
             this.apiService.deleteUser(user.id!).subscribe(() => {
               this.loadUsers();
             });
@@ -111,7 +110,6 @@ export class UsersComponent implements OnInit {
     modalRef.result.then(
       (result) => {
         if (result) {
-          console.log('Status alterado:', user);
           this.apiService.toggleUserStatus(user.id!).subscribe(() => {
             this.loadUsers();
           });

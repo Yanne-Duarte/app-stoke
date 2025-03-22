@@ -195,28 +195,6 @@ export class GravacoesListaComponent implements OnInit {
     }
   }
 
-  deleteVideo(video: VideoRecordDTO) {
-    /*if (confirm('Tem certeza que deseja excluir este vídeo?')) {
-      this.apiService.deleteVideo(video.id).subscribe({
-        next: () => {
-          this.loadVideos(); // Recarregar a lista após excluir
-        },
-        error: (error) => {
-          console.error('Erro ao excluir vídeo:', error);
-          this.error = 'Erro ao excluir o vídeo. Por favor, tente novamente.';
-        },
-      });
-    }*/
-  }
-
-  handleView(item: any) {
-    // Implement view logic
-  }
-
-  handleEdit(item: any) {
-    // Implement edit logic
-  }
-
   handleDelete(item: any) {
     const modalRef = this.modalService.open(ModalComponent, {
       size: 'lg',
@@ -240,20 +218,10 @@ export class GravacoesListaComponent implements OnInit {
   }
 
   handleNew() {
-    // Implement new item logic
-
     this.router.navigate(['gravar'], {
       relativeTo: this.route,
       fragment: this.lastID().toString(),
     });
-  }
-
-  handleFilter(event: any) {
-    // Implement filter logic
-  }
-
-  handleClear() {
-    // Implement clear logic
   }
 
   handlePlay(item: any) {
@@ -266,11 +234,7 @@ export class GravacoesListaComponent implements OnInit {
 
     modalRef.componentInstance.result.subscribe((result: boolean) => {
       if (result) {
-        // Video was successfully played
-        console.log('Video played successfully');
       } else {
-        // Video playback was cancelled
-        console.log('Video playback cancelled');
       }
     });
   }

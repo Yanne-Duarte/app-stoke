@@ -10,7 +10,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../api/api.service';
 import { PlatformService } from '../../../api/platform.service';
-
+import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-gravar-video',
   standalone: true,
@@ -39,11 +40,11 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private router: Router,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private modalService: NgbModal
   ) {
     this.route.fragment.subscribe((fragment) => {
       this.lastID = fragment || '0000___';
-      console.log('Fragmento recebido:', this.lastID);
     });
   }
 
@@ -190,9 +191,11 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
       await this.apiService.saveVideo(videoData).toPromise();
 
       // Mostrar mensagem de sucesso com a localização do vídeo
-      alert(
+     /* alert(
         `Vídeo guardado com sucesso na sua ${videoData.downloadFolder}!\nNome do ficheiro: ${fileName}`
-      );
+      );*/
+
+      this.openModal(videoData.filePath, videoData.name);
 
       this.router.navigate(['/gravacoes']);
     } catch (error) {
@@ -201,5 +204,21 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
     } finally {
       this.isSaving = false;
     }
+  }
+
+  openModal(src: any, name: any) {
+    const modalRef = this.modalService.open(ModalComponent, {
+      size: 'lg',
+      centered: true,
+    });
+
+    modalRef.componentInstance.title = 'Vídeo Guardado';
+    modalRef.componentInstance.message = `Vídeo guardado com sucesso na sua ${src}!\nNome do ficheiro: ${name}`;
+
+    modalRef.componentInstance.result.subscribe((result: boolean) => {
+      if (result) {
+        this.router.navigate(['/gravacoes']);
+      }
+    });
   }
 }

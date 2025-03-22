@@ -313,9 +313,6 @@ export class ApiService {
     validityDateStart?: string;
     validityDateEnd?: string;
   }): Observable<PlanDTO[]> {
-    console.log('Getting plans with filters:', filters);
-    console.log('Current token:', localStorage.getItem('token'));
-
     let params = new HttpParams();
     if (filters) {
       if (filters.userName)
@@ -335,70 +332,33 @@ export class ApiService {
         params,
       })
       .pipe(
-        tap((response) => console.log('Plans response:', response)),
         catchError((error) => {
-          console.error('Error getting plans:', error);
-          console.error('Error details:', {
-            status: error.status,
-            message: error.message,
-            error: error.error,
-          });
           return throwError(() => error);
         })
       );
   }
 
   getPlanById(id: number): Observable<PlanDTO> {
-    console.log('Getting plan by id:', id);
-    console.log('Current token:', localStorage.getItem('token'));
-
     return this.http.get<PlanDTO>(`${this.apiUrl}/plans/${id}`, {}).pipe(
-      tap((response) => console.log('Get plan response:', response)),
       catchError((error) => {
-        console.error('Error getting plan:', error);
-        console.error('Error details:', {
-          status: error.status,
-          message: error.message,
-          error: error.error,
-        });
         return throwError(() => error);
       })
     );
   }
 
   getAvailableUsers(): Observable<UserDTO[]> {
-    console.log('Getting available users');
-    console.log('Current token:', localStorage.getItem('token'));
-
     return this.http
       .get<UserDTO[]>(`${this.apiUrl}/plans/available-users`, {})
       .pipe(
-        tap((response) => console.log('Available users response:', response)),
         catchError((error) => {
-          console.error('Error getting available users:', error);
-          console.error('Error details:', {
-            status: error.status,
-            message: error.message,
-            error: error.error,
-          });
           return throwError(() => error);
         })
       );
   }
 
   createPlan(plan: PlanDTO): Observable<PlanDTO> {
-    console.log('Creating plan:', plan);
-    console.log('Current token:', localStorage.getItem('token'));
-
     return this.http.post<PlanDTO>(`${this.apiUrl}/plans`, plan, {}).pipe(
-      tap((response) => console.log('Create plan response:', response)),
       catchError((error) => {
-        console.error('Error creating plan:', error);
-        console.error('Error details:', {
-          status: error.status,
-          message: error.message,
-          error: error.error,
-        });
         return throwError(() => error);
       })
     );
@@ -406,10 +366,7 @@ export class ApiService {
 
   updatePlan(id: number, plan: PlanDTO): Observable<PlanDTO> {
     return this.http.put<PlanDTO>(`${this.apiUrl}/plans/${id}`, plan, {}).pipe(
-      tap((response) => console.log('Update plan response:', response)),
       catchError((error) => {
-        console.error('Error updating plan:', error);
-        console.error('Error details:', error);
         return throwError(() => error);
       })
     );
@@ -425,12 +382,7 @@ export class ApiService {
         newValidityDate
       )
       .pipe(
-        tap((response) =>
-          console.log('Update validity date response:', response)
-        ),
         catchError((error) => {
-          console.error('Error updating validity date:', error);
-          console.error('Error details:', error);
           return throwError(() => error);
         })
       );
@@ -440,12 +392,7 @@ export class ApiService {
     return this.http
       .patch<PlanDTO>(`${this.apiUrl}/plans/${id}/enabled`, enabled, {})
       .pipe(
-        tap((response) =>
-          console.log('Update enabled status response:', response)
-        ),
         catchError((error) => {
-          console.error('Error updating enabled status:', error);
-          console.error('Error details:', error);
           return throwError(() => error);
         })
       );
@@ -453,10 +400,7 @@ export class ApiService {
 
   deletePlan(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/plans/${id}`, {}).pipe(
-      tap(() => console.log('Plan deleted successfully')),
       catchError((error) => {
-        console.error('Error deleting plan:', error);
-        console.error('Error details:', error);
         return throwError(() => error);
       })
     );

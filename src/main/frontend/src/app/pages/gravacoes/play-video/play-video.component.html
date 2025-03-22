@@ -10,14 +10,15 @@
         <label for="videoFile" class="form-label">Selecione o vídeo</label>
         <input type="file" class="form-control" id="videoFile" accept="video/*" (change)="onFileSelected($event)">
       </div>
-      
+
       <div *ngIf="uploadedFileName" class="alert alert-info">
         Arquivo selecionado: {{uploadedFileName}}
       </div>
 
       <div class="d-flex justify-content-end gap-2">
         <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="onConfirm()" [disabled]="!uploadedFileName">Confirmar</button>
+        <button type="button" class="btn btn-primary" (click)="onConfirm()"
+          [disabled]="!uploadedFileName">Confirmar</button>
       </div>
     </div>
 

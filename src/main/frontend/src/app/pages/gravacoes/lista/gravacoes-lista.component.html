@@ -1,7 +1,7 @@
 <app-search-results [title]="'Gravações'" [subtitle]="'Gestão das gravações do sistema'"
   [newButtonLabel]="'Nova Gravação'" [btnClass]="'btn btn-primary w-100'" [newButtonIcon]="'fas fa-plus'"
-  [tableHeaders]="headers" [data]="videos" [loading]="loading" (onNew)="handleNew()" (onClear)="handleClear()"
-  [actions]="true" (onDelete)="handleDelete($event)" (onPlay)="handlePlay($event)"[perfil]="perfil">
+  [tableHeaders]="headers" [data]="videos" [loading]="loading" (onNew)="handleNew()" [actions]="true"
+  (onDelete)="handleDelete($event)" (onPlay)="handlePlay($event)" [perfil]="perfil">
 
   <ng-template #customCell let-value let-item="item" let-column="column">
 
