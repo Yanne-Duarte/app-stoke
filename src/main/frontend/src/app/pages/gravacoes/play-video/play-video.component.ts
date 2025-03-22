@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,13 +16,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './play-video.component.html',
-  styleUrl: './play-video.component.scss'
+  styleUrl: './play-video.component.scss',
 })
 export class PlayVideoComponent implements OnDestroy {
   @Input() videoName: string = '';
   @Output() result = new EventEmitter<boolean>();
   @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
-  
+
   uploadedFileName: string = '';
   isPlaying: boolean = false;
   videoFile: File | null = null;
@@ -81,7 +89,8 @@ export class PlayVideoComponent implements OnDestroy {
 
   muteUnmute() {
     if (this.videoPlayer) {
-      this.videoPlayer.nativeElement.muted = !this.videoPlayer.nativeElement.muted;
+      this.videoPlayer.nativeElement.muted =
+        !this.videoPlayer.nativeElement.muted;
       this.isMuted = this.videoPlayer.nativeElement.muted;
     }
   }
