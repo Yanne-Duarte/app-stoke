@@ -27,10 +27,38 @@
     </div>
 
     <div *ngIf="isPlaying">
-      <video controls class="w-100">
-        <source [src]="videoUrl" type="video/mp4">
-        Seu navegador não suporta o elemento de vídeo.
-      </video>
+      <div class="video-container" [ngClass]="{'size-big': videoSize === 'big', 'size-normal': videoSize === 'normal', 'size-small': videoSize === 'small'}">
+        <video #videoPlayer class="w-100">
+          <source [src]="videoUrl" type="video/mp4">
+          Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <button *ngIf="isPaused" class="play-overlay" (click)="playVideo()">
+          <i class="fas fa-play"></i>
+        </button>
+      </div>
+      
+      <div class="video-controls mt-3">
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-outline-primary" (click)="playVideo()" [disabled]="!isPaused">
+            <i class="fas fa-play"></i>
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="pauseVideo()" [disabled]="isPaused">
+            <i class="fas fa-pause"></i>
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="stopVideo()">
+            <i class="fas fa-stop"></i>
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="muteUnmute()">
+            <i class="fas" [ngClass]="isMuted ? 'fa-volume-mute' : 'fa-volume-up'"></i>
+          </button>
+        </div>
+        
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-secondary" (click)="makeBig()">Grande</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="makeNormal()">Normal</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="makeSmall()">Pequeno</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,10 +13,15 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class PlayVideoComponent implements OnDestroy {
   @Input() videoName: string = '';
   @Output() result = new EventEmitter<boolean>();
+  @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
+  
   uploadedFileName: string = '';
   isPlaying: boolean = false;
   videoFile: File | null = null;
   videoUrl: string = '';
+  isPaused: boolean = false;
+  isMuted: boolean = false;
+  videoSize: 'small' | 'normal' | 'big' = 'normal';
 
   constructor(private activeModal: NgbActiveModal) {}
 
@@ -37,12 +42,60 @@ export class PlayVideoComponent implements OnDestroy {
     if (this.uploadedFileName === this.videoName) {
       this.isPlaying = true;
       this.result.emit(true);
+      // Add a small delay to ensure the video element is ready
+      setTimeout(() => {
+        if (this.videoPlayer) {
+          this.videoPlayer.nativeElement.play();
+          this.isPaused = false;
+        }
+      }, 100);
     }
   }
 
   onCancel() {
     this.result.emit(false);
     this.activeModal.dismiss();
+  }
+
+  playVideo() {
+    if (this.videoPlayer) {
+      this.videoPlayer.nativeElement.play();
+      this.isPaused = false;
+    }
+  }
+
+  pauseVideo() {
+    if (this.videoPlayer) {
+      this.videoPlayer.nativeElement.pause();
+      this.isPaused = true;
+    }
+  }
+
+  stopVideo() {
+    if (this.videoPlayer) {
+      this.videoPlayer.nativeElement.pause();
+      this.videoPlayer.nativeElement.currentTime = 0;
+      this.isPaused = true;
+    }
+  }
+
+  muteUnmute() {
+    if (this.videoPlayer) {
+      this.videoPlayer.nativeElement.muted = !this.videoPlayer.nativeElement.muted;
+      this.isMuted = this.videoPlayer.nativeElement.muted;
+    }
+  }
+
+  makeBig() {
+    this.videoSize = 'big';
+  }
+
+  makeSmall() {
+    this.videoSize = 'small';
+  }
+
+  makeNormal() {
+    this.videoSize = 'normal';
   }
 
   ngOnDestroy() {

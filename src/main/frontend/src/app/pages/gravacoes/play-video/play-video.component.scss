@@ -34,6 +34,54 @@ video {
   max-height: 70vh;
   background: #000;
   border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.video-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  transition: max-width 0.3s ease;
+  
+  &.size-big {
+    max-width: 800px;
+  }
+  
+  &.size-small {
+    max-width: 320px;
+  }
+  
+  &.size-normal {
+    max-width: 640px;
+  }
+  
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+    
+    i {
+      color: white;
+      font-size: 24px;
+    }
+  }
 }
 
 .form-label {
@@ -43,4 +91,21 @@ video {
 
 .alert {
   margin-top: 1rem;
+}
+
+.video-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  
+  .btn-group {
+    .btn {
+      padding: 0.5rem 1rem;
+      
+      i {
+        margin-right: 0.5rem;
+      }
+    }
+  }
 }  
