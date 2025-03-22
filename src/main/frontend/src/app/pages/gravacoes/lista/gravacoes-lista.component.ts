@@ -257,15 +257,13 @@ export class GravacoesListaComponent implements OnInit {
     modalRef.componentInstance.videoName = item.name;
 
     modalRef.componentInstance.result.subscribe((result: boolean) => {
-      this.apiService.deleteVideo(item.id).subscribe({
-        next: () => {
-          this.loadVideos(); // Recarregar a lista após excluir
-        },
-        error: (error) => {
-          console.error('Erro ao excluir vídeo:', error);
-          this.error = 'Erro ao excluir o vídeo. Por favor, tente novamente.';
-        },
-      });
+      if (result) {
+        // Video was successfully played
+        console.log('Video played successfully');
+      } else {
+        // Video playback was cancelled
+        console.log('Video playback cancelled');
+      }
     });
   }
 }

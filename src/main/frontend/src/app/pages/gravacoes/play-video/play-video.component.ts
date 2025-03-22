@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class PlayVideoComponent {
   @Input() videoName: string = '';
+  @Output() result = new EventEmitter<boolean>();
   uploadedFileName: string = '';
   isPlaying: boolean = false;
   videoFile: File | null = null;
@@ -30,10 +31,12 @@ export class PlayVideoComponent {
   onConfirm() {
     if (this.uploadedFileName === this.videoName) {
       this.isPlaying = true;
+      this.result.emit(true);
     }
   }
 
   onCancel() {
+    this.result.emit(false);
     this.activeModal.dismiss();
   }
 }
