@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   isMobile: boolean = false;
   isMobileMenuOpen: boolean = false;
-  menuItems: any[] = [];
+  menuItems!: any[] ;
 
   constructor(private router: Router, private apiService: ApiService) {
     this.checkScreenSize();
@@ -26,9 +26,19 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     // Adicionar listener para mudanças no tamanho da tela
-    window.addEventListener('resize', () => this.checkScreenSize());
+    window.addEventListener('resize', () => {
+      this.checkScreenSize();
+      this.configureMenuItems();
+    });
 
     // Configurar menu items baseado no perfil
+  }
+
+  configureMenuItems() {
+    console.log('----------------',this.perfil);
+    console.log(SidebarItem.adminMenu);
+    console.log(SidebarItem.technicalMenu);
+    console.log(SidebarItem.userMenu);
     if (this.perfil === 'ADMIN') {
       this.menuItems = SidebarItem.adminMenu;
     } else if (this.perfil === 'TECHNICAL') {

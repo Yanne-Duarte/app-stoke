@@ -46,7 +46,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     const fisioterapeuta = JSON.parse(
       localStorage.getItem('user') || '{}'
     ).fisioterapeuta;
-    this.recipientId = fisioterapeuta.id;
+    this.recipientId = fisioterapeuta?.id;
   }
 
   ngOnDestroy() {

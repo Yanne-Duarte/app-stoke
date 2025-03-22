@@ -62,7 +62,7 @@ export class DashboardComponent implements OnInit {
   }
 
   createSessionsChart() {
-    const ctx = document.getElementById('sessionsChart') as HTMLCanvasElement;
+   /* const ctx = document.getElementById('sessionsChart') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -103,11 +103,11 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-    });
+    });*/
   }
 
   createProgressChart() {
-    const ctx = document.getElementById('progressChart') as HTMLCanvasElement;
+   /* const ctx = document.getElementById('progressChart') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'line',
       data: {
@@ -144,6 +144,6 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-    });
+    });*/
   }
 }
