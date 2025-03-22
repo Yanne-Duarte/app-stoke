@@ -11,6 +11,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ModalComponent {
   @Input() title: string = '';
   @Input() message: string = '';
+  @Input() buttonConfirmLabel: string = 'Confirmar';
+  @Input() buttonCancelLabel: string = 'Cancelar';
 
   @Output() result = new EventEmitter<boolean>();
 

@@ -4,6 +4,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 import { ApiService } from '../../../../api/api.service';
+import { ChatComponent } from "../../../../pages/chat/chat.component";
 
 @Component({
   selector: 'app-portal',
@@ -14,7 +15,8 @@ import { ApiService } from '../../../../api/api.service';
     NavbarComponent,
     ContentComponent,
     FooterComponent,
-  ],
+    ChatComponent
+],
 })
 export class PortalComponent {
   fullName: any;

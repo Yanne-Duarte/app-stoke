@@ -29,6 +29,7 @@ export class SearchResultsComponent implements OnInit {
   @Input() data: any[] = [];
   @Input() loading = false;
   @Input() actions = false;
+  @Input() perfil: any;
 
   @Output() onNew = new EventEmitter<void>();
   @Output() onFilter = new EventEmitter<any>();

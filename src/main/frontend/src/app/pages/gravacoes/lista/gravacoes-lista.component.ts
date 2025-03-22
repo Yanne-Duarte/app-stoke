@@ -16,7 +16,6 @@ import { PlayVideoComponent } from '../play-video/play-video.component';
   styleUrls: ['./gravacoes-lista.component.scss'],
 })
 export class GravacoesListaComponent implements OnInit {
-
   videos: VideoRecordDTO[] = [];
   loading = false;
   error: string | null = null;
@@ -30,6 +29,7 @@ export class GravacoesListaComponent implements OnInit {
     { key: 'size', label: 'Tamanho', useTemplate: true },
     { key: 'actions', label: 'Ações' },
   ];
+  perfil: any;
 
   constructor(
     private apiService: ApiService,
@@ -40,6 +40,7 @@ export class GravacoesListaComponent implements OnInit {
 
   ngOnInit() {
     this.loadVideos();
+    this.perfil = JSON.parse(localStorage.getItem('perfil') || '{}');
   }
 
   private loadVideos() {
@@ -217,7 +218,10 @@ export class GravacoesListaComponent implements OnInit {
   }
 
   handleDelete(item: any) {
-    const modalRef = this.modalService.open(ModalComponent);
+    const modalRef = this.modalService.open(ModalComponent, {
+      size: 'lg',
+      centered: true,
+    });
     modalRef.componentInstance.title = 'Excluir Vídeo';
     modalRef.componentInstance.message =
       'Tem certeza que deseja excluir este vídeo?';
@@ -253,8 +257,12 @@ export class GravacoesListaComponent implements OnInit {
   }
 
   handlePlay(item: any) {
-    const modalRef = this.modalService.open(PlayVideoComponent);
+    const modalRef = this.modalService.open(PlayVideoComponent, {
+      size: 'lg',
+      centered: true,
+    });
     modalRef.componentInstance.videoName = item.name;
+    modalRef.componentInstance.perfil = this.perfil;
 
     modalRef.componentInstance.result.subscribe((result: boolean) => {
       if (result) {
