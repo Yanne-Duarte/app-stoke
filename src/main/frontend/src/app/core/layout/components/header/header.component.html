@@ -2,9 +2,7 @@
   <!-- Lado esquerdo -->
   <div class="header-left">
     <!-- Botão menu mobile -->
-    <button class="menu-mobile-btn" (click)="toggleMobileMenu()" *ngIf="isMobile">
-      <i class="fas fa-bars"></i>
-    </button>
+
     <img src="assets/images/favicon.ico" alt="Logo" class="logo">
   </div>
 
@@ -14,6 +12,9 @@
     <div class="notifications" [routerLink]="['/notificacoes']">
       <i class="fas fa-bell"></i>
       <span class="badge" *ngIf="unreadCount > 0">{{unreadCount}}</span>
+    </div>
+    <div class="menu-mobile-btn" (click)="toggleMobileMenu()" *ngIf="isMobile">
+      <i class="fas fa-bars"></i>
     </div>
 
     <!-- Informações do utilizador (esconder em mobile) -->
@@ -57,7 +58,6 @@
     </ul>
   </nav>
 
-  {{menuItems | json}}
 
   <!-- Botão de logout -->
   <div class="mobile-logout" (click)="logout()">
