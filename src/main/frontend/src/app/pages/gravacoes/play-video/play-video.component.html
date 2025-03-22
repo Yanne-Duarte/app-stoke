@@ -19,8 +19,10 @@
 
       <div class="d-flex justify-content-end gap-2">
         <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="onConfirm()"
-          [disabled]="!uploadedFileName">Confirmar</button>
+        <button type="button" class="btn btn-primary gap-2" (click)="onConfirm()"
+          [disabled]="!uploadedFileName">
+          <i class="fas fa-play"></i>
+          Ver</button>
       </div>
     </div>
 
