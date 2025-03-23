@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 import {
   LoginDTO,
   MemorizarDTO,
@@ -8,7 +8,6 @@ import {
   UserStatusDTO,
   UserFilterDTO,
   NotificationDTO,
- 
   UpdateUserByUserDto,
   UpdateUserByAdminDto,
   NewsDTO,
@@ -19,22 +18,96 @@ import { environment } from 'src/environments/environment.production';
 import { Injectable } from '@angular/core';
 import { tap, catchError, throwError } from 'rxjs';
 
+import { Client, Message } from '@stomp/stompjs';
+import { default as SockJS } from 'sockjs-client';
+
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private apiUrl = `${environment.apiUrl}/api`;
   private token: string | null = null;
+  private stompClient!: Client;
+  public messageSubject = new Subject<any>();
 
-  constructor(private http: HttpClient) {
-    this.token = localStorage.getItem('token');
+  constructor(private http: HttpClient) {}
+
+  //__________________________________________________________________________
+  // CHAT
+
+  connect() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+
+      const socket = new SockJS(`${environment.apiUrl}/chat`, null, {
+        transports: ['websocket', 'xhr-streaming', 'xhr-polling'],
+        timeout: 5000
+      });
+
+      this.stompClient = new Client({
+        webSocketFactory: () => socket,
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+        debug: (str) => {
+          console.log('STOMP: ' + str);
+        },
+        connectHeaders: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      this.stompClient.onConnect = (frame) => {
+        console.log('Connected to STOMP');
+        this.stompClient.subscribe('/topic/messages', (message: Message) => {
+          try {
+            const msgBody = JSON.parse(message.body);
+            console.log('Mensagem recebida:', msgBody);
+            this.messageSubject.next(msgBody);
+          } catch (error) {
+            console.error('Error parsing message:', error);
+          }
+        });
+      };
+
+      this.stompClient.onStompError = (frame) => {
+        console.error('STOMP error:', frame);
+      };
+
+      this.stompClient.onWebSocketError = (event) => {
+        console.error('WebSocket error:', event);
+      };
+
+      this.stompClient.onWebSocketClose = (event) => {
+        console.log('WebSocket closed:', event);
+      };
+
+      this.stompClient.activate();
+    } catch (error) {
+      console.error('Error connecting to WebSocket:', error);
+    }
   }
 
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: this.token ? `Bearer ${this.token}` : '',
-    });
+  sendMessage(msg: any) {
+    if (this.stompClient && this.stompClient.connected) {
+      console.log('Enviando mensagem:', msg);
+      this.stompClient.publish({
+        destination: '/app/send',
+        body: JSON.stringify(msg),
+      });
+    } else {
+      console.error('STOMP client not connected');
+    }
+  }
+
+  disconnect() {
+    if (this.stompClient) {
+      this.stompClient.deactivate();
+    }
   }
 
   //__________________________________________________________________________
@@ -231,8 +304,6 @@ export class ApiService {
     return this.http.delete<void>(`${this.apiUrl}/users/${id}`, {});
   }
 
-   
-
   //__________________________________________________________________________
   // NEWS
   //__________________________________________________________________________
@@ -387,5 +458,9 @@ export class ApiService {
         responseType: 'blob',
       }
     );
+  }
+
+  getChatHistory(user1Id: number, user2Id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/chats/history/${user1Id}/${user2Id}`);
   }
 }

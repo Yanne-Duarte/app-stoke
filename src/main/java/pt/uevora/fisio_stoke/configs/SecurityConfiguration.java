@@ -83,12 +83,26 @@ public class SecurityConfiguration {
 
                 configuration.setAllowedOrigins(List.of("http://localhost:4200"));
                 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-                configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                configuration.setAllowedHeaders(List.of(
+                    "Authorization", 
+                    "Content-Type",
+                    "X-Requested-With",
+                    "Accept",
+                    "Origin",
+                    "Access-Control-Request-Method",
+                    "Access-Control-Request-Headers"
+                ));
+                configuration.setExposedHeaders(List.of(
+                    "Access-Control-Allow-Origin",
+                    "Access-Control-Allow-Credentials",
+                    "Access-Control-Allow-Headers",
+                    "Access-Control-Allow-Methods"
+                ));
                 configuration.setAllowCredentials(true);
                 configuration.setMaxAge(3600L);
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                source.registerCorsConfiguration("/api/**", configuration);
+                source.registerCorsConfiguration("/**", configuration);
 
                 return source;
         }

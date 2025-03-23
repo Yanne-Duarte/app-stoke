@@ -3,7 +3,7 @@ package pt.uevora.fisio_stoke.dtos;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ChatMessage {
+public class ChatMessageDTO {
     private String sender;
     private String recipient;
     private String content;
@@ -11,11 +11,11 @@ public class ChatMessage {
     private String mensagem;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public ChatMessage() {
+    public ChatMessageDTO() {
         this.timestamp = LocalDateTime.now().format(formatter);
     }
 
-    public ChatMessage(String sender, String content) {
+    public ChatMessageDTO(String sender, String content) {
         this();
         this.sender = sender;
         this.content = content;
@@ -78,7 +78,7 @@ public class ChatMessage {
 
     @Override
     public String toString() {
-        return String.format("ChatMessage{sender='%s', recipient='%s', content='%s', timestamp='%s'}", 
+        return String.format("ChatMessageDTO{sender='%s', recipient='%s', content='%s', timestamp='%s'}", 
             sender, recipient, content, timestamp);
     }
-}
+} 
