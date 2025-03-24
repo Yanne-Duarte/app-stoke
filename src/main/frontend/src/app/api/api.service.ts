@@ -463,4 +463,8 @@ export class ApiService {
   getChatHistory(user1Id: number, user2Id: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/chats/history/${user1Id}/${user2Id}`);
   }
+
+  deleteChatMessage(messageId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/chats/messages/${messageId}`);
+  }
 }

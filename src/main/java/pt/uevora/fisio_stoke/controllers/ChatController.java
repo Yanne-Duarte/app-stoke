@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.http.ResponseEntity;
 import pt.uevora.fisio_stoke.dtos.ChatMessageDTO;
 import pt.uevora.fisio_stoke.services.impl.ChatMessageService;
@@ -55,6 +56,17 @@ public class ChatController {
             return ResponseEntity.ok(history);
         } catch (Exception e) {
             logger.error("Error fetching chat history: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/chats/messages/{messageId}")
+    public ResponseEntity<Void> deleteMessage(@PathVariable Long messageId) {
+        try {
+            chatMessageService.deleteMessage(messageId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error deleting message: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }

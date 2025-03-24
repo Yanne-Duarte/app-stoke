@@ -15,6 +15,7 @@ import { interval, Subscription } from 'rxjs';
 import { UserDTO } from 'src/app/api/models.dto';
 
 interface ChatMessage {
+  id?: number;
   sender: string;
   recipient: string;
   content: string;
@@ -281,6 +282,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       next: (history: ChatMessage[]) => {
         console.log('Chat history loaded:', history);
         this.messages = history.map((msg: ChatMessage) => ({
+          id: msg.id,
           sender: msg.sender,
           recipient: msg.recipient,
           content: msg.content,
@@ -291,6 +293,24 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       },
       error: (error: any) => {
         console.error('Error loading chat history:', error);
+      }
+    });
+  }
+
+  deleteMessage(messageId: number) {
+    if (!messageId) {
+      console.error('Cannot delete message: no message ID');
+      return;
+    }
+
+    this.apiService.deleteChatMessage(messageId).subscribe({
+      next: () => {
+        // Remove the message from the local array
+        this.messages = this.messages.filter(msg => msg.id !== messageId);
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error deleting message:', error);
       }
     });
   }

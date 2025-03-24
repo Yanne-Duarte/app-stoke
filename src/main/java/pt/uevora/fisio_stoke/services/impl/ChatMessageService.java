@@ -101,4 +101,30 @@ public class ChatMessageService {
             .orElseThrow(() -> new RuntimeException("User not found: " + user2Id));
         return chatMessageRepository.findChatHistory(user1, user2);
     }
+
+    public void deleteMessage(Long messageId) {
+        try {
+            // Get current user from security context
+            User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            
+            // Find message and verify if user is the sender
+            ChatMessage message = chatMessageRepository.findByIdAndSender(messageId, currentUser)
+                .orElseThrow(() -> new RuntimeException("Message not found or user is not the sender"));
+            
+            // Delete the message
+            chatMessageRepository.delete(message);
+            logger.info("Message {} deleted by user {}", messageId, currentUser.getUsername());
+            
+            // Notify other users about the deletion
+            String topic = String.format("/topic/chat/%d/%d", 
+                Math.min(message.getSenderUser().getId(), message.getRecipientUser().getId()),
+                Math.max(message.getSenderUser().getId(), message.getRecipientUser().getId()));
+            
+            messagingTemplate.convertAndSend(topic, new ChatMessageDTO("system", "Message deleted"));
+            
+        } catch (Exception e) {
+            logger.error("Error deleting message: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
 } 
