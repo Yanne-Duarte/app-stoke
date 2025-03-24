@@ -8,6 +8,14 @@
   "start_url": "./",
   "description": "Aplicação para gestão de fisioterapia",
   "orientation": "any",
+  "lang": "pt-PT",
+  "dir": "ltr",
+  "categories": ["healthcare", "medical"],
+  "prefer_related_applications": false,
+  "display_override": ["standalone", "window-controls-overlay"],
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -58,4 +66,4 @@
       "purpose": "maskable any"
     }
   ]
-}
+} 

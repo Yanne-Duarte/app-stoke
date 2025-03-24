@@ -23,6 +23,11 @@ import { UserViewComponent } from './pages/users/components/user-view/user-view.
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: '/'
+  },
+  {
+    path: '',
     component: PortalComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
