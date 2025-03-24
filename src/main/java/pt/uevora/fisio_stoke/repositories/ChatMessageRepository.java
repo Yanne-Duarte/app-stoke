@@ -12,10 +12,10 @@ import java.util.Optional;
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
     
     @Query("SELECT m FROM ChatMessage m WHERE " +
-           "(m.senderUser = :user1 AND m.recipientUser = :user2) OR " +
-           "(m.senderUser = :user2 AND m.recipientUser = :user1) " +
+           "m.recipientUser = :currentUser OR " +
+           "m.senderUser = :currentUser " +
            "ORDER BY m.createdAt ASC")
-    List<ChatMessage> findChatHistory(@Param("user1") User user1, @Param("user2") User user2);
+    List<ChatMessage> findChatHistory(@Param("currentUser") User currentUser);
 
     @Query("SELECT m FROM ChatMessage m WHERE m.id = :messageId AND m.senderUser = :user")
     Optional<ChatMessage> findByIdAndSender(@Param("messageId") Long messageId, @Param("user") User user);

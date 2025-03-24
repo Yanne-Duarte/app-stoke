@@ -95,11 +95,26 @@ public class ChatMessageService {
     }
 
     public List<ChatMessage> getChatHistory(Integer user1Id, Integer user2Id) {
-        User user1 = userRepository.findById(user1Id)
-            .orElseThrow(() -> new RuntimeException("User not found: " + user1Id));
-        User user2 = userRepository.findById(user2Id)
-            .orElseThrow(() -> new RuntimeException("User not found: " + user2Id));
-        return chatMessageRepository.findChatHistory(user1, user2);
+        // Get current user from security context
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        // Verify if current user has permission to view these messages
+        if (currentUser.getPerfil() == Perfil.TECHNICAL) {
+            // Physiotherapists can view messages with their patients
+            User otherUser = userRepository.findById(user2Id)
+                .orElseThrow(() -> new RuntimeException("User not found: " + user2Id));
+            
+            if (!otherUser.getFisioterapeuta().getId().equals(currentUser.getId())) {
+                throw new RuntimeException("Unauthorized access to chat history");
+            }
+        } else {
+            // Regular users can only view their own messages
+            if (!currentUser.getId().equals(user1Id)) {
+                throw new RuntimeException("Unauthorized access to chat history");
+            }
+        }
+        
+        return chatMessageRepository.findChatHistory(currentUser);
     }
 
     public void deleteMessage(Long messageId) {
