@@ -13,7 +13,7 @@
                     <label class="form-label">Título</label>
                     <input type="text" class="form-control" formControlName="title">
                     <div class="text-danger" *ngIf="newsForm.get('title')?.errors?.['required'] && newsForm.get('title')?.touched">
-                        Título é obrigatório
+                        O título é obrigatório
                     </div>
                 </div>
 
@@ -21,7 +21,7 @@
                     <label class="form-label">Conteúdo</label>
                     <textarea class="form-control" formControlName="content" rows="4"></textarea>
                     <div class="text-danger" *ngIf="newsForm.get('content')?.errors?.['required'] && newsForm.get('content')?.touched">
-                        Conteúdo é obrigatório
+                        O conteúdo é obrigatório
                     </div>
                 </div>
 
@@ -29,7 +29,7 @@
                     <label class="form-label">Autor</label>
                     <input type="text" class="form-control" formControlName="author">
                     <div class="text-danger" *ngIf="newsForm.get('author')?.errors?.['required'] && newsForm.get('author')?.touched">
-                        Autor é obrigatório
+                        O autor é obrigatório
                     </div>
                 </div>
 

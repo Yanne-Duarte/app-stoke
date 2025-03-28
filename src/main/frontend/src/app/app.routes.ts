@@ -46,16 +46,8 @@ export const routes: Routes = [
             component: UserFormComponent,
             data: { roles: ['ADMIN'] },
           },
-          { 
-            path: ':id', 
-            component: UserViewComponent,
-            data: { roles: ['ADMIN', 'TECHNICAL'] }
-          },
-          { 
-            path: ':id/edit', 
-            component: UserFormComponent,
-            data: { roles: ['ADMIN', 'TECHNICAL'] }
-          },
+          { path: ':id', component: UserViewComponent },
+          { path: ':id/edit', component: UserFormComponent },
         ],
       },
       {

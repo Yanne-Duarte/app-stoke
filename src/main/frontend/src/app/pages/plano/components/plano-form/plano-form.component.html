@@ -32,7 +32,7 @@
         <div class="form-group mb-3">
           <label for="description">Descrição*</label>
           <textarea id="description" class="form-control" formControlName="description"
-            placeholder="Digite a descrição do plano" rows="4">
+            placeholder="Insira a descrição do plano" rows="4">
           </textarea>
           <div class="invalid-feedback"
             *ngIf="planoForm.get('description')?.errors?.['required'] && planoForm.get('description')?.touched">

@@ -24,15 +24,15 @@
             <input type="text" class="form-control" formControlName="fullName">
             <div class="text-danger"
               *ngIf="userForm.get('fullName')?.errors?.['required'] && userForm.get('fullName')?.touched">
-              Nome completo é obrigatório
+              O nome completo é obrigatório
             </div>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Username</label>
+            <label class="form-label">Nome de Utilizador</label>
             <input type="text" class="form-control" formControlName="username">
             <div class="text-danger"
               *ngIf="userForm.get('username')?.errors?.['required'] && userForm.get('username')?.touched">
-              Username é obrigatório
+              O nome de utilizador é obrigatório
             </div>
           </div>
         </div>
@@ -40,11 +40,11 @@
         <!-- Linha 2: Password e Data de Nascimento -->
         <div class="row mb-3">
           <div class="col-md-6" *ngIf="!isEditing">
-            <label class="form-label">Password</label>
+            <label class="form-label">Palavra-passe</label>
             <input type="password" class="form-control" formControlName="password">
             <div class="text-danger"
               *ngIf="userForm.get('password')?.errors?.['required'] && userForm.get('password')?.touched">
-              Password é obrigatória
+              A palavra-passe é obrigatória
             </div>
           </div>
           <div class="col-md-6">

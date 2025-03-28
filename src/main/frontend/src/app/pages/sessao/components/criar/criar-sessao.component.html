@@ -10,7 +10,7 @@
         id="nomeUtente" 
         type="text" 
         formControlName="nomeUtente"
-        placeholder="Escreva o nome do utente">
+        placeholder="Insira o nome do utente">
       <div class="error-message" *ngIf="sessaoForm.get('nomeUtente')?.errors?.['required'] && sessaoForm.get('nomeUtente')?.touched">
         O nome do utente é obrigatório
       </div>
@@ -22,7 +22,7 @@
         id="titulo" 
         type="text" 
         formControlName="titulo"
-        placeholder="Escreva o título da sessão">
+        placeholder="Insira o título da sessão">
       <div class="error-message" *ngIf="sessaoForm.get('titulo')?.errors?.['required'] && sessaoForm.get('titulo')?.touched">
         O título é obrigatório
       </div>
@@ -45,7 +45,7 @@
         id="duracao" 
         type="number" 
         formControlName="duracao"
-        placeholder="Escreva a duração em minutos">
+        placeholder="Insira a duração em minutos">
       <div class="error-message" *ngIf="sessaoForm.get('duracao')?.errors?.['required'] && sessaoForm.get('duracao')?.touched">
         A duração é obrigatória
       </div>
@@ -57,7 +57,7 @@
         id="local" 
         type="text" 
         formControlName="local"
-        placeholder="Escreva o local da sessão">
+        placeholder="Insira o local da sessão">
       <div class="error-message" *ngIf="sessaoForm.get('local')?.errors?.['required'] && sessaoForm.get('local')?.touched">
         O local é obrigatório
       </div>
