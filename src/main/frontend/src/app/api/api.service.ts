@@ -334,6 +334,10 @@ export class ApiService {
     return this.http.get<VideoRecordDTO[]>(`${this.apiUrl}/videos`);
   }
 
+  getVideosByUserId(userId: number): Observable<VideoRecordDTO[]> {
+    return this.http.get<VideoRecordDTO[]>(`${this.apiUrl}/videos/user/${userId}`);
+  }
+
   getVideoById(id: number): Observable<VideoRecordDTO> {
     return this.http.get<VideoRecordDTO>(`${this.apiUrl}/videos/${id}`);
   }

@@ -1,0 +1,59 @@
+<div class="page-container">
+  <div *ngIf="loading" class="loading">Carregando plano...</div>
+  
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="plano && !loading" class="card">
+    <div class="card-body">
+      <!-- Informações do Plano -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h5>Utente</h5>
+          <div>
+            <strong>Nome:</strong> {{ plano.user.fullName }}<br>
+            <strong>Username:</strong> {{ plano.user.username }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h5>Progresso</h5>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" 
+                 [style.width.%]="getProgressPercentage()">
+              {{ currentStep + 1 }} / {{ plano.exercises?.length || 0 }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegação dos Steps -->
+      <div class="step-navigation">
+        <button class="btn btn-secondary" 
+                [disabled]="currentStep === 0"
+                (click)="previousStep()">
+          <i class="fas fa-arrow-left"></i> Anterior
+        </button>
+        
+        <button class="btn btn-primary" 
+                [disabled]="currentStep === (plano.exercises?.length || 0) - 1"
+                (click)="nextStep()">
+          Próximo <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Conteúdo do Step Atual -->
+      <div class="step-content" *ngIf="plano.exercises && plano.exercises[currentStep]">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Exercício {{ currentStep + 1 }}</h5>
+            <p class="card-text">{{ plano.exercises[currentStep].description }}</p>
+            
+            <!-- Aqui você pode adicionar o player de vídeo quando tiver o caminho do vídeo -->
+            <div class="video-container" *ngIf="plano.exercises[currentStep].videoPath">
+              <p>Vídeo: {{ plano.exercises[currentStep].videoPath }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

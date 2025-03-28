@@ -13,8 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withInterceptors([AuthInterceptor])),
     provideServiceWorker('ngsw-worker.js', {
-      enabled: true,
-      registrationStrategy: 'registerWhenStable:30000'
+      enabled: false,
+      registrationStrategy: 'registerImmediately',
+      scope: '/'
     })
   ]
 };

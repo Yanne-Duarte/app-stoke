@@ -37,6 +37,9 @@ public class Video {
     @Column
     private String downloadFolder;
 
+    @Column(nullable = false)
+    private String description;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)

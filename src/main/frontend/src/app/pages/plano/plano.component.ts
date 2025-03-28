@@ -19,8 +19,8 @@ import { ApiService } from 'src/app/api/api.service';
   templateUrl: './plano.component.html',
 })
 export class PlanoComponent implements OnInit {
-  handlePlay(_t5: any) {
-    throw new Error('Method not implemented.');
+  handlePlay(item: any) {
+    this.router.navigate([item.id, 'executar'], { relativeTo: this.route });
   }
   headers: TableHeader[] = [
     { key: 'user', label: 'Utente', useTemplate: true },

@@ -24,6 +24,7 @@ export class GravacoesListaComponent implements OnInit {
   lastID = signal(0);
   headers: TableHeader[] = [
     { key: 'name', label: 'Nome' },
+    { key: 'description', label: 'Descrição' },
     { key: 'duration', label: 'Duração', useTemplate: true },
     { key: 'timestamp', label: 'Data de Criação' },
     { key: 'size', label: 'Tamanho', useTemplate: true },

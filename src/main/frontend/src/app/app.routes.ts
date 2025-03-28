@@ -19,13 +19,9 @@ import { NotificacaoCreateComponent } from './pages/notificacoes/components/noti
 import { NewsFormComponent } from './pages/news/components/news-form/news-form.component';
 import { PlanoFormComponent } from './pages/plano/components/plano-form/plano-form.component';
 import { UserViewComponent } from './pages/users/components/user-view/user-view.component';
+import { ExecutarComponent } from './pages/plano/components/executar/executar.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: '/'
-  },
   {
     path: '',
     component: PortalComponent,
@@ -81,6 +77,11 @@ export const routes: Routes = [
             component: PlanoFormComponent,
             data: { roles: ['ADMIN', 'TECHNICAL'] },
           },
+          {
+            path: ':id/executar',
+            component: ExecutarComponent,
+            data: { roles: ['USER'] },
+          },
         ],
       },
       {
@@ -98,7 +99,7 @@ export const routes: Routes = [
       {
         path: 'gravacoes',
         canActivate: [myGuardGuard],
-        data: { roles: ['TECHNICAL', 'USER'] },
+        data: { roles: ['USER'] },
         children: [
           { path: '', component: GravacoesListaComponent },
           { path: 'gravar', component: GravarVideoComponent },
@@ -126,7 +127,7 @@ export const routes: Routes = [
     ],
   },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'mensagens' },
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 /*import { Routes } from '@angular/router';

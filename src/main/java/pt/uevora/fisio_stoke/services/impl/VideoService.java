@@ -24,6 +24,10 @@ public class VideoService {
         return videoRepository.findAllByUserId(currentUser.getId());
     }
 
+    public List<Video> getVideosByUserId(Integer userId) {
+        return videoRepository.findAllByUserId(userId);
+    }
+
     public Optional<Video> getVideoById(Long id) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return videoRepository.findByIdAndUserId(id, currentUser.getId());

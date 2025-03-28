@@ -12,6 +12,8 @@ import { ApiService } from '../../../api/api.service';
 import { PlatformService } from '../../../api/platform.service';
 import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VideoDescriptionModalComponent } from '../../../pages/video/components/video-description-modal/video-description-modal.component';
+
 @Component({
   selector: 'app-gravar-video',
   standalone: true,
@@ -176,25 +178,44 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
+      // Abrir modal de descrição
+      const descriptionModalRef = this.modalService.open(VideoDescriptionModalComponent, {
+        size: 'md',
+        centered: true,
+      });
+
+      // Aguardar a descrição do usuário
+      const description = await new Promise<string>((resolve) => {
+        descriptionModalRef.result.then(
+          (result: string) => {
+            if (result) {
+              resolve(result);
+            } else {
+              resolve('Sem descrição'); // Valor padrão se o usuário cancelar
+            }
+          },
+          () => {
+            resolve('Sem descrição'); // Valor padrão se o usuário cancelar
+          }
+        );
+      });
+
       // Preparar dados para o servidor
       const videoData = {
         name: fileName,
         duration: this.duration,
         timestamp: timestamp.toISOString(),
-        filePath: 'local', // Indica que o vídeo está guardado localmente
-        size: blob.size / (1024 * 1024), // Tamanho em MB
-        storedLocally: true, // Nova flag para indicar armazenamento local
-        downloadFolder: 'Pasta de Transferências', // Pasta padrão de downloads
+        filePath: 'local',
+        size: blob.size / (1024 * 1024),
+        storedLocally: true,
+        downloadFolder: 'Pasta de Transferências',
+        description: description // Adicionar a descrição ao objeto
       };
 
       // Enviar metadados para o servidor
       await this.apiService.saveVideo(videoData).toPromise();
 
-      // Mostrar mensagem de sucesso com a localização do vídeo
-      /* alert(
-        `Vídeo guardado com sucesso na sua ${videoData.downloadFolder}!\nNome do ficheiro: ${fileName}`
-      );*/
-
+      // Mostrar modal de sucesso
       this.openModal(videoData.filePath, videoData.name);
 
       this.router.navigate(['/gravacoes']);

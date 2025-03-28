@@ -9,7 +9,7 @@ import {
   FormArray,
 } from '@angular/forms';
 import { ApiService } from '../../../../api/api.service';
-import { PlanDTO, ExerciseDTO, UserDTO } from '../../../../api/models.dto';
+import { PlanDTO, ExerciseDTO, UserDTO, VideoRecordDTO } from '../../../../api/models.dto';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -25,6 +25,7 @@ export class PlanoFormComponent implements OnInit {
   error: string | null = null;
   isEdit = false;
   availableUsers: UserDTO[] = [];
+  userVideos: VideoRecordDTO[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -66,6 +67,26 @@ export class PlanoFormComponent implements OnInit {
         }
       });
     }
+
+    // Observar mudanças no usuário selecionado
+    this.planoForm.get('user')?.valueChanges.subscribe(user => {
+      if (user?.id) {
+        this.loadUserVideos(user.id);
+      } else {
+        this.userVideos = [];
+      }
+    });
+  }
+
+  private loadUserVideos(userId: number) {
+    this.apiService.getVideosByUserId(userId).subscribe({
+      next: (videos) => {
+        this.userVideos = videos;
+      },
+      error: (error) => {
+        this.error = 'Erro ao carregar vídeos do usuário: ' + error.message;
+      }
+    });
   }
 
   private loadAvailableUsers() {

@@ -63,7 +63,15 @@
 
                 <div class="form-group">
                   <label>Caminho do Vídeo*</label>
-                  <input type="text" class="form-control" formControlName="videoPath">
+                  <select class="form-select" formControlName="videoPath">
+                    <option value="">Selecione um vídeo</option>
+                    <option *ngFor="let video of userVideos" [value]="video.name">
+                      {{ video.name }} - {{ video.description }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="exercises.at(i).get('videoPath')?.errors?.['required'] && exercises.at(i).get('videoPath')?.touched">
+                    O vídeo é obrigatório
+                  </div>
                 </div>
               </div>
             </div>

@@ -69,9 +69,6 @@ export interface NotificationDTO {
   senderName?: string;
 }
 
- 
-
- 
 export interface UpdateUserByUserDto {
   fullName?: string;
   username?: string;
@@ -95,6 +92,7 @@ export interface VideoRecordDTO {
   size: number;
   storedLocally?: boolean;
   downloadFolder?: string;
+  description: string;
 }
 
 export interface ExerciseDTO {
@@ -130,8 +128,6 @@ export interface FiltroSessao {
   local: string;
 }
 
- 
-
 export interface AttachmentDTO {
   id: number;
   messageId: number;
@@ -141,7 +137,6 @@ export interface AttachmentDTO {
   createdAt: Date;
 }
 
- 
 export interface PlanFilterDTO {
   userName?: string;
   creationDateStart?: string;

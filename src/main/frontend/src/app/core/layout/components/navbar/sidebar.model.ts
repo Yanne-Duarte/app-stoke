@@ -44,12 +44,6 @@ export class SidebarItem {
       route: '/sessao',
     },
     {
-      label: 'Gravações',
-      icon: 'fas fa-record-vinyl',
-      route: '/gravacoes',
-    },
-
-    {
       label: 'Mensagens',
       icon: 'fas fa-envelope',
       route: '/mensagens',
@@ -88,12 +82,6 @@ export class SidebarItem {
       route: '/sessao',
     },
     {
-      label: 'Gravações',
-      icon: 'fas fa-record-vinyl',
-      route: '/gravacoes',
-    },
-
-    {
       label: 'Mensagens',
       icon: 'fas fa-envelope',
       route: '/mensagens',
@@ -108,7 +96,6 @@ export class SidebarItem {
       icon: 'fas fa-chart-bar',
       route: '/reports',
     },
-
     {
       label: 'Configurações',
       icon: 'fas fa-cog',

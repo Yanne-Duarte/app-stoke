@@ -2,6 +2,7 @@ package pt.uevora.fisio_stoke.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pt.uevora.fisio_stoke.entities.Video;
@@ -19,6 +20,12 @@ public class VideoController {
     @GetMapping
     public ResponseEntity<List<Video>> getAllVideos() {
         return ResponseEntity.ok(videoService.getAllVideos());
+    }
+
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('TECHNICAL')")
+    public ResponseEntity<List<Video>> getVideosByUserId(@PathVariable Integer userId) {
+        return ResponseEntity.ok(videoService.getVideosByUserId(userId));
     }
 
     @GetMapping("/{id}")
