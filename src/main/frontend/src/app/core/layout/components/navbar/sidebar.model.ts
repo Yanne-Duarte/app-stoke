@@ -11,6 +11,11 @@ export class SidebarItem {
       route: '/plano',
     },
     {
+      label: 'Métricas',
+      icon: 'fas fa-chart-line',
+      route: '/metricas',
+    },
+    {
       label: 'Sessões',
       icon: 'fas fa-calendar-check',
       route: '/sessao',
@@ -58,6 +63,11 @@ export class SidebarItem {
       icon: 'fas fa-chart-bar',
       route: '/reports',
     },
+    {
+      label: 'Métricas',
+      icon: 'fas fa-chart-line',
+      route: '/metricas',
+    },
   ];
 
   static adminMenu = [
@@ -95,7 +105,7 @@ export class SidebarItem {
       label: 'Relatórios',
       icon: 'fas fa-chart-bar',
       route: '/reports',
-    },
+    },  
     {
       label: 'Configurações',
       icon: 'fas fa-cog',

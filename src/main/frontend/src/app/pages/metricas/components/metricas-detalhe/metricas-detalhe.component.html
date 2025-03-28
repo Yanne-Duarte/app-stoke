@@ -1,0 +1,83 @@
+<div class="page-container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Detalhes da Execução</h2>
+    <button class="btn btn-secondary" routerLink="/metricas">Voltar</button>
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="execution && !loading" class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h4>Informações Gerais</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Utente:</strong> {{ execution.userName }}
+            </li>
+            <li class="list-group-item">
+              <strong>Plano:</strong> {{ execution.planDescription }}
+            </li>
+            <li class="list-group-item">
+              <strong>Data de Início:</strong> {{ execution.startTime | date:'dd/MM/yyyy HH:mm' }}
+            </li>
+            <li class="list-group-item">
+              <strong>Data de Fim:</strong> {{ execution.endTime | date:'dd/MM/yyyy HH:mm' }}
+            </li>
+            <li class="list-group-item">
+              <strong>Duração Total:</strong> {{ formatDuration(execution.totalDuration) }}
+            </li>
+            <li class="list-group-item">
+              <strong>Status:</strong> {{ execution.completed ? 'Concluído' : 'Em Andamento' }}
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h4>Navegação</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Total de Passos:</strong> {{ execution.totalSteps }}
+            </li>
+            <li class="list-group-item">
+              <strong>Passo Atual:</strong> {{ execution.currentStep + 1 }}
+            </li>
+            <li class="list-group-item">
+              <strong>Cliques em Próximo:</strong> {{ execution.nextStepClicks }}
+            </li>
+            <li class="list-group-item">
+              <strong>Cliques em Anterior:</strong> {{ execution.previousStepClicks }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h4>Tempo por Passo</h4>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Passo</th>
+                <th>Tempo (segundos)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let timing of execution.executionStepTimings">
+                <td>{{ timing.stepNumber + 1 }}</td>
+                <td>{{ timing.timeSpent | number:'1.2-2' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

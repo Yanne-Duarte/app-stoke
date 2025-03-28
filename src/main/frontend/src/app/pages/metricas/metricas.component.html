@@ -1,0 +1,11 @@
+<div class="page-container">
+    <app-search-results 
+        [title]="'Progresso'" 
+        [subtitle]="'Visualização das métricas de execução dos planos'"
+        [tableHeaders]="headers" 
+        [data]="summaries" 
+        [loading]="loading"
+        [actions]="true"
+        (onView)="showDetails($event.userId, $event.planId, $event.executionId)">
+    </app-search-results>
+</div> 

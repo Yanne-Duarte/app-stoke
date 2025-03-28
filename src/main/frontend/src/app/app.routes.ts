@@ -20,6 +20,8 @@ import { NewsFormComponent } from './pages/news/components/news-form/news-form.c
 import { PlanoFormComponent } from './pages/plano/components/plano-form/plano-form.component';
 import { UserViewComponent } from './pages/users/components/user-view/user-view.component';
 import { ExecutarComponent } from './pages/plano/components/executar/executar.component';
+import { MetricasDetalheComponent } from './pages/metricas/components/metricas-detalhe/metricas-detalhe.component';
+import { MetricasComponent } from './pages/metricas/metricas.component';
 
 export const routes: Routes = [
   {
@@ -82,6 +84,15 @@ export const routes: Routes = [
             component: ExecutarComponent,
             data: { roles: ['USER'] },
           },
+        ],
+      },
+      {
+        path: 'metricas',
+        canActivate: [myGuardGuard],
+        data: { roles: ['USER', 'TECHNICAL'] },
+        children: [
+          { path: '', component: MetricasComponent },
+          { path: ':id', component: MetricasDetalheComponent },
         ],
       },
       {

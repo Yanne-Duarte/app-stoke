@@ -146,6 +146,14 @@ public class PlanExecutionMetricsService {
                     if (lastExecution != null) {
                         summary.setLastExecutionDate(lastExecution.format(DATE_FORMATTER));
                     }
+
+                    // Pegar o ID da última execução
+                    PlanExecutionMetrics lastExecutionMetrics = executions.stream()
+                        .max((a, b) -> a.getStartTime().compareTo(b.getStartTime()))
+                        .orElse(null);
+                    if (lastExecutionMetrics != null) {
+                        summary.setExecutionId(lastExecutionMetrics.getId());
+                    }
                 });
                 
                 return summary;
@@ -171,6 +179,20 @@ public class PlanExecutionMetricsService {
         return executions.stream()
             .map(this::convertToDetailDTO)
             .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public PlanExecutionDetailDTO getExecutionDetails(Long executionId) {
+        PlanExecutionMetrics metrics = metricsRepository.findById(executionId)
+            .orElseThrow(() -> new RuntimeException("Execution not found"));
+
+        // Verificar se o usuário atual tem acesso a esta execução
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!hasAccessToExecution(currentUser, metrics)) {
+            throw new RuntimeException("User does not have access to this execution");
+        }
+
+        return convertToDetailDTO(metrics);
     }
 
     private boolean hasAccessToPlan(User user, Plan plan) {

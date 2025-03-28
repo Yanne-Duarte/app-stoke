@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PlanExecutionSummaryDTO {
+    private Long executionId; // ID da execução específica
     private Integer userId;
     private String userName;
     private Long planId;
