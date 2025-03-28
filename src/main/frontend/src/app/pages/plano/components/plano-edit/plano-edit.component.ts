@@ -31,7 +31,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, F
                 type="text" 
                 class="form-control"
                 formControlName="userId"
-                placeholder="Digite o ID do utilizador">
+                placeholder="Escreva o ID do utilizador">
               <div class="invalid-feedback" *ngIf="planoForm.get('userId')?.errors?.['required'] && planoForm.get('userId')?.touched">
                 O ID do utilizador é obrigatório
               </div>
@@ -43,7 +43,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, F
                 id="description" 
                 class="form-control"
                 formControlName="description"
-                placeholder="Digite a descrição do plano"
+                placeholder="Escreva a descrição do plano"
                 rows="4">
               </textarea>
               <div class="invalid-feedback" *ngIf="planoForm.get('description')?.errors?.['required'] && planoForm.get('description')?.touched">

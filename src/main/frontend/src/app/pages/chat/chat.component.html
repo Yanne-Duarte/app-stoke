@@ -62,7 +62,7 @@
           <form [formGroup]="form" (ngSubmit)="sendMessage()" class="message-form">
             <input type="text" 
                    formControlName="mensagem" 
-                   placeholder="Digite sua mensagem..."
+                   placeholder="Escreva a sua mensagem..."
                    (keyup.enter)="sendMessage()">
             <button type="submit" [disabled]="!form.value.mensagem?.trim()">
               <i class="fas fa-paper-plane"></i>
@@ -95,7 +95,7 @@
         <form [formGroup]="form" (ngSubmit)="sendMessage()" class="message-form">
           <input type="text" 
                  formControlName="mensagem" 
-                 placeholder="Digite sua mensagem..."
+                 placeholder="Escreva a sua mensagem..."
                  (keyup.enter)="sendMessage()">
           <button type="submit" [disabled]="!form.value.mensagem?.trim()">
             <i class="fas fa-paper-plane"></i>

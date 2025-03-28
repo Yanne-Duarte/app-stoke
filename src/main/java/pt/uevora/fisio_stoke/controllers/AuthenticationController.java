@@ -50,7 +50,7 @@ public class AuthenticationController {
             Para usar o token retornado:
             1. Copie o valor do token da resposta
             2. Clique no botão 'Authorize' no topo da página
-            3. Digite 'Bearer ' seguido do token
+            3. Escreva 'Bearer ' seguido do token
             4. Clique em 'Authorize' e depois 'Close'
             5. Agora você pode fazer requisições autenticadas
             """,

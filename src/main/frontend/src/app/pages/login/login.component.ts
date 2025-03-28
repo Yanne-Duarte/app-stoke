@@ -59,7 +59,7 @@ export class LoginComponent {
           });
         },
         error: (error) => {
-          this.errorMessage = 'username ou senha inválidos';
+          this.errorMessage = 'Username ou password inválidos';
         },
       });
     }

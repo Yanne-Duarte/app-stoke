@@ -22,7 +22,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
             class="form-control" 
             id="description"
             formControlName="description"
-            placeholder="Digite uma descrição para o vídeo">
+            placeholder="Escreva uma descrição para o vídeo">
           <div class="invalid-feedback" *ngIf="descriptionForm.get('description')?.errors?.['required'] && descriptionForm.get('description')?.touched">
             A descrição é obrigatória
           </div>
