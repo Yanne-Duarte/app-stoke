@@ -13,6 +13,9 @@ import {
   NewsDTO,
   VideoRecordDTO,
   PlanDTO,
+  PlanExecutionMetricsDTO,
+  PlanExecutionSummaryDTO,
+  PlanExecutionDetailDTO,
 } from './models.dto';
 import { environment } from 'src/environments/environment.production';
 import { Injectable } from '@angular/core';
@@ -470,5 +473,28 @@ export class ApiService {
 
   deleteChatMessage(messageId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/chats/messages/${messageId}`);
+  }
+
+  //__________________________________________________________________________
+  // PLAN EXECUTION METRICS
+  //__________________________________________________________________________
+  startPlanExecution(planId: number): Observable<PlanExecutionMetricsDTO> {
+    return this.http.post<PlanExecutionMetricsDTO>(`${this.apiUrl}/plan-executions/start/${planId}`, {});
+  }
+
+  updatePlanExecution(executionId: number, metrics: Partial<PlanExecutionMetricsDTO>): Observable<PlanExecutionMetricsDTO> {
+    return this.http.patch<PlanExecutionMetricsDTO>(`${this.apiUrl}/plan-executions/${executionId}`, metrics);
+  }
+
+  getPlanExecutionSummary(): Observable<PlanExecutionSummaryDTO[]> {
+    return this.http.get<PlanExecutionSummaryDTO[]>(`${this.apiUrl}/plan-executions/summary`);
+  }
+
+  getPlanExecutionDetails(executionId: number): Observable<PlanExecutionDetailDTO> {
+    return this.http.get<PlanExecutionDetailDTO>(`${this.apiUrl}/plan-executions/${executionId}`);
+  }
+
+  getUserPlanExecutions(userId: number): Observable<PlanExecutionDetailDTO[]> {
+    return this.http.get<PlanExecutionDetailDTO[]>(`${this.apiUrl}/plan-executions/user/${userId}`);
   }
 }

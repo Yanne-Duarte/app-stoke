@@ -144,3 +144,37 @@ export interface PlanFilterDTO {
   validityDateStart?: string;
   validityDateEnd?: string;
 }
+
+export interface PlanExecutionMetricsDTO {
+  id?: number;
+  userId: number;
+  planId: number;
+  startTime: string;
+  endTime?: string;
+  totalDuration?: number; // in seconds
+  nextStepClicks: number;
+  previousStepClicks: number;
+  totalSteps: number;
+  currentStep: number;
+  completed: boolean;
+  stepTimings?: number[];
+}
+
+export interface PlanExecutionSummaryDTO {
+  userId: number;
+  userName: string;
+  planId: number;
+  planDescription: string;
+  totalExecutions: number;
+  averageDuration?: number;
+  lastExecutionDate?: string;
+}
+
+export interface PlanExecutionDetailDTO extends PlanExecutionMetricsDTO {
+  userName: string;
+  planDescription: string;
+  executionStepTimings?: {
+    stepNumber: number;
+    timeSpent: number; // in seconds
+  }[];
+}
