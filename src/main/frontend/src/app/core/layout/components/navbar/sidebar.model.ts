@@ -15,11 +15,11 @@ export class SidebarItem {
       icon: 'fas fa-chart-line',
       route: '/metricas',
     },
-    {
+    /*{
       label: 'Sessões',
       icon: 'fas fa-calendar-check',
       route: '/sessao',
-    },
+    },*/
     {
       label: 'Gravações',
       icon: 'fas fa-record-vinyl',
@@ -43,11 +43,11 @@ export class SidebarItem {
       icon: 'fas fa-layer-group',
       route: '/plano',
     },
-    {
+    /*{
       label: 'Sessões',
       icon: 'fas fa-calendar-check',
       route: '/sessao',
-    },
+    },*/
     {
       label: 'Mensagens',
       icon: 'fas fa-envelope',
@@ -81,7 +81,7 @@ export class SidebarItem {
       icon: 'fas fa-users',
       route: '/users',
     },
-    {
+    /* {
       label: 'Planos',
       icon: 'fas fa-layer-group',
       route: '/plano',
@@ -90,7 +90,7 @@ export class SidebarItem {
       label: 'Sessões',
       icon: 'fas fa-calendar-check',
       route: '/sessao',
-    },
+    }
     {
       label: 'Mensagens',
       icon: 'fas fa-envelope',
@@ -105,7 +105,7 @@ export class SidebarItem {
       label: 'Relatórios',
       icon: 'fas fa-chart-bar',
       route: '/reports',
-    },  
+    },,*/
     {
       label: 'Configurações',
       icon: 'fas fa-cog',

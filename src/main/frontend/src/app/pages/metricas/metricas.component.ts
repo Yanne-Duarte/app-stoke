@@ -24,7 +24,6 @@ export class MetricasComponent implements OnInit {
     {
       key: 'averageDuration',
       label: 'Duração Média',
-      transform: (value) => this.formatDuration(value),
     },
     {
       key: 'lastExecutionDate',
@@ -58,21 +57,5 @@ export class MetricasComponent implements OnInit {
 
   showDetails(userId: number, planId: number, executionId: number) {
     this.router.navigate(['/metricas', executionId]);
-  }
-
-  formatDuration(seconds?: number): string {
-    if (!seconds) return 'N/A';
-
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-
-    if (hours > 0) {
-      return `${hours}h ${minutes}m ${remainingSeconds}s`;
-    } else if (minutes > 0) {
-      return `${minutes}m ${remainingSeconds}s`;
-    } else {
-      return `${remainingSeconds}s`;
-    }
   }
 }

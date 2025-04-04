@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { GravarVideoComponent } from "../gravacoes/gravar/gravar-video.component";
+import { GravarVideoComponent } from '../gravacoes/gravar/gravar-video.component';
 import { RouterModule } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { NewsletterComponent } from "./newsletter/newsletter.component";
+import { NewsletterComponent } from './newsletter/newsletter.component';
 
 Chart.register(...registerables);
 Chart.register(ChartDataLabels);
@@ -13,56 +13,123 @@ Chart.register(ChartDataLabels);
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    NewsletterComponent
-],
+  imports: [CommonModule, RouterModule, NewsletterComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-  menuItems = [
+  menuItems: any; /*= [
     {
       title: 'Gravar',
       icon: 'fas fa-record-vinyl',
-      route: '/gravacoes/gravar'
+      route: '/gravacoes/gravar',
     },
-    {
+    / * {
       title: 'Sessões',
       icon: 'fas fa-calendar-alt',
       route: '/sessoes'
-    },
+    },* /
     {
       title: 'Gravações',
       icon: 'fas fa-video',
-      route: '/gravacoes'
+      route: '/gravacoes',
     },
     {
       title: 'Notificações',
       icon: 'fas fa-bell',
-      route: '/notificacoes'
+      route: '/notificacoes',
+    },
+    / *{
+      title: 'Mensagens',
+      icon: 'fas fa-envelope',
+      route: '/mensagens'
+    },* /
+    {
+      title: 'Progresso',
+      icon: 'fas fa-chart-line',
+      route: '/metricas',
+    },
+  ];*/
+
+  adminMenu = [
+    {
+      title: 'Gravar',
+      icon: 'fas fa-record-vinyl',
+      route: '/gravacoes/gravar',
+    },
+
+    {
+      title: 'Notificações',
+      icon: 'fas fa-bell',
+      route: '/notificacoes',
     },
     {
       title: 'Mensagens',
       icon: 'fas fa-envelope',
-      route: '/mensagens'
+      route: '/mensagens',
+    },
+  ];
+
+  technicalMenu = [
+    {
+      title: 'Notificações',
+      icon: 'fas fa-bell',
+      route: '/notificacoes',
+    },
+    {
+      title: 'Mensagens',
+      icon: 'fas fa-envelope',
+      route: '/mensagens',
     },
     {
       title: 'Progresso',
       icon: 'fas fa-chart-line',
-      route: '/progresso'
-    }
+      route: '/metricas',
+    },
   ];
 
+  userMenu = [
+    {
+      title: 'Gravar',
+      icon: 'fas fa-record-vinyl',
+      route: '/gravacoes/gravar',
+    },
+
+    /*{
+      title: 'Gravações',
+      icon: 'fas fa-video',
+      route: '/gravacoes',
+    },*/
+    {
+      title: 'Notificações',
+      icon: 'fas fa-bell',
+      route: '/notificacoes',
+    },
+
+    {
+      title: 'Progresso',
+      icon: 'fas fa-chart-line',
+      route: '/metricas',
+    },
+  ];
   constructor() {}
 
   ngOnInit() {
     this.createSessionsChart();
     this.createProgressChart();
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    console.log(user.perfil);
+    if (user.perfil === 'ADMIN') {
+      this.menuItems = this.adminMenu;
+    } else if (user.perfil === 'TECHNICAL') {
+      this.menuItems = this.technicalMenu;
+    } else if (user.perfil === 'USER') {
+      this.menuItems = this.userMenu;
+    }
   }
 
   createSessionsChart() {
-   /* const ctx = document.getElementById('sessionsChart') as HTMLCanvasElement;
+    /* const ctx = document.getElementById('sessionsChart') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -107,7 +174,7 @@ export class DashboardComponent implements OnInit {
   }
 
   createProgressChart() {
-   /* const ctx = document.getElementById('progressChart') as HTMLCanvasElement;
+    /* const ctx = document.getElementById('progressChart') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'line',
       data: {

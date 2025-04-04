@@ -9,6 +9,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import pt.uevora.fisio_stoke.services.impl.PlanService;
 import pt.uevora.fisio_stoke.services.impl.UserService;
@@ -73,8 +75,12 @@ public class PlanController {
     @Operation(summary = "Eliminar plano", description = "Elimina um plano existente (apenas perfil técnico)")
     @PreAuthorize("hasRole('TECHNICAL')")
     public ResponseEntity<Void> deletePlan(@PathVariable Long id) {
-        planService.deletePlan(id);
-        return ResponseEntity.ok().build();
+        try {
+            planService.deletePlan(id);
+            return ResponseEntity.ok().build();
+        } catch (IllegalStateException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")

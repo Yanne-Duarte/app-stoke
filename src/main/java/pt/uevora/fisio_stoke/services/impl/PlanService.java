@@ -12,6 +12,7 @@ import pt.uevora.fisio_stoke.entities.Plan;
 import pt.uevora.fisio_stoke.entities.User;
 import pt.uevora.fisio_stoke.repositories.PlanRepository;
 import pt.uevora.fisio_stoke.repositories.UserRepository;
+import pt.uevora.fisio_stoke.repositories.PlanExecutionMetricsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class PlanService {
     private final PlanRepository planRepository;
     private final UserRepository userRepository;
+    private final PlanExecutionMetricsRepository planExecutionMetricsRepository;
 
     public List<PlanDTO> getAllPlans(
             String userName,
@@ -85,6 +87,11 @@ public class PlanService {
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Plano não encontrado"));
         validatePlanAccess(plan);
+        
+        if (planExecutionMetricsRepository.existsByPlanId(id)) {
+            throw new IllegalStateException("Não é possível eliminar este plano pois existem métricas de execução associadas. Por favor, desative o plano em vez de o eliminar.");
+        }
+        
         planRepository.deleteById(id);
     }
 
@@ -179,7 +186,7 @@ public class PlanService {
                 entity.getUser().getFullName(),
                 entity.getUser().getUsername(),
                 entity.getUser().getBirthdate(),
-                null, // não enviar senha
+                null, // não enviar password
                 null, // não enviar token
                 entity.getUser().getPerfil().toString(),
                 entity.getUser().getPlano(),

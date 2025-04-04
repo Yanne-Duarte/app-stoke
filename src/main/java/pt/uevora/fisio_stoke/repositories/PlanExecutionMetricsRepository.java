@@ -21,4 +21,7 @@ public interface PlanExecutionMetricsRepository extends JpaRepository<PlanExecut
 
     @Query("SELECT m FROM PlanExecutionMetrics m WHERE m.user.id = :userId AND m.plan.createdBy = :createdBy")
     List<PlanExecutionMetrics> findByUserIdAndPlanCreatedBy(Integer userId, String createdBy);
+
+    @Query("SELECT COUNT(m) > 0 FROM PlanExecutionMetrics m WHERE m.plan.id = :planId")
+    boolean existsByPlanId(Long planId);
 } 
