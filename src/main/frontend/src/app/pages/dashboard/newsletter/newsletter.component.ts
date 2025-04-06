@@ -21,7 +21,9 @@ export class NewsletterComponent implements OnInit {
   private loadNewsletters(): void {
     this.ApiService.getAllNews().subscribe({
       next: (data) => {
-        this.newsletters = data;
+        this.newsletters = data.sort((a, b) => 
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       },
       error: (error) => {
         console.error('Error fetching newsletters:', error);
