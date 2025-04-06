@@ -20,6 +20,7 @@
         </div>
 
         <div class="filters-content" [class.collapsed]="isCollapsed">
+            
             <form [formGroup]="filterForm" class="filter-grid">
                 <div *ngFor="let field of filterFields" class="form-field">
                     <label [for]="field.name">{{field.label}}</label>

@@ -1,6 +1,6 @@
 .search-results {
   // width: 100%;
-  overflow: auto;
+  //overflow: auto;
 
   .search-results-header {
     display: flex;
@@ -26,7 +26,7 @@
   .results-card {
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     margin-bottom: 1rem;
     padding-inline: 1rem;
   }
@@ -53,25 +53,22 @@
     &.collapsed {
       display: none;
     }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+  }
+  @media (max-width: 778px) {
+    .filter-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
   }
 
-  .filter-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    width: 100%;
-
-    @media (max-width: 1024px) {
-      .filter-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .filter-grid {
-        grid-template-columns: 1fr;
-        width: 100%; /* Corrige o problema de ficar fora da tela */
-      }
+  @media (max-width: 576px) {
+    .filter-grid {
+      grid-template-columns: 1fr !important;
     }
   }
 
@@ -157,7 +154,7 @@
     position: relative;
     -webkit-overflow-scrolling: touch;
 
-    table { 
+    table {
       width: 100%;
       border-collapse: collapse;
       border-radius: 0;
@@ -190,7 +187,6 @@
           width: 300px;
           overflow-x: auto;
           overflow-y: hidden;
-
         }
       }
 
