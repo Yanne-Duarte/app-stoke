@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NewsListComponent } from './components/news-list/news-list.component';
-import { NewsFormComponent } from './components/news-form/news-form.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { NewsDTO } from '../../api/models.dto';
 import { ApiService } from '../../api/api.service';
-import { EditorComponent } from '../../core/layout/components/editor/editor.component';
 import { SearchResultsComponent } from '../../core/layout/components/search-results/search-results.component';
 import {
   FilterField,
