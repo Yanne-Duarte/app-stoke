@@ -20,7 +20,7 @@
     <div class="user-info" *ngIf="!isMobile()">
       <a [routerLink]="['/me']" style="color: #fff;">
         <i class="fas fa-user pe-2"></i>
-        <span class="user-name" >{{ fullName }}</span>
+        <span class="user-name">{{ fullName }}</span>
       </a>
     </div>
 
@@ -34,7 +34,7 @@
 
 <!-- Menu Mobile Overlay -->
 @if (isMobile()) {
-<div class="mobile-menu" [class.active]="isMobileMenuOpen">
+<div class="mobile-menu" [class.active]="isMobileMenuOpen"  >
   <div class="mobile-menu-header">
     <button class="close-menu-btn" (click)="toggleMobileMenu()">
       <i class="fas fa-times"></i>
@@ -43,7 +43,7 @@
 
   <!-- Informações do usuário -->
   <div class="mobile-user-info" (click)="toggleMobileMenu()">
-    <a [routerLink]="['/me']" >
+    <a [routerLink]="['/me']">
       <i class="fas fa-user pe-2"></i>
       <span class="user-name">{{ fullName }}</span>
     </a>

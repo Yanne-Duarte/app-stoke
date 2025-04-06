@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,22 +7,24 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ApiService } from '../../api/api.service';
-
+import { ApiService } from '../../api/api.service';  
 @Component({
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
   standalone: true,
 })
 export class LoginComponent {
+  
   loginForm: FormGroup;
   errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    
   ) {
     // Clear all data from local storage
     localStorage.clear();
