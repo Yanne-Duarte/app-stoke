@@ -23,14 +23,14 @@ export class NewsComponent implements OnInit {
 
   filterFields: FilterField[] = [
     { name: 'title', label: 'Título', type: 'text' },
-    { name: 'author', label: 'Autor', type: 'text' },
-    { name: 'date', label: 'Data', type: 'date' },
+    { name: 'authorName', label: 'Autor', type: 'text' },
+    { name: 'createdAt', label: 'Data', type: 'date' },
   ];
 
   headers: TableHeader[] = [
     { key: 'title', label: 'Título' },
-    { key: 'author', label: 'Autor' },
-    { key: 'date', label: 'Data' },
+    { key: 'authorName', label: 'Autor' },
+    { key: 'createdAt', label: 'Data' },
   ];
 
   constructor(

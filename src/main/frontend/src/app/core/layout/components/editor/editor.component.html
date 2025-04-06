@@ -6,6 +6,7 @@
       [placeholder]="quillConfig.placeholder"
       [theme]="quillConfig.theme"
       height="300px" 
+      (ngModelChange)="onContentChange()"
       class="editor">
     </quill-editor>
   </div>

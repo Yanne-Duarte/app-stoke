@@ -20,17 +20,17 @@ public class News {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, length = 2000)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Column(nullable = false)
-    private String author;
+    private String authorId;
 
     @Column(nullable = false)
-    private String category;
+    private String authorName;
 
     @Column(nullable = false)
-    private String date;
+    private String authorUsername;
 
     @Column(nullable = false)
     private boolean status;

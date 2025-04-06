@@ -11,8 +11,9 @@ public class NewsDTO {
     private Long id;
     private String title;
     private String content;
-    private String author;
-    private String category;
-    private String date;
+    private String authorId;
+    private String authorName;
+    private String authorUsername;
     private boolean status;
+    private String createdAt;
 } 

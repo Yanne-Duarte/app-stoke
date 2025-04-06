@@ -24,9 +24,10 @@ export interface NewsDTO {
   id: number;
   title: string;
   content: string;
-  author: string;
-  date: string;
-  category: string;
+  authorId: string;
+  authorName: string;
+  authorUsername: string;
+  createdAt: string;
   status: boolean;
 }
 

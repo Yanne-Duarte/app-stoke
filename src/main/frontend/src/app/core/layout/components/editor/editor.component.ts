@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import { QuillModule } from 'ngx-quill';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,8 +9,15 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, FormsModule, QuillModule],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => EditorComponent),
+      multi: true
+    }
+  ]
 })
-export class EditorComponent {
+export class EditorComponent implements ControlValueAccessor {
   content = '';
   
   quillConfig = {
@@ -35,4 +42,29 @@ export class EditorComponent {
     placeholder: 'Digite seu conteúdo aqui...',
     theme: 'snow'
   };
+
+  // Implementação do ControlValueAccessor
+  private onChange: any = () => {};
+  private onTouched: any = () => {};
+
+  writeValue(value: any): void {
+    this.content = value || '';
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    // Implementar se necessário
+  }
+
+  onContentChange(): void {
+    this.onChange(this.content);
+    this.onTouched();
+  }
 }

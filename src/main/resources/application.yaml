@@ -23,7 +23,7 @@ spring:
             sql:
               BasicBinder:
                 log: true
-    defer-datasource-initialization: true
+    defer-datasource-initialization: false
   servlet:
     multipart:
       max-file-size: 10MB

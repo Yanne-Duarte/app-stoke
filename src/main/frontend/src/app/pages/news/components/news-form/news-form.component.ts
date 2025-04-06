@@ -4,12 +4,15 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { NewsDTO } from '../../../../api/models.dto';
 import { ApiService } from '../../../../api/api.service';
+import { EditorComponent } from '../../../../core/layout/components/editor/editor.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-news-form',
   templateUrl: './news-form.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, EditorComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NewsFormComponent implements OnInit {
   newsForm: FormGroup;
@@ -25,11 +28,7 @@ export class NewsFormComponent implements OnInit {
   ) {
     this.newsForm = this.fb.group({
       title: ['', Validators.required],
-      content: ['', Validators.required],
-      author: ['', Validators.required],
-      category: ['', Validators.required],
-      date: ['', Validators.required],
-      status: [true]
+      content: ['', Validators.required]
     });
   }
 
@@ -46,7 +45,10 @@ export class NewsFormComponent implements OnInit {
     this.loading = true;
     this.apiService.getNewsById(id).subscribe({
       next: (news) => {
-        this.newsForm.patchValue(news);
+        this.newsForm.patchValue({
+          title: news.title,
+          content: news.content
+        });
         this.loading = false;
       },
       error: (error) => {
@@ -59,10 +61,13 @@ export class NewsFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.newsForm.valid) {
-      const newsData = this.newsForm.value;
+      const newsData: Partial<NewsDTO> = {
+        title: this.newsForm.value.title,
+        content: this.newsForm.value.content
+      };
       
       if (this.isEditing && this.newsId) {
-        this.apiService.updateNews(this.newsId, newsData).subscribe({
+        this.apiService.updateNews(this.newsId, newsData as NewsDTO).subscribe({
           next: () => {
             this.router.navigate(['/criar-conteudo']);
           },
@@ -71,7 +76,7 @@ export class NewsFormComponent implements OnInit {
           }
         });
       } else {
-        this.apiService.createNews(newsData).subscribe({
+        this.apiService.createNews(newsData as NewsDTO).subscribe({
           next: () => {
             this.router.navigate(['/criar-conteudo']);
           },
