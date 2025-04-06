@@ -8,9 +8,10 @@ import { NewsDTO } from '../../../api/models.dto';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './newsletter.component.html',
+  styleUrl: './newsletter.component.scss',
 })
 export class NewsletterComponent implements OnInit {
-  newsletters:  NewsDTO[] = [];
+  newsletters: NewsDTO[] = [];
 
   constructor(private ApiService: ApiService) {}
 
@@ -21,14 +22,15 @@ export class NewsletterComponent implements OnInit {
   private loadNewsletters(): void {
     this.ApiService.getAllNews().subscribe({
       next: (data) => {
-        this.newsletters = data.sort((a, b) => 
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        this.newsletters = data.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
       },
       error: (error) => {
         console.error('Error fetching newsletters:', error);
         // You might want to handle errors appropriately in your UI
-      }
+      },
     });
   }
 }

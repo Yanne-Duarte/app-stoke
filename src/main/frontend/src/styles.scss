@@ -77,6 +77,10 @@
   &-body {
     padding: 15px;
   }
+
+  &.sem-mb {
+    margin-bottom: 0px !important;
+  }
 }
 
 /* Alertas */
@@ -124,8 +128,6 @@
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
 }
-
- 
 
 //____________________________________________________
 //  PORTAL
@@ -1045,7 +1047,7 @@ a:hover {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin-top: 2rem;
+  //margin-top: 2rem;
 }
 
 .charts-container {

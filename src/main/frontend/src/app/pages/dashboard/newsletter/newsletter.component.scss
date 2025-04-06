@@ -1,0 +1,40 @@
+.newsletter-list {
+  .newsletter-item {
+    .newsletter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      
+      .author-date {
+        display: flex;
+        gap: 1rem;
+        color: #6c757d;
+      }
+      
+      .title {
+        text-align: right;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .newsletter-list {
+    .newsletter-item {
+      .newsletter-header {
+        flex-direction: column;
+        align-items: flex-start;
+        
+        .author-date {
+          margin-top: 0.5rem;
+        }
+        
+        .title {
+          text-align: left;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

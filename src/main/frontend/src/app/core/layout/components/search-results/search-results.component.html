@@ -15,8 +15,12 @@
     @if(filterFields.length > 0) {
     <div class="filters-card">
         <div class="filters-header" (click)="toggleCollapse()">
-            <h3>Filtros</h3>
-            <span class="collapse-icon" [class.collapsed]="isCollapsed">▼</span>
+            <h3>Filtros</h3> 
+            @if(isCollapsed) {
+            <i class="fa-solid fa-chevron-down" [class.collapsed]="isCollapsed"></i>
+            } @else {
+            <i class="fa-solid fa-chevron-up" [class.collapsed]="isCollapsed"></i>
+            }
         </div>
 
         <div class="filters-content" [class.collapsed]="isCollapsed">
@@ -59,44 +63,44 @@
 
     <!-- Results Section -->
     @if(isMobile()) {
-        <div class="mobile-cards">
-            @for(item of data; track item.id) {
-            <div class="mobile-card">
-                <div class="card-content">
-                    @for(header of tableHeaders; track header.key) {
-                        <div class="card-field">
-                            <span class="field-label">{{header.label}}:</span>
-                            <span class="field-value">{{item[header.key]}}</span>
-                        </div>
+    <div class="mobile-cards">
+        @for(item of data; track item.id) {
+        <div class="mobile-card">
+            <div class="card-content">
+                @for(header of tableHeaders; track header.key) {
+                <div class="card-field">
+                    <span class="field-label">{{header.label}}:</span>
+                    <span class="field-value">{{item[header.key]}}</span>
+                </div>
+                }
+            </div>
+            <div class="card-actions">
+                <div class="d-flex gap-2">
+                    @if(title === 'Gravações' || title !== 'Progresso') {
+                    <button (click)="handlePlay(item)" class="btn btn-sm btn-success" title="Reproduzir">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    }
+                    @if(title !== 'Gravações' ) {
+                    <button class="btn btn-secondary" (click)="handleView(item)" title="Ver">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    }
+                    @if(title !== 'Gravações' && title !== 'Progresso') {
+                    <button class="btn btn-primary" (click)="handleEdit(item)" title="Editar">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    }
+                    @if(title !== 'Progresso') {
+                    <button class="btn btn-danger" (click)="handleDelete(item)" title="Apagar">
+                        <i class="fas fa-trash"></i>
+                    </button>
                     }
                 </div>
-                <div class="card-actions"  >
-                    <div class="d-flex gap-2">
-                        @if(title === 'Gravações' || title !== 'Progresso') {
-                        <button (click)="handlePlay(item)" class="btn btn-sm btn-success" title="Reproduzir">
-                            <i class="fas fa-play"></i>
-                        </button>
-                        }
-                        @if(title !== 'Gravações' ) {
-                        <button class="btn btn-secondary" (click)="handleView(item)" title="Ver">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        }
-                        @if(title !== 'Gravações' && title !== 'Progresso') {
-                        <button class="btn btn-primary" (click)="handleEdit(item)" title="Editar">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                        }
-                        @if(title !== 'Progresso') {
-                        <button class="btn btn-danger" (click)="handleDelete(item)" title="Apagar">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        }
-                    </div>
-                </div>
             </div>
-            }
         </div>
+        }
+    </div>
     }
     @else {
     <div class="results-card">
@@ -164,7 +168,7 @@
 
                 <!-- No Results Message -->
                 <div *ngIf="data.length === 0" class="no-results">
-                    Não foram encontrados resultados
+                    <i class="fas fa-circle-exclamation" style="color: #6c757d;"></i> Não foram encontrados resultados
                 </div>
             </div>
         </div>

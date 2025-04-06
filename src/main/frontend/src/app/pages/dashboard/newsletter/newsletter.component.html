@@ -5,12 +5,15 @@
         <!-- Lista de Newsletters -->
         <div class="newsletter-list">
             <div *ngFor="let news of newsletters" class="m-4 newsletter-item">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="mb-0">{{ news.title }}</h4>
-                    <div class="d-flex gap-3 text-muted">
+                <div class="newsletter-header">
+                    <div class="title">
+                        <h4 class="mb-0">{{ news.title }}</h4>
+                    </div>
+                    <div class="author-date">
                         <span><i class="bi bi-person"></i> {{ news.authorName }}</span>
                         <span><i class="bi bi-calendar"></i> {{ news.createdAt | date:'yyyy/MM/dd' }}</span>
                     </div>
+
                 </div>
                 <div class="newsletter-content">
                     <div [innerHTML]="news.content"></div>
