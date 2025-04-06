@@ -1,6 +1,6 @@
-# FisioStoke Frontend
+# FisioStroke Frontend
 
-Este é o frontend da aplicação FisioStoke, desenvolvido em Angular 17.
+Este é o frontend da aplicação FisioStroke, desenvolvido em Angular 17.
 
 ## Requisitos
 

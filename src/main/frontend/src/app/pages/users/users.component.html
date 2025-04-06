@@ -26,7 +26,7 @@
             </ng-container>
 
             <ng-container *ngIf="column.key === 'fisioterapeuta'">
-                {{item.fisioterapeuta?.fullName || 'Sem fisioterapeuta'}}
+                {{item.fisioterapeuta?.fullName || ''}}
             </ng-container>
 
             <ng-container *ngIf="column.key === 'actions'">
