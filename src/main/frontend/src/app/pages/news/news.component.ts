@@ -7,17 +7,34 @@ import { NewsFormComponent } from './components/news-form/news-form.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { NewsDTO } from '../../api/models.dto';
 import { ApiService } from '../../api/api.service';
-import { EditorComponent } from "../../core/layout/components/editor/editor.component";
+import { EditorComponent } from '../../core/layout/components/editor/editor.component';
+import { SearchResultsComponent } from '../../core/layout/components/search-results/search-results.component';
+import {
+  FilterField,
+  TableHeader,
+} from '../../core/layout/components/search-results/search.model';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   standalone: true,
-  imports: [CommonModule, NewsListComponent, RouterModule, EditorComponent],
+  imports: [CommonModule, RouterModule, SearchResultsComponent],
 })
 export class NewsComponent implements OnInit {
   news: NewsDTO[] = [];
   loading = false;
+
+  filterFields: FilterField[] = [
+    { name: 'title', label: 'Título', type: 'text' },
+    { name: 'author', label: 'Autor', type: 'text' },
+    { name: 'date', label: 'Data', type: 'date' },
+  ];
+
+  headers: TableHeader[] = [
+    { key: 'title', label: 'Título' },
+    { key: 'author', label: 'Autor' },
+    { key: 'date', label: 'Data' },
+  ];
 
   constructor(
     private modalService: NgbModal,
@@ -39,21 +56,12 @@ export class NewsComponent implements OnInit {
       error: (error) => {
         console.error('Error loading news:', error);
         this.loading = false;
-      }
+      },
     });
   }
 
-  openCreateNewsModal(): void {
-    const modalRef = this.modalService.open(NewsFormComponent, { size: 'lg' });
-    modalRef.componentInstance.isEditing = false;
-    modalRef.result.then(
-      (result) => {
-        if (result) {
-          this.news.push({ ...result, id: this.news.length + 1 });
-        }
-      },
-      () => {}
-    );
+  navigateToCreate(): void {
+    this.router.navigate(['/criar-conteudo/criar']);
   }
 
   navigateToEdit(news: NewsDTO): void {
@@ -72,11 +80,20 @@ export class NewsComponent implements OnInit {
             },
             error: (error) => {
               console.error('Error deleting news:', error);
-            }
+            },
           });
         }
       },
       () => {}
     );
+  }
+
+  handleFilter(filters: any): void {
+    // Implement filter logic here
+    this.loadNews();
+  }
+
+  handleClear(): void {
+    this.loadNews();
   }
 }

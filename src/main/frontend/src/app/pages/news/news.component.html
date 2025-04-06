@@ -1,22 +1,6 @@
-<app-editor></app-editor>
-
-
-
-<div class="page-container">    
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1>Informações</h1>
-            <p>Gestão de informações</p>
-        </div>
-        <button class="btn btn-primary" [routerLink]="['/criar-conteudo/criar']">
-            <i class="fas fa-plus-circle me-2"></i>Nova Informação
-        </button>
-    </div>
-
-    <app-news-list 
-        [news]="news"
-        [loading]="loading" 
-        (onEdit)="navigateToEdit($event)"
-        (onDelete)="openDeleteConfirmation($event)">
-    </app-news-list>
-</div>
+<app-search-results [title]="'Informações'" [subtitle]="'Gestão de informações'" [newButtonLabel]="'Nova Informação'"
+    [btnClass]="'btn btn-primary'" [newButtonIcon]="'fas fa-plus-circle me-2'" [filterFields]="filterFields"
+    [tableHeaders]="headers" [data]="news" [loading]="loading" (onNew)="navigateToCreate()"
+    (onFilter)="handleFilter($event)" (onClear)="handleClear()" (onEdit)="navigateToEdit($event)"
+    (onDelete)="openDeleteConfirmation($event)" [actions]="true">
+</app-search-results>
