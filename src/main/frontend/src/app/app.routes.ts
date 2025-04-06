@@ -29,7 +29,7 @@ export const routes: Routes = [
     path: '',
     component: PortalComponent,
     children: [
-      { path: '', redirectTo: '', pathMatch: 'full' },
+      { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       {
         path: 'inicio',
         component: DashboardComponent,

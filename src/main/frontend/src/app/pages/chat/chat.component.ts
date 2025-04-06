@@ -21,6 +21,8 @@ interface ChatMessage {
   content: string;
   timestamp: Date;
   mensagem: string;
+  senderUser?: UserDTO;
+  recipientUser?: UserDTO;
 }
 
 @Component({
@@ -280,14 +282,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     this.apiService.getChatHistory(user1Id, user2Id).subscribe({
       next: (history: ChatMessage[]) => {
-        console.log('Chat history loaded:', history);
+        console.log('********************** Chat history loaded:', history);
         this.messages = history.map((msg: ChatMessage) => ({
           id: msg.id,
           sender: msg.sender,
           recipient: msg.recipient,
           content: msg.content,
           timestamp: new Date(msg.timestamp),
-          mensagem: msg.content
+          mensagem: msg.content,
+          senderUser: msg.senderUser,
+          recipientUser: msg.recipientUser
         }));
         this.scrollToBottom();
       },

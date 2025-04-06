@@ -114,7 +114,16 @@ public class ChatMessageService {
             }
         }
         
-        return chatMessageRepository.findChatHistory(currentUser);
+        // Get all messages for the current user
+        List<ChatMessage> allMessages = chatMessageRepository.findChatHistory(currentUser);
+        
+        // Filter messages to only include those between user1Id and user2Id
+        return allMessages.stream()
+            .filter(message -> 
+                (message.getSenderUser().getId().equals(user1Id) && message.getRecipientUser().getId().equals(user2Id)) ||
+                (message.getSenderUser().getId().equals(user2Id) && message.getRecipientUser().getId().equals(user1Id))
+            )
+            .toList();
     }
 
     public void deleteMessage(Long messageId) {

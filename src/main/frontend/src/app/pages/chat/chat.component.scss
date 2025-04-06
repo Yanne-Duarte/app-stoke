@@ -28,14 +28,15 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 550px;
   height: 500px;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   z-index: 1001;
+  width: fit-content;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  margin-left: 16px;
 
   .chat-header {
     padding: 15px;
@@ -139,7 +140,7 @@
       gap: 10px;
 
       .message {
-        max-width: 80%;
+        //  max-width: 80%;
         margin: 5px 0;
 
         &.message-sent {
@@ -187,11 +188,9 @@
         padding: 4px 8px;
         border-radius: 4px;
         transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 24px;
-        min-height: 24px;
+
+        min-width: 16px;
+        min-height: 16px;
 
         &:hover {
           background-color: rgba(220, 53, 69, 0.1);
@@ -210,7 +209,7 @@
           i {
             color: #fff;
           }
-          
+
           &:hover {
             background-color: rgba(255, 255, 255, 0.1);
           }
@@ -297,5 +296,3 @@
     }
   }
 }
-
- 
