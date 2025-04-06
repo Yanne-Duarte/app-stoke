@@ -1,0 +1,565 @@
+/*.chat-toggle-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  i {
+    font-size: 24px;
+  }
+}
+
+.chat-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: 500px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+  width: fit-content;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  margin-left: 16px;
+
+  .chat-header {
+    padding: 15px;
+    background: #007bff;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      margin: 0;
+      font-size: 1em;
+    }
+
+    i {
+      font-size: 1.2em;
+    }
+  }
+
+  .chat-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .chat-container {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background: white;
+
+      .technical-layout {
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        .patients-sidebar {
+          width: 25%;
+          background: #f8f9fa;
+          border-right: 1px solid #dee2e6;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+
+          h3 {
+            padding: 15px;
+            margin: 0;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 1em;
+            color: #333;
+          }
+
+          .patient-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+          }
+        }
+
+        .chat-area {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+      }
+
+      .user-layout {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+    }
+
+    .patient-item {
+      padding: 10px;
+      background: #e9ecef;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #dee2e6;
+      }
+
+      &.selected {
+        background: #007bff;
+        color: white;
+      }
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .message {
+        margin: 5px 0;
+
+        &.message-sent {
+          align-self: flex-end;
+          .message-content {
+            background: #007bff;
+            color: white;
+            border-radius: 15px 15px 0 15px;
+          }
+        }
+
+        &.message-received {
+          align-self: flex-start;
+          .message-content {
+            background: #e9ecef;
+            color: #212529;
+            border-radius: 15px 15px 15px 0;
+          }
+        }
+      }
+    }
+
+    .message-content {
+      padding: 10px;
+      position: relative;
+      max-width: 70%;
+
+      .message-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 5px;
+      }
+
+      .message-time {
+        font-size: 0.7em;
+        opacity: 0.7;
+      }
+
+      .delete-message-btn {
+        background: none;
+        border: none;
+        color: #dc3545;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        min-width: 16px;
+        min-height: 16px;
+
+        &:hover {
+          background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        i {
+          font-size: 1em;
+          color: #dc3545;
+        }
+      }
+    }
+
+    .message-sent {
+      .message-content {
+        .delete-message-btn {
+          i {
+            color: #fff;
+          }
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
+    }
+
+    .message-sender {
+      font-size: 0.8em;
+      margin-bottom: 5px;
+      opacity: 0.8;
+    }
+
+    .message-text {
+      margin-bottom: 5px;
+      word-wrap: break-word;
+    }
+
+    .message-time {
+      font-size: 0.7em;
+      opacity: 0.7;
+      text-align: right;
+    }
+
+    .message-form {
+      padding: 15px;
+      border-top: 1px solid #dee2e6;
+      display: flex;
+      gap: 10px;
+
+      input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #dee2e6;
+        border-radius: 20px;
+        outline: none;
+
+        &:focus {
+          border-color: #007bff;
+        }
+      }
+
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &:hover {
+          background: #0056b3;
+        }
+
+        &:disabled {
+          background: #ccc;
+          cursor: not-allowed;
+        }
+
+        i {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+
+  .no-chat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+
+    p {
+      margin: 5px 0;
+    }
+  }
+}
+*/
+
+.chat-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.technical-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  .patients-sidebar {
+    width: 30%;
+    background: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    h3 {
+      padding: 16px;
+      margin: 0;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 1.1em;
+      color: #333;
+      background: #f0f2f5;
+    }
+
+    .patient-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+  }
+
+  .chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #e5ddd5;
+  }
+}
+
+.user-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #e5ddd5;
+}
+
+.patient-item {
+  padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: #f5f5f5;
+  }
+
+  &.selected {
+    background: #e7f3ff;
+    color: #128c7e;
+    font-weight: 500;
+  }
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .message {
+    margin: 4px 0;
+    max-width: 65%;
+    position: relative;
+
+    &.message-sent {
+      align-self: flex-end;
+      .message-content {
+        background: #dcf8c6;
+        color: #303030;
+        border-radius: 8px 0 8px 8px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    &.message-received {
+      align-self: flex-start;
+      .message-content {
+        background: #ffffff;
+        color: #303030;
+        border-radius: 0 8px 8px 8px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+.message-content {
+  padding: 8px 12px;
+  position: relative;
+
+  .message-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .message-time {
+    font-size: 0.7em;
+    opacity: 0.7;
+  }
+
+  .delete-message-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    opacity: 0;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+
+    &:hover {
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+
+    i {
+      font-size: 0.9em;
+      color: #dc3545;
+    }
+  }
+}
+
+.message-content:hover .delete-message-btn {
+  opacity: 1;
+}
+
+.message-sent {
+  .message-content {
+    .delete-message-btn {
+      i {
+        color: #128c7e;
+      }
+
+      &:hover {
+        background-color: rgba(18, 140, 126, 0.1);
+      }
+    }
+  }
+}
+
+.message-sender {
+  font-size: 0.8em;
+  margin-bottom: 4px;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.message-text {
+  margin-bottom: 4px;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.message-time {
+  font-size: 0.7em;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.message-form {
+  padding: 12px 16px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  gap: 12px;
+  background: #f0f2f5;
+  align-items: center;
+
+  input {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 24px;
+    outline: none;
+    background: #ffffff;
+    font-size: 0.95em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    &:focus {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  button {
+    background: #128c7e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background: #075e54;
+      transform: scale(1.05);
+    }
+
+    &:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    i {
+      font-size: 1.1em;
+    }
+  }
+}
+
+.no-chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  background: #f0f2f5;
+
+  p {
+    margin: 5px 0;
+    font-size: 1.1em;
+  }
+}

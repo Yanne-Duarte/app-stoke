@@ -1,1 +1,48 @@
-mensagens
+<div class="chat-container" *ngIf="currentUser?.perfil === 'TECHNICAL' || currentUser?.fisioterapeuta">
+    <!-- Layout para usuário técnico -->
+    <div class="technical-layout" *ngIf="currentUser?.perfil === 'TECHNICAL'">
+        <!-- Lista de pacientes -->
+        <div class="patients-sidebar">
+            <h3>Utentes</h3>
+            <div class="patient-list">
+                <div *ngFor="let patient of patients" class="patient-item"
+                    [class.selected]="selectedPatient?.id === patient.id" (click)="selectPatient(patient)">
+                    {{ patient.fullName }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Área do chat -->
+        <div class="chat-area">
+            <div class="messages" #messagesContainer>
+                <div *ngFor="let message of messages" class="message"
+                    [ngClass]="{'message-sent': message.sender === currentUser?.username, 'message-received': message.sender !== currentUser?.username}">
+                    <div class="message-content">
+                        <!--<div class="message-sender">{{message.senderUser?.fullName}}</div>-->
+                        <div class="message-text">{{message.content}}</div>
+                        <div class="message-footer">
+                            <span class="message-time">{{message.timestamp | date:'yyyy/MM/dd HH:mm'}}</span>
+
+                        </div>
+                        <button *ngIf="message.sender === currentUser?.username && message.id"
+                            class="delete-message-btn" (click)="deleteMessage(message.id)">
+                            <i class="fas fa-trash  "></i>
+                        </button>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="sendMessage()" class="message-form">
+                <input type="text" formControlName="mensagem" placeholder="Escreva a sua mensagem..."
+                    (keyup.enter)="sendMessage()">
+                <button type="submit" [disabled]="!form.value.mensagem?.trim()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+</div>
