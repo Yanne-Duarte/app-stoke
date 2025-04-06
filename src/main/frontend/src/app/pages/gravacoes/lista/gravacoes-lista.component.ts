@@ -28,7 +28,6 @@ export class GravacoesListaComponent implements OnInit {
     { key: 'duration', label: 'Duração', useTemplate: true },
     { key: 'timestamp', label: 'Data de Criação', useTemplate: true },
     { key: 'size', label: 'Tamanho', useTemplate: true },
-    { key: 'actions', label: 'Ações' },
   ];
   perfil: any;
 

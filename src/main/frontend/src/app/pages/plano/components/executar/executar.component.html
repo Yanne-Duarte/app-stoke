@@ -14,10 +14,10 @@
                             <strong>Descrição:</strong> {{ plano.description }}
                         </div>
                         <div>
-                            <strong>Data de Criação:</strong> {{ plano.creationDate | date:'dd/MM/yyyy HH:mm' }}
+                            <strong>Data de Criação:</strong> {{ plano.creationDate | date:'yyyy/MM/dd HH:mm' }}
                         </div>
                         <div>
-                            <strong>Data de Validade:</strong> {{ plano.validityDate | date:'dd/MM/yyyy HH:mm' }}
+                            <strong>Data de Validade:</strong> {{ plano.validityDate | date:'yyyy/MM/dd HH:mm' }}
                         </div>
                         <div>
                             <strong>Estado:</strong> {{ isEnabled() ? 'Ativo' : 'Inativo' }}

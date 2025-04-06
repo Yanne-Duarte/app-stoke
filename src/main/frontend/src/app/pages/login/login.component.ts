@@ -50,8 +50,8 @@ export class LoginComponent {
             next: (userData) => {
               // Store complete user data
               localStorage.setItem('user', JSON.stringify(userData));
-              // Navigate to dashboard
-              this.router.navigate(['/dashboard']);
+              // Navigate to inicio
+              this.router.navigate(['/inicio']);
             },
             error: (error) => {
               console.error('Error fetching user data:', error);

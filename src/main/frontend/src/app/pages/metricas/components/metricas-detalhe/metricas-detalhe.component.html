@@ -27,10 +27,10 @@
               <strong>Plano:</strong> {{ execution.planDescription }}
             </li>
             <li class="list-group-item">
-              <strong>Data de Início:</strong> {{ execution.startTime | date:'dd/MM/yyyy HH:mm' }}
+              <strong>Data de Início:</strong> {{ execution.startTime | date:'yyyy/MM/dd HH:mm' }}
             </li>
             <li class="list-group-item">
-              <strong>Data de Fim:</strong> {{ execution.endTime | date:'dd/MM/yyyy HH:mm' }}
+              <strong>Data de Fim:</strong> {{ execution.endTime | date:'yyyy/MM/dd HH:mm' }}
             </li>
             <li class="list-group-item">
               <strong>Duração Total:</strong> {{ formatDuration(execution.totalDuration) }}

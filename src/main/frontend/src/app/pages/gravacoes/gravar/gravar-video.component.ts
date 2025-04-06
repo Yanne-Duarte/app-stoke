@@ -37,6 +37,7 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
   private durationInterval: any;
   private startTime: number = 0;
   isSaving = false;
+  username: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +49,13 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
     this.route.fragment.subscribe((fragment) => {
       this.lastID = fragment || '0000___';
     });
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.username = user.username || this.generatedRandowName();
+  }
+
+  generatedRandowName() {
+    return Math.random().toString(36).substring(2, 8);
   }
 
   async ngOnInit() {
@@ -160,7 +168,7 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
   private async saveRecording() {
     const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
     const timestamp = new Date();
-    const fileName = `___${this.lastID}___.webm`;
+    const fileName = `FS__${this.username}__${this.lastID}`;
 
     try {
       this.isSaving = true;

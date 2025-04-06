@@ -22,15 +22,16 @@ import { UserViewComponent } from './pages/users/components/user-view/user-view.
 import { ExecutarComponent } from './pages/plano/components/executar/executar.component';
 import { MetricasDetalheComponent } from './pages/metricas/components/metricas-detalhe/metricas-detalhe.component';
 import { MetricasComponent } from './pages/metricas/metricas.component';
+import { MeComponent } from './pages/me/me.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: PortalComponent,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: '', pathMatch: 'full' },
       {
-        path: 'dashboard',
+        path: 'inicio',
         component: DashboardComponent,
         canActivate: [myGuardGuard],
         data: { roles: ['ADMIN', 'TECHNICAL', 'USER'] },
@@ -55,6 +56,12 @@ export const routes: Routes = [
         component: SettingsComponent,
         canActivate: [myGuardGuard],
         data: { roles: ['ADMIN'] },
+      },
+      {
+        path: 'me',
+        component: MeComponent,
+        canActivate: [myGuardGuard],
+        data: { roles: ['ADMIN', 'TECHNICAL', 'USER'] },
       },
       {
         path: 'reports',
@@ -138,7 +145,7 @@ export const routes: Routes = [
     ],
   },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'dashboard' },
+  { path: '**', redirectTo: 'inicio' },
 ];
 
 /*import { Routes } from '@angular/router';

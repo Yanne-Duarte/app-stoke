@@ -4,7 +4,7 @@
         (onView)="showDetails($event.userId, $event.planId, $event.executionId)">
         <ng-template #customCell let-value let-item="item" let-column="column">
             <ng-container *ngIf="column.key === 'lastExecutionDate'">
-                {{ item.lastExecutionDate | date:'dd/MM/yyyy HH:mm' }}
+                {{ item.lastExecutionDate | date:'yyyy/MM/dd HH:mm' }}
             </ng-container>
         </ng-template>
     </app-search-results>

@@ -19,8 +19,10 @@
 
     <!-- Informações do utilizador (esconder em mobile) -->
     <div class="user-info" *ngIf="!isMobile">
-      <i class="fas fa-user"></i>
-      <span class="user-name">{{ fullName }}</span>
+      <a [routerLink]="['/me']" style="color: #fff;">
+        <i class="fas fa-user pe-2"></i>
+        <span class="user-name" >{{ fullName }}</span>
+      </a>
     </div>
 
     <!-- Botão de logout (esconder em mobile) -->
@@ -42,8 +44,10 @@
 
   <!-- Informações do usuário -->
   <div class="mobile-user-info">
-    <i class="fas fa-user"></i>
-    <span class="user-name">{{ fullName }}</span>
+    <a [routerLink]="['/me']" >
+      <i class="fas fa-user pe-2"></i>
+      <span class="user-name">{{ fullName }}</span>
+    </a>
   </div>
 
   <!-- Menu de navegação -->

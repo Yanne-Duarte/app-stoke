@@ -1,9 +1,9 @@
 export class SidebarItem {
   static userMenu = [
     {
-      label: 'Dashboard',
+      label: 'Início',
       icon: 'fas fa-home',
-      route: '/dashboard',
+      route: '/inicio',
     },
     {
       label: 'Planos',
@@ -29,9 +29,9 @@ export class SidebarItem {
 
   static technicalMenu = [
     {
-      label: 'Dashboard',
+      label: 'Início',
       icon: 'fas fa-home',
-      route: '/dashboard',
+      route: '/inicio',
     },
     {
       label: 'Utilizadores',
@@ -72,9 +72,9 @@ export class SidebarItem {
 
   static adminMenu = [
     {
-      label: 'Dashboard',
+      label: 'Início',
       icon: 'fas fa-home',
-      route: '/dashboard',
+      route: '/inicio',
     },
     {
       label: 'Utilizadores',

@@ -37,7 +37,7 @@
           <tr *ngFor="let sessao of sessoes">
             <td>{{sessao.nomeUtente}}</td>
             <td>{{sessao.titulo}}</td>
-            <td>{{sessao.dataInicio | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td>{{sessao.dataInicio | date:'yyyy/MM/dd HH:mm'}}</td>
             <td>{{sessao.duracao}} min</td>
             <td>{{sessao.local}}</td>
             <td class="d-flex gap-2">

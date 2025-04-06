@@ -65,10 +65,10 @@
           </div>
         </td>
         <td>{{ plano.description }}</td>
-        <td>{{ plano.creationDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ plano.creationDate | date:'yyyy/MM/dd HH:mm' }}</td>
         <td>
           <div class="d-flex align-items-center gap-2">
-            {{ plano.validityDate | date:'dd/MM/yyyy HH:mm' }}
+            {{ plano.validityDate | date:'yyyy/MM/dd HH:mm' }}
             <button class="btn btn-sm btn-outline-primary" (click)="atualizarValidityDate(plano, plano.validityDate)">
               <i class="fas fa-calendar"></i>
             </button>

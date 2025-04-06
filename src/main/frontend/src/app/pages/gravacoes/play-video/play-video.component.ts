@@ -37,7 +37,7 @@ export class PlayVideoComponent implements OnDestroy {
     const file = event.target.files[0];
     if (file) {
       this.videoFile = file;
-      this.uploadedFileName = file.name;
+      this.uploadedFileName = file.name.split('.')[0];
       // Create blob URL when file is selected
       if (this.videoUrl) {
         URL.revokeObjectURL(this.videoUrl);
@@ -47,7 +47,7 @@ export class PlayVideoComponent implements OnDestroy {
   }
 
   onConfirm() {
-    if (this.uploadedFileName === this.videoName) {
+    if (this.uploadedFileName.split('.')[0] === this.videoName.split('.')[0]) {
       this.isPlaying = true;
       this.result.emit(true);
       // Add a small delay to ensure the video element is ready

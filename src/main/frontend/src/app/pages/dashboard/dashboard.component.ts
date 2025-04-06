@@ -17,46 +17,14 @@ Chart.register(ChartDataLabels);
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-  menuItems: any; /*= [
-    {
+  menuItems: any;
+  adminMenu = [
+    /* {
       title: 'Gravar',
       icon: 'fas fa-record-vinyl',
-      route: '/gravacoes/gravar',
-    },
-    / * {
-      title: 'Sessões',
-      icon: 'fas fa-calendar-alt',
-      route: '/sessoes'
-    },* /
-    {
-      title: 'Gravações',
-      icon: 'fas fa-video',
       route: '/gravacoes',
     },
-    {
-      title: 'Notificações',
-      icon: 'fas fa-bell',
-      route: '/notificacoes',
-    },
-    / *{
-      title: 'Mensagens',
-      icon: 'fas fa-envelope',
-      route: '/mensagens'
-    },* /
-    {
-      title: 'Progresso',
-      icon: 'fas fa-chart-line',
-      route: '/metricas',
-    },
-  ];*/
-
-  adminMenu = [
-    {
-      title: 'Gravar',
-      icon: 'fas fa-record-vinyl',
-      route: '/gravacoes/gravar',
-    },
-
+*/
     {
       title: 'Notificações',
       icon: 'fas fa-bell',
@@ -91,7 +59,7 @@ export class DashboardComponent implements OnInit {
     {
       title: 'Gravar',
       icon: 'fas fa-record-vinyl',
-      route: '/gravacoes/gravar',
+      route: '/gravacoes',
     },
 
     /*{
@@ -111,6 +79,8 @@ export class DashboardComponent implements OnInit {
       route: '/metricas',
     },
   ];
+
+  today = new Date();
   constructor() {}
 
   ngOnInit() {
@@ -118,7 +88,7 @@ export class DashboardComponent implements OnInit {
     this.createProgressChart();
 
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    console.log(user.perfil);
+
     if (user.perfil === 'ADMIN') {
       this.menuItems = this.adminMenu;
     } else if (user.perfil === 'TECHNICAL') {

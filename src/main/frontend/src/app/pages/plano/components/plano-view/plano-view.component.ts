@@ -50,11 +50,11 @@ import { PlanDTO } from '../../../../api/models.dto';
           <div class="row mb-3">
             <div class="col-md-6">
               <h5>Data de Criação</h5>
-              <p>{{ plano.creationDate | date:'dd/MM/yyyy HH:mm' }}</p>
+              <p>{{ plano.creationDate | date:'yyyy/MM/dd HH:mm' }}</p>
             </div>
             <div class="col-md-6">
               <h5>Data de Validade</h5>
-              <p>{{ plano.validityDate | date:'dd/MM/yyyy HH:mm' }}</p>
+              <p>{{ plano.validityDate | date:'yyyy/MM/dd HH:mm' }}</p>
             </div>
           </div>
 
