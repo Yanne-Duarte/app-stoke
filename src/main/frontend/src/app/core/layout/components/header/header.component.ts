@@ -4,12 +4,16 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
+  computed,
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { SidebarItem } from '../navbar/sidebar.model';
+import { PlatformService } from '../../../../api/platform.service';
 
 @Component({
   selector: 'app-header',
@@ -17,11 +21,11 @@ import { SidebarItem } from '../navbar/sidebar.model';
   imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent implements OnInit, OnChanges {
+export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   @Input() unreadCount = 0;
   @Input() fullName: any;
 
-  isMobile: boolean = false;
+  isMobile = computed(() => this.platformService.isMobile());
   isMobileMenuOpen: boolean = false;
   menuItems!: any[];
 
@@ -36,18 +40,17 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
   private _perfil: string = '';
 
-  constructor(private router: Router, private apiService: ApiService) {
-    this.checkScreenSize();
+  constructor(
+    private router: Router, 
+    private apiService: ApiService,
+    private platformService: PlatformService
+  ) {
+    effect(() => {
+      console.log('***************** Mobile status changed:', this.isMobile());
+    });
   }
 
   ngOnInit() {
-    // Adicionar listener para mudanças no tamanho da tela
-    window.addEventListener('resize', () => {
-      this.checkScreenSize();
-    });
-
-    // Configuração inicial
-    this.checkScreenSize();
     this.configureMenuItems();
   }
 
@@ -62,10 +65,6 @@ export class HeaderComponent implements OnInit, OnChanges {
     } else if (this.perfil === 'USER') {
       this.menuItems = SidebarItem.userMenu;
     }
-  }
-
-  checkScreenSize() {
-    this.isMobile = window.innerWidth < 778;
   }
 
   toggleMobileMenu() {
@@ -88,11 +87,12 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnDestroy() {
-    window.removeEventListener('resize', () => this.checkScreenSize());
+    // Cleanup se necessário
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['perfil']) {
+      this.configureMenuItems();
     }
   }
 }

@@ -20,7 +20,7 @@
         </div>
 
         <div class="filters-content" [class.collapsed]="isCollapsed">
-            
+
             <form [formGroup]="filterForm" class="filter-grid">
                 <div *ngFor="let field of filterFields" class="form-field">
                     <label [for]="field.name">{{field.label}}</label>
@@ -58,6 +58,47 @@
     }
 
     <!-- Results Section -->
+    @if(isMobile()) {
+        <div class="mobile-cards">
+            @for(item of data; track item.id) {
+            <div class="mobile-card">
+                <div class="card-content">
+                    @for(header of tableHeaders; track header.key) {
+                        <div class="card-field">
+                            <span class="field-label">{{header.label}}:</span>
+                            <span class="field-value">{{item[header.key]}}</span>
+                        </div>
+                    }
+                </div>
+                <div class="card-actions"  >
+                    <div class="d-flex gap-2">
+                        @if(title === 'Gravações' || title !== 'Progresso') {
+                        <button (click)="handlePlay(item)" class="btn btn-sm btn-success" title="Reproduzir">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        }
+                        @if(title !== 'Gravações' ) {
+                        <button class="btn btn-secondary" (click)="handleView(item)" title="Ver">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        }
+                        @if(title !== 'Gravações' && title !== 'Progresso') {
+                        <button class="btn btn-primary" (click)="handleEdit(item)" title="Editar">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        }
+                        @if(title !== 'Progresso') {
+                        <button class="btn btn-danger" (click)="handleDelete(item)" title="Apagar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    }
+    @else {
     <div class="results-card">
         <!-- Loading State -->
         <div *ngIf="loading" class="loading">
@@ -128,4 +169,5 @@
             </div>
         </div>
     </div>
+    }
 </div>

@@ -6,10 +6,13 @@ import {
   OnInit,
   ContentChild,
   TemplateRef,
+  computed,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FilterField, TableHeader } from './search.model';
+import { PlatformService } from 'src/app/api/platform.service';
 
 @Component({
   selector: 'app-search-results',
@@ -19,6 +22,7 @@ import { FilterField, TableHeader } from './search.model';
   imports: [CommonModule, ReactiveFormsModule],
 })
 export class SearchResultsComponent implements OnInit {
+  private platformService = inject(PlatformService);
   @Input() title = '';
   @Input() subtitle = '';
   @Input() newButtonLabel = '';
@@ -41,8 +45,10 @@ export class SearchResultsComponent implements OnInit {
 
   @ContentChild('customCell') customCell!: TemplateRef<any>;
 
+  isMobile = computed(() => this.platformService.isMobile());
+
   filterForm: FormGroup;
-  isCollapsed = false;
+  isCollapsed = true;
 
   // Listas padrão para selects
   readonly lista1 = [

@@ -1,12 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlatformService {
-  isMobile(): boolean {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
+  private readonly MOBILE_BREAKPOINT = 1024; // Breakpoint para dispositivos móveis e tablets
+  
+  private isMobileSignal = signal(this.checkIfMobile());
+  public isMobile = this.isMobileSignal.asReadonly();
+
+  constructor() {
+    // Observa mudanças no tamanho da janela
+    window.addEventListener('resize', () => {
+      this.isMobileSignal.set(this.checkIfMobile());
+    });
+ 
+  }
+
+  private checkIfMobile(): boolean {
+    return (
+      window.innerWidth <= this.MOBILE_BREAKPOINT ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
     );
   }
 

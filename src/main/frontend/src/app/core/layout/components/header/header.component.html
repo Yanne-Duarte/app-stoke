@@ -2,7 +2,6 @@
   <!-- Lado esquerdo -->
   <div class="header-left">
     <!-- Botão menu mobile -->
-
     <img src="assets/images/favicon.ico" alt="Logo" class="logo">
   </div>
 
@@ -13,12 +12,12 @@
       <i class="fas fa-bell"></i>
       <span class="badge" *ngIf="unreadCount > 0">{{unreadCount}}</span>
     </div>
-    <div class="menu-mobile-btn" (click)="toggleMobileMenu()" *ngIf="isMobile">
+    <div class="menu-mobile-btn" (click)="toggleMobileMenu()" *ngIf="isMobile()">
       <i class="fas fa-bars"></i>
     </div>
 
     <!-- Informações do utilizador (esconder em mobile) -->
-    <div class="user-info" *ngIf="!isMobile">
+    <div class="user-info" *ngIf="!isMobile()">
       <a [routerLink]="['/me']" style="color: #fff;">
         <i class="fas fa-user pe-2"></i>
         <span class="user-name" >{{ fullName }}</span>
@@ -26,7 +25,7 @@
     </div>
 
     <!-- Botão de logout (esconder em mobile) -->
-    <div class="logout" (click)="logout()" *ngIf="!isMobile">
+    <div class="logout" (click)="logout()" *ngIf="!isMobile()">
       <i class="fas fa-sign-out-alt"></i>
       <span>Terminar Sessão</span>
     </div>
@@ -34,7 +33,7 @@
 </header>
 
 <!-- Menu Mobile Overlay -->
-@if (isMobile) {
+@if (isMobile()) {
 <div class="mobile-menu" [class.active]="isMobileMenuOpen">
   <div class="mobile-menu-header">
     <button class="close-menu-btn" (click)="toggleMobileMenu()">
@@ -43,7 +42,7 @@
   </div>
 
   <!-- Informações do usuário -->
-  <div class="mobile-user-info">
+  <div class="mobile-user-info" (click)="toggleMobileMenu()">
     <a [routerLink]="['/me']" >
       <i class="fas fa-user pe-2"></i>
       <span class="user-name">{{ fullName }}</span>
@@ -61,7 +60,6 @@
       </li>
     </ul>
   </nav>
-
 
   <!-- Botão de logout -->
   <div class="mobile-logout" (click)="logout()">
