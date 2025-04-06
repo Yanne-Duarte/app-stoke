@@ -1,11 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { UserDTO } from '../../api/models.dto';
 
 @Component({
   selector: 'app-me',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './me.component.html',
-  styleUrl: './me.component.scss'
+  styleUrl: './me.component.scss',
 })
-export class MeComponent {
+export class MeComponent implements OnInit {
+  userData: any;
 
+  ngOnInit() {
+    const userDataString = localStorage.getItem('user');
+    if (userDataString) {
+      this.userData = JSON.parse(userDataString);
+    }
+  }
 }
