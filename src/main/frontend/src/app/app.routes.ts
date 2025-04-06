@@ -17,6 +17,7 @@ import { myGuardGuard } from './_security/my-guard.guard';
 import { UserFormComponent } from './pages/users/components/user-form/user-form.component';
 import { NotificacaoCreateComponent } from './pages/notificacoes/components/notificacao-create/notificacao-create.component';
 import { NewsFormComponent } from './pages/news/components/news-form/news-form.component';
+import { NewsDetailComponent } from './pages/news/components/news-detail/news-detail.component';
 import { PlanoFormComponent } from './pages/plano/components/plano-form/plano-form.component';
 import { UserViewComponent } from './pages/users/components/user-view/user-view.component';
 import { ExecutarComponent } from './pages/plano/components/executar/executar.component';
@@ -140,6 +141,7 @@ export const routes: Routes = [
           { path: '', component: NewsComponent },
           { path: 'criar', component: NewsFormComponent },
           { path: 'editar/:id', component: NewsFormComponent },
+          { path: ':id', component: NewsDetailComponent },
         ],
       },
     ],

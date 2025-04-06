@@ -2,5 +2,5 @@
     [btnClass]="'btn btn-primary'" [newButtonIcon]="'fas fa-plus-circle me-2'" [filterFields]="filterFields"
     [tableHeaders]="headers" [data]="news" [loading]="loading" (onNew)="navigateToCreate()"
     (onFilter)="handleFilter($event)" (onClear)="handleClear()" (onEdit)="navigateToEdit($event)"
-    (onDelete)="openDeleteConfirmation($event)" [actions]="true">
+    (onView)="navigateToView($event)" (onDelete)="openDeleteConfirmation($event)" [actions]="true">
 </app-search-results>

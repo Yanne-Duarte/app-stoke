@@ -61,9 +61,12 @@ export class NewsFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.newsForm.valid) {
+      const formValue = this.newsForm.value;
+      console.log('Form content:', formValue.content);
+      
       const newsData: Partial<NewsDTO> = {
-        title: this.newsForm.value.title,
-        content: this.newsForm.value.content
+        title: formValue.title.trim(),
+        content: formValue.content
       };
       
       if (this.isEditing && this.newsId) {
@@ -73,6 +76,7 @@ export class NewsFormComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error updating news:', error);
+            alert('Erro ao atualizar a notícia. Por favor, tente novamente.');
           }
         });
       } else {
@@ -82,6 +86,7 @@ export class NewsFormComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error creating news:', error);
+            alert('Erro ao criar a notícia. Por favor, tente novamente.');
           }
         });
       }

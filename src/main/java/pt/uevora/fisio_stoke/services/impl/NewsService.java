@@ -38,10 +38,20 @@ public class NewsService {
     }
 
     public NewsDTO createNews(NewsDTO newsDTO) {
+        // Validate content
+        if (newsDTO.getContent() == null || newsDTO.getContent().trim().isEmpty()) {
+            throw new IllegalArgumentException("Content cannot be empty");
+        }
+        
+        // Validate title
+        if (newsDTO.getTitle() == null || newsDTO.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
+        
         News news = new News();
         
         // Copiar apenas título e conteúdo do DTO
-        news.setTitle(newsDTO.getTitle());
+        news.setTitle(newsDTO.getTitle().trim());
         news.setContent(newsDTO.getContent());
         
         // Definir status como true por padrão
@@ -63,11 +73,21 @@ public class NewsService {
     }
 
     public NewsDTO updateNews(Long id, NewsDTO newsDTO) {
+        // Validate content
+        if (newsDTO.getContent() == null || newsDTO.getContent().trim().isEmpty()) {
+            throw new IllegalArgumentException("Content cannot be empty");
+        }
+        
+        // Validate title
+        if (newsDTO.getTitle() == null || newsDTO.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
+        
         News existingNews = newsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("News not found"));
         
         // Atualizar apenas título e conteúdo
-        existingNews.setTitle(newsDTO.getTitle());
+        existingNews.setTitle(newsDTO.getTitle().trim());
         existingNews.setContent(newsDTO.getContent());
         
         existingNews = newsRepository.save(existingNews);

@@ -65,6 +65,10 @@ export class NewsComponent implements OnInit {
     this.router.navigate(['/criar-conteudo/editar', news.id]);
   }
 
+  navigateToView(news: NewsDTO): void {
+    this.router.navigate(['/criar-conteudo', news.id]);
+  }
+
   openDeleteConfirmation(news: NewsDTO): void {
     const modalRef = this.modalService.open(DeleteConfirmationComponent);
     modalRef.componentInstance.news = news;

@@ -1,0 +1,33 @@
+<div class="page-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Detalhes da Notícia</h1>
+        </div>
+    </div>
+
+    <div class="card" *ngIf="!loading && news">
+        <div class="card-body">
+            <div class="mb-4">
+                <div class="text-muted mb-2">
+                    <small>
+                        <i class="fas fa-user me-1"></i> {{news.authorName}} | 
+                        <i class="fas fa-calendar me-1"></i> {{news.createdAt | date:'dd/MM/yyyy HH:mm'}}
+                    </small>
+                </div>
+                <h2 class="card-title">{{news.title}}</h2>
+            </div>
+
+            <div class="news-content" [innerHTML]="safeContent"></div>
+        </div>
+    </div>
+
+    <div class="text-center" *ngIf="loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="!loading && !news">
+        Não foi possível carregar a notícia.
+    </div>
+</div> 
