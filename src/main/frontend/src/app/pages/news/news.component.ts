@@ -7,12 +7,13 @@ import { NewsFormComponent } from './components/news-form/news-form.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { NewsDTO } from '../../api/models.dto';
 import { ApiService } from '../../api/api.service';
+import { EditorComponent } from "../../core/layout/components/editor/editor.component";
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   standalone: true,
-  imports: [CommonModule, NewsListComponent, RouterModule],
+  imports: [CommonModule, NewsListComponent, RouterModule, EditorComponent],
 })
 export class NewsComponent implements OnInit {
   news: NewsDTO[] = [];

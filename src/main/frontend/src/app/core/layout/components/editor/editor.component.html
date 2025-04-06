@@ -1,0 +1,17 @@
+<div class="editor-container">
+  <div class="editor-wrapper">
+    <quill-editor
+      [(ngModel)]="content"
+      [modules]="quillConfig.modules"
+      [placeholder]="quillConfig.placeholder"
+      [theme]="quillConfig.theme"
+      height="300px" 
+      class="editor">
+    </quill-editor>
+  </div>
+  
+  <div class="preview-container" *ngIf="content">
+    <h3>Prévia</h3>
+    <div class="preview-content" [innerHTML]="content"></div>
+  </div>
+</div>
