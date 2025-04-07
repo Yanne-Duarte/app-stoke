@@ -10,11 +10,11 @@ import { Sessao } from 'src/app/api/models.dto';
 })
 export class EditarSessaoComponent {
   @Input() sessao!: Sessao;
-  @Output() salvar = new EventEmitter<Sessao>();
+  @Output() Guardar = new EventEmitter<Sessao>();
   @Output() cancelar = new EventEmitter<void>();
 
   atualizarSessao() {
-    this.salvar.emit(this.sessao);
+    this.Guardar.emit(this.sessao);
   }
 
   cancelarEdicao() {

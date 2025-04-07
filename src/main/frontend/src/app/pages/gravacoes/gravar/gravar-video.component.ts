@@ -173,7 +173,7 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
     try {
       this.isSaving = true;
 
-      // Salvar o arquivo localmente
+      // Guardar o arquivo localmente
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.style.display = 'none';
@@ -228,8 +228,8 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
 
       this.router.navigate(['/gravacoes']);
     } catch (error) {
-      console.error('Erro ao salvar gravação:', error);
-      this.recordingError = 'Erro ao salvar a gravação.';
+      console.error('Erro ao Guardar gravação:', error);
+      this.recordingError = 'Erro ao Guardar a gravação.';
     } finally {
       this.isSaving = false;
     }

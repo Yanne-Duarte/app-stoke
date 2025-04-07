@@ -205,7 +205,7 @@ export class PlanoEditComponent implements OnInit {
           this.router.navigate(['/plano']);
         },
         error: (error) => {
-          this.error = 'Erro ao salvar plano: ' + error.message;
+          this.error = 'Erro ao Guardar plano: ' + error.message;
           this.saving = false;
         }
       });

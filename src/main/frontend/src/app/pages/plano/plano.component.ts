@@ -19,6 +19,7 @@ import { ApiService } from 'src/app/api/api.service';
   templateUrl: './plano.component.html',
 })
 export class PlanoComponent implements OnInit {
+  canCreatePlano: boolean;
   handlePlay(item: any) {
     this.router.navigate([item.id, 'executar'], { relativeTo: this.route });
   }
@@ -61,6 +62,7 @@ export class PlanoComponent implements OnInit {
   ) {
     this.canPlayPlano =
       JSON.parse(localStorage.getItem('user') ?? '').perfil === 'USER' || false;
+    this.canCreatePlano = !this.canPlayPlano;
   }
 
   ngOnInit() {
@@ -68,7 +70,11 @@ export class PlanoComponent implements OnInit {
   }
 
   handleNew() {
-    this.router.navigate(['criar'], { relativeTo: this.route });
+    if (this.canCreatePlano) {
+      this.router.navigate(['criar'], { relativeTo: this.route });
+    } else {
+      console.warn('Não tem permissão para criar planos');
+    }
   }
   handleDelete(plano: PlanDTO) {
     const modalRef = this.modalService.open(PlanoDeleteModalComponent);

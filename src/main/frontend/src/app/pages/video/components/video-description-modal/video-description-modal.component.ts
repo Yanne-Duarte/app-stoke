@@ -33,7 +33,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
       <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!descriptionForm.valid">
-        Salvar
+        Guardar
       </button>
     </div>
   `

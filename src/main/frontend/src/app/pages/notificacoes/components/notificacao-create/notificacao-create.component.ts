@@ -39,7 +39,7 @@ import { ApiService } from '../../../../api/api.service';
             </div>
             <div class="d-flex justify-content-end gap-2">
               <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
-              <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Salvar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Guardar</button>
             </div>
           </form>
         </div>

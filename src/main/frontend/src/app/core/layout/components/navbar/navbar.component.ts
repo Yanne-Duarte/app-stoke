@@ -8,6 +8,7 @@ import { SidebarItem } from './sidebar.model';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
   @Input() perfil: any;
