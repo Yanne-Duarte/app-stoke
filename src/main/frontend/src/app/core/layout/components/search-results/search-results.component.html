@@ -3,6 +3,7 @@
     <div class="search-results-header">
         <div class="title-section">
             <h1>{{title}}</h1>
+            <p *ngIf="subtitle">{{subtitle}}</p>
         </div>
         <button *ngIf="newButtonLabel" [class]="btnClass" (click)="onNew.emit()">
             <i *ngIf="newButtonIcon" [class]="newButtonIcon"></i>
@@ -10,7 +11,7 @@
         </button>
     </div>
 
-    <p *ngIf="subtitle">{{subtitle}}</p>
+
     <!-- Filters Section -->
     @if(filterFields.length > 0) {
     <div class="filters-card">
@@ -53,10 +54,10 @@
             </form>
 
             <div class="filter-actions">
-                <button class="btn btn-secondary w-100" (click)="clearFilters()">
+                <button class="btn btn-secondary" (click)="clearFilters()">
                     Limpar Filtros
                 </button>
-                <button class="btn btn-primary w-100" (click)="applyFilters()">
+                <button class="btn btn-primary" (click)="applyFilters()">
                     Pesquisar
                 </button>
             </div>

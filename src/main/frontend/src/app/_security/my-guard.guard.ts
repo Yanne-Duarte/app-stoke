@@ -28,7 +28,7 @@ export const myGuardGuard: CanActivateFn = (route, state) => {
   try {
     const userData = JSON.parse(user);
     cachedUserRole = userData.perfil;
-    
+
     if (!cachedUserRole || !allowedRoles.includes(cachedUserRole)) {
       router.navigate(['/login']);
       return false;

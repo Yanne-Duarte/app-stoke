@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 44px;
-  padding-inline: 12px; 
+  padding-inline: 8px;
   border-radius: 4px;
   border: 1px solid #ddd;
 }
@@ -12,7 +12,11 @@
   box-shadow: none;
   height: 42px;
   margin-right: 4px;
+  margin-block: 0px !important;
+  padding-block: 0px !important;
 }
 .icon {
   border: none;
+  margin-block: 0px !important;
+  padding-block: 0px !important;
 }
