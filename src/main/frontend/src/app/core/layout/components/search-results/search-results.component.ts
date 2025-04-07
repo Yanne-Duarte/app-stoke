@@ -13,13 +13,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FilterField, TableHeader } from './search.model';
 import { PlatformService } from 'src/app/api/platform.service';
-
+import { DatepickerComponent } from '../datepicker/datepicker.component';
 @Component({
   selector: 'app-search-results',
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DatepickerComponent],
 })
 export class SearchResultsComponent implements OnInit {
   private platformService = inject(PlatformService);

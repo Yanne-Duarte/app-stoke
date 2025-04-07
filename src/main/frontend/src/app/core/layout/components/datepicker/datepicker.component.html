@@ -1,1 +1,5 @@
-<p>datepicker works!</p>
+<div class="input-group">
+  <input class="form-control form-field" placeholder="yyyy-mm-dd" name="dp" [formControlName]="form.get('data')?.value"
+    ngbDatepicker #d="ngbDatepicker" />
+  <span class="icon fa-regular fa-calendar" (click)="d.toggle()" type="button"></span>
+</div>
