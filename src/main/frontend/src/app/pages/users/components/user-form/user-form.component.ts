@@ -10,11 +10,12 @@ import { UserDTO } from '../../../../api/models.dto';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { UpdateUserByAdminDto } from '../../../../api/models.dto';
+import { DatepickerComponent } from 'src/app/core/layout/components/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, DatepickerComponent],
   standalone: true,
 })
 export class UserFormComponent implements OnInit {

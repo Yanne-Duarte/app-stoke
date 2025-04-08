@@ -290,18 +290,7 @@ export class ApiService {
   updateUser(id: number, userDTO: UserDTO): Observable<UserDTO> {
     return this.http.put<UserDTO>(`${this.apiUrl}/users/${id}`, userDTO, {});
   }
-
-  // Atualizar utilizador
-  updateUserStatus(
-    id: number,
-    userStatusDTO: UserStatusDTO
-  ): Observable<UserDTO> {
-    return this.http.patch<UserDTO>(
-      `${this.apiUrl}/users/${id}/status`,
-      userStatusDTO
-    );
-  }
-
+ 
   // Deletar utilizador
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/users/${id}`, {});

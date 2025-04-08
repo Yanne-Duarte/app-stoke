@@ -22,7 +22,7 @@ import { ActionType } from 'src/app/core/layout/components/search-results/search
   templateUrl: './users.component.html',
 })
 export class UsersComponent implements OnInit {
-  availableActions: ActionType[] = ['view', 'edit', 'delete', 'status'];
+  availableActions: ActionType[] = ['view', 'edit', 'status', 'delete'];
   users: UserDTO[] = [];
   loading = false;
   filterFields: FilterField[] = [

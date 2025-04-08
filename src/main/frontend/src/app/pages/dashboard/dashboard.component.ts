@@ -24,8 +24,7 @@ export class DashboardComponent implements OnInit {
       icon: 'fas fa-record-vinyl',
       route: '/gravacoes',
     },
-*/
-    {
+*{
       title: 'Notificações',
       icon: 'fas fa-bell',
       route: '/notificacoes',
@@ -34,7 +33,7 @@ export class DashboardComponent implements OnInit {
       title: 'Mensagens',
       icon: 'fas fa-envelope',
       route: '/mensagens',
-    },
+    },*/
   ];
 
   technicalMenu = [
