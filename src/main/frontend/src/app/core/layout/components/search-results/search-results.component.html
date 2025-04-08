@@ -41,7 +41,7 @@
                             [formControlName]="field.name">-->
 
 
-                        <app-datepicker *ngSwitchCase="'date'" [formControlName]="field.name"></app-datepicker>
+                        <app-datepicker *ngSwitchCase="'date'" [id]="field.name" [formControlName]="field.name"></app-datepicker>
 
                         <select *ngSwitchCase="'select'" [id]="field.name" [formControlName]="field.name">
                             <option value="">Selecione...</option>

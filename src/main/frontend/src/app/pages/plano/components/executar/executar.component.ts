@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { PlanDTO, PlanExecutionMetricsDTO } from '../../../../api/models.dto';
+import { PlayVideoComponent } from "../../../gravacoes/play-video/play-video.component";
+import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-executar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PlayVideoComponent, NgbModalModule ],
   templateUrl: './executar.component.html',
   styleUrls: ['./executar.component.scss']
 })
@@ -19,11 +21,13 @@ export class ExecutarComponent implements OnInit, OnDestroy {
   executionMetrics?: PlanExecutionMetricsDTO;
   stepStartTime: number = 0;
   private stepTimings: { stepNumber: number; timeSpent: number }[] = [];
+  perfil: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {
@@ -33,6 +37,8 @@ export class ExecutarComponent implements OnInit, OnDestroy {
     } else {
       this.error = 'ID do plano não fornecido';
     }
+
+    this.perfil = JSON.parse(localStorage.getItem('user') ?? '').perfil;
   }
 
   ngOnDestroy() {
@@ -160,5 +166,24 @@ export class ExecutarComponent implements OnInit, OnDestroy {
 
   isEnabled(): boolean {
     return this.plano?.enabled ?? false;
+  }
+
+  handlePlay(exercise: any) {
+    const modalRef = this.modalService.open(PlayVideoComponent, {
+      size: 'lg',
+      centered: true,
+    });
+    modalRef.componentInstance.videoName = exercise.videoPath;
+    modalRef.componentInstance.perfil = this.perfil;
+
+    modalRef.componentInstance.result.subscribe((result: boolean) => {
+      if (result) {
+        // Video was successfully played
+        console.log('Video played successfully');
+      } else {
+        // User cancelled or there was an error
+        console.log('Video playback cancelled or failed');
+      }
+    });
   }
 }

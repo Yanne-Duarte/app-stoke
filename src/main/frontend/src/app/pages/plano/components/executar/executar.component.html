@@ -61,6 +61,9 @@
                         <!-- Aqui você pode adicionar o player de vídeo quando tiver o caminho do vídeo -->
                         <div class="video-container" *ngIf="plano.exercises[currentStep].videoPath">
                             <p>Vídeo: {{ plano.exercises[currentStep].videoPath }}</p>
+                            <button class="btn btn-primary" (click)="handlePlay(plano.exercises[currentStep])">
+                                <i class="fas fa-play"></i> Reproduzir Vídeo
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,8 @@ import {
   TemplateRef,
   computed,
   inject,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +23,7 @@ import { DatepickerComponent } from '../datepicker/datepicker.component';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, DatepickerComponent],
 })
-export class SearchResultsComponent implements OnInit {
+export class SearchResultsComponent implements OnInit, OnChanges {
   private platformService = inject(PlatformService);
   @Input() title = '';
   @Input() subtitle = '';
@@ -65,7 +67,20 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Construir form dinamicamente
+    this.initializeForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['filterFields'] && !changes['filterFields'].firstChange) {
+      this.initializeForm();
+    }
+  }
+
+  private initializeForm() {
+    // Clear existing form
+    this.filterForm = this.fb.group({});
+    
+    // Add controls for each filter field
     this.filterFields.forEach((field) => {
       this.filterForm.addControl(field.name, this.fb.control(''));
     });
