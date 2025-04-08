@@ -29,8 +29,6 @@ export class PlanoComponent implements OnInit {
     { key: 'creationDate', label: 'Data de Criação', useTemplate: true },
     { key: 'validityDate', label: 'Data de Validade', useTemplate: true },
     { key: 'enabled', label: 'Estado', useTemplate: true },
-
-    { key: 'actions', label: 'Ações', useTemplate: true },
   ];
   filterFields: FilterField[] = [
     { name: 'userName', label: 'Utente', type: 'text' },
@@ -62,8 +60,8 @@ export class PlanoComponent implements OnInit {
   ) {
     this.canPlayPlano =
       JSON.parse(localStorage.getItem('user') ?? '').perfil === 'USER' || false;
-    
-      this.canCreatePlano =
+
+    this.canCreatePlano =
       JSON.parse(localStorage.getItem('user') ?? '').perfil === 'TECHNICAL' ||
       false;
   }

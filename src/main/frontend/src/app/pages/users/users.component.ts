@@ -13,6 +13,7 @@ import {
   FilterField,
   TableHeader,
 } from 'src/app/core/layout/components/search-results/search.model';
+import { ActionType } from 'src/app/core/layout/components/search-results/search.model';
 
 @Component({
   selector: 'app-users',
@@ -21,6 +22,7 @@ import {
   templateUrl: './users.component.html',
 })
 export class UsersComponent implements OnInit {
+  availableActions: ActionType[] = ['view', 'edit', 'delete', 'status'];
   users: UserDTO[] = [];
   loading = false;
   filterFields: FilterField[] = [

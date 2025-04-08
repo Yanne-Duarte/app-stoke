@@ -1,27 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { NotificacaoDeleteComponent } from './components/notificacao-delete/notificacao-delete.component';
-import { NotificacaoListComponent } from './components/notificacao-list/notificacao-list.component';
 import { ApiService } from '../../api/api.service';
 import { NotificationDTO } from '../../api/models.dto';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SearchResultsComponent } from '../../core/layout/components/search-results/search-results.component';
+import { FilterField, TableHeader } from '../../core/layout/components/search-results/search.model';
 
 @Component({
   selector: 'app-notificacoes',
   templateUrl: './notificacoes.component.html',
+  styleUrls: ['./notificacoes.component.scss'],
   standalone: true,
-  imports: [CommonModule, NotificacaoListComponent, RouterModule],
+  imports: [CommonModule, SearchResultsComponent, RouterModule],
 })
 export class NotificacoesComponent implements OnInit {
-  isCollapsed = true;
   notificacoes: NotificationDTO[] = [];
   loading = false;
 
+  filterFields: FilterField[] = [
+    {
+      name: 'startDate',
+      label: 'Data Início',
+      type: 'date'
+    },
+    {
+      name: 'endDate',
+      label: 'Data Fim',
+      type: 'date'
+    },
+    {
+      name: 'readStatus',
+      label: 'Status',
+      type: 'select',
+      options: [
+        { id: '', value: 'Todos' },
+        { id: 'lida', value: 'Lida' },
+        { id: 'nao_lida', value: 'Não Lida' }
+      ]
+    }
+  ];
+
+  tableHeaders: TableHeader[] = [
+    { key: 'senderName', label: 'Remetente' },
+    { key: 'title', label: 'Título' },
+    { key: 'message', label: 'Mensagem', useTemplate: true },
+    { 
+      key: 'createdAt', 
+      label: 'Data',
+      useTemplate: true,
+    },
+    { 
+      key: 'read', 
+      label: 'Lido', 
+      useTemplate: true,
+    }
+  ];
+
   constructor(
     private modalService: NgbModal,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -86,14 +127,7 @@ export class NotificacoesComponent implements OnInit {
     );
   }
 
-  markAllAsRead() {
-    this.apiService.markAllAsRead().subscribe({
-      next: () => {
-        this.loadNotifications(); // Refresh list after marking all as read
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Error marking all as read:', error);
-      }
-    });
+  navigateToCreate() {
+    this.router.navigate(['/notificacoes/criar']);
   }
 }

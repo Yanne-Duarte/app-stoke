@@ -38,6 +38,8 @@ export class SearchResultsComponent implements OnInit, OnChanges {
   @Input() availableActions: ActionType[] = [];
   @Input() statusField = 'status'; // Campo que contém o status do item
   @Input() checkStatusRow = false; // Controla se a verificação de status deve ser feita
+  @Input() readField = 'read'; // Campo que contém o estado de leitura do item
+  @Input() checkReadRow = false; // Controla se a verificação de leitura deve ser feita
 
   @Input() canCreate = false;
 
@@ -50,6 +52,7 @@ export class SearchResultsComponent implements OnInit, OnChanges {
   @Output() onPlay = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
   @Output() onStatus = new EventEmitter<any>();
+  @Output() onRead = new EventEmitter<any>();
 
   @ContentChild('customCell') customCell!: TemplateRef<any>;
 
@@ -129,6 +132,10 @@ export class SearchResultsComponent implements OnInit, OnChanges {
     this.onStatus.emit(row);
   }
 
+  handleRead(row: any) {
+    this.onRead.emit(row);
+  }
+
   shouldShowAction(actionType: ActionType): boolean {
     // Lógica padrão para mostrar/ocultar ações
     if (actionType === 'play' && (this.title === 'Gravações' || this.title !== 'Progresso')) {
@@ -151,10 +158,21 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       return true;
     }
     
+    if (actionType === 'read') {
+      return true;
+    }
+    
     return false;
   }
 
-  getActionIcon(actionType: ActionType): string {
+  getActionIcon(actionType: ActionType, item?: any): string {
+    // Se for o botão de leitura, checkReadRow for true e tiver um item, personaliza o ícone
+    if (actionType === 'read' && this.checkReadRow && item) {
+      const isRead = item[this.readField];
+      return isRead === true ? 'fas fa-envelope-open' : 'fas fa-envelope';
+    }
+    
+    // Para outros tipos de ação, usa o ícone padrão
     switch (actionType) {
       case 'view': return 'fas fa-eye';
       case 'edit': return 'fas fa-pencil-alt';
@@ -163,6 +181,7 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       case 'update': return 'fas fa-sync';
       case 'create': return 'fas fa-plus';
       case 'status': return 'fas fa-user-check'; // Ícone mais sugestivo para alterar status
+      case 'read': return 'fas fa-envelope-open'; // Ícone padrão caso não tenha item ou checkReadRow seja false
       default: return '';
     }
   }
@@ -174,6 +193,12 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       return status === true ? 'btn-outline-success' : 'btn-outline-danger';
     }
     
+    // Se for o botão de leitura, checkReadRow for true e tiver um item, verifica o estado de leitura
+    if (actionType === 'read' && this.checkReadRow && item) {
+      const isRead = item[this.readField];
+      return isRead === true ? 'btn-outline-success' : 'btn-outline-primary';
+    }
+    
     // Para outros tipos de ação, usa a classe padrão
     switch (actionType) {
       case 'view': return 'btn-outline-secondary';
@@ -183,6 +208,7 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       case 'update': return 'btn-outline-info';
       case 'create': return 'btn-outline-success';
       case 'status': return 'btn-outline-warning'; // Classe padrão caso não tenha item ou checkStatusRow seja false
+      case 'read': return 'btn-outline-primary'; // Classe padrão caso não tenha item ou checkReadRow seja false
       default: return 'btn-outline-secondary';
     }
   }
@@ -194,6 +220,12 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       return status === true ? 'Desativar' : 'Ativar';
     }
     
+    // Se for o botão de leitura, checkReadRow for true e tiver um item, personaliza o título
+    if (actionType === 'read' && this.checkReadRow && item) {
+      const isRead = item[this.readField];
+      return isRead === true ? 'Marcar como não lida' : 'Marcar como lida';
+    }
+    
     // Para outros tipos de ação, usa o título padrão
     switch (actionType) {
       case 'view': return 'Ver';
@@ -203,6 +235,7 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       case 'update': return 'Atualizar';
       case 'create': return 'Criar';
       case 'status': return 'Alterar Status';
+      case 'read': return 'Alterar Leitura';
       default: return actionType;
     }
   }

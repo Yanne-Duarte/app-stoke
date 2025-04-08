@@ -1,0 +1,46 @@
+<div class="page-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Nova Notificação</h1>
+            <p>Criar uma nova notificação no sistema</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form #form="ngForm" (ngSubmit)="save()">
+                <div class="mb-3">
+                    <label class="form-label">Destinatário</label>
+                    <select class="form-select" name="recipientUserId" [(ngModel)]="notification.recipientUserId"
+                        required [disabled]="loading">
+                        <option value="">Selecione um destinatário</option>
+                        <option *ngFor="let recipient of recipients" [value]="recipient.id">
+                            {{ recipient.label }}
+                        </option>
+                    </select>
+                    <div *ngIf="loading" class="mt-2">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <span class="ms-2">Carregando utilizadores...</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Título</label>
+                    <input type="text" class="form-control" name="title" [(ngModel)]="notification.title" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mensagem</label>
+                    <textarea class="form-control" name="message" [(ngModel)]="notification.message" required
+                        rows="3"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"
+                        [disabled]="!form.form.valid || loading">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

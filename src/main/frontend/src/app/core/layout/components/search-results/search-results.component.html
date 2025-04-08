@@ -91,9 +91,10 @@
                         actionType === 'delete' ? handleDelete(item) :
                         actionType === 'play' ? handlePlay(item) :
                         actionType === 'update' ? handleUpdate(item) :
-                        actionType === 'status' ? handleStatus(item) : null
+                        actionType === 'status' ? handleStatus(item) :
+                        actionType === 'read' ? handleRead(item) : null
                         " [title]="getActionTitle(actionType, item)">
-                        <i [class]="getActionIcon(actionType)"></i>
+                        <i [class]="getActionIcon(actionType, item)"></i>
                     </button>
                     }
                     }
@@ -117,7 +118,7 @@
                     <thead>
                         <tr>
                             <th *ngFor="let header of tableHeaders">{{header.label}}</th>
-                            <th *ngIf="availableActions.length > 0">Ações</th>
+                            <th *ngIf="availableActions.length > 0" class="actions-column">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -138,7 +139,7 @@
                                     {{item[header.key]}}
                                 </ng-template>
                             </td>
-                            <td *ngIf="availableActions.length > 0">
+                            <td *ngIf="availableActions.length > 0" class="actions-column">
                                 <div class="d-flex gap-2">
                                     @for(actionType of availableActions; track actionType) {
                                     @if(shouldShowAction(actionType)) {
@@ -148,9 +149,10 @@
                                         actionType === 'delete' ? handleDelete(item) :
                                         actionType === 'play' ? handlePlay(item) :
                                         actionType === 'update' ? handleUpdate(item) :
-                                        actionType === 'status' ? handleStatus(item) : null
+                                        actionType === 'status' ? handleStatus(item) :
+                                        actionType === 'read' ? handleRead(item) : null
                                         " [title]="getActionTitle(actionType, item)">
-                                        <i [class]="getActionIcon(actionType)"></i>
+                                        <i [class]="getActionIcon(actionType, item)"></i>
                                     </button>
                                     }
                                     }

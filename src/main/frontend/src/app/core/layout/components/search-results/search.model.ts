@@ -12,4 +12,4 @@ export interface TableHeader {
   transform?: (value: any) => string;
 }
 
-export type ActionType = 'view' | 'edit' | 'delete' | 'play' | 'create' | 'update' | 'status';
+export type ActionType = 'view' | 'edit' | 'delete' | 'play' | 'create' | 'update' | 'status' | 'read';
