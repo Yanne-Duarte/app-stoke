@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { PlanDTO, PlanExecutionMetricsDTO } from '../../../../api/models.dto';
-import { PlayVideoComponent } from "../../../gravacoes/play-video/play-video.component";
+import { PlayVideoComponent } from '../../../gravacoes/play-video/play-video.component';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-executar',
   standalone: true,
-  imports: [CommonModule, PlayVideoComponent, NgbModalModule ],
+  imports: [CommonModule, NgbModalModule],
   templateUrl: './executar.component.html',
-  styleUrls: ['./executar.component.scss']
+  styleUrls: ['./executar.component.scss'],
 })
 export class ExecutarComponent implements OnInit, OnDestroy {
   plano?: PlanDTO;
@@ -27,7 +27,7 @@ export class ExecutarComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private apiService: ApiService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class ExecutarComponent implements OnInit, OnDestroy {
       error: (error) => {
         this.error = 'Erro ao carregar plano: ' + error.message;
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -73,7 +73,7 @@ export class ExecutarComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Erro ao iniciar execução:', error);
-      }
+      },
     });
   }
 
@@ -86,7 +86,7 @@ export class ExecutarComponent implements OnInit, OnDestroy {
     // Record timing for current step
     this.stepTimings.push({
       stepNumber: this.currentStep,
-      timeSpent: timeSpent
+      timeSpent: timeSpent,
     });
 
     // Update metrics
@@ -94,19 +94,23 @@ export class ExecutarComponent implements OnInit, OnDestroy {
     this.executionMetrics.nextStepClicks = this.nextStepClicks;
     this.executionMetrics.previousStepClicks = this.previousStepClicks;
     this.executionMetrics.totalSteps = this.plano?.exercises?.length || 0;
-    this.executionMetrics.stepTimings = this.stepTimings.map(timing => timing.timeSpent);
+    this.executionMetrics.stepTimings = this.stepTimings.map(
+      (timing) => timing.timeSpent
+    );
 
-    this.apiService.updatePlanExecution(this.executionMetrics.id!, {
-      currentStep: this.currentStep,
-      nextStepClicks: this.nextStepClicks,
-      previousStepClicks: this.previousStepClicks,
-      totalSteps: this.plano?.exercises?.length || 0,
-      stepTimings: this.stepTimings.map(timing => timing.timeSpent)
-    }).subscribe({
-      error: (error) => {
-        console.error('Erro ao atualizar métricas:', error);
-      }
-    });
+    this.apiService
+      .updatePlanExecution(this.executionMetrics.id!, {
+        currentStep: this.currentStep,
+        nextStepClicks: this.nextStepClicks,
+        previousStepClicks: this.previousStepClicks,
+        totalSteps: this.plano?.exercises?.length || 0,
+        stepTimings: this.stepTimings.map((timing) => timing.timeSpent),
+      })
+      .subscribe({
+        error: (error) => {
+          console.error('Erro ao atualizar métricas:', error);
+        },
+      });
 
     this.stepStartTime = currentTime;
   }
@@ -115,7 +119,10 @@ export class ExecutarComponent implements OnInit, OnDestroy {
   previousStepClicks = 0;
 
   nextStep() {
-    if (this.plano?.exercises && this.currentStep < this.plano.exercises.length - 1) {
+    if (
+      this.plano?.exercises &&
+      this.currentStep < this.plano.exercises.length - 1
+    ) {
       this.nextStepClicks++;
       this.currentStep++;
       this.atualizarMetricas();
@@ -134,22 +141,25 @@ export class ExecutarComponent implements OnInit, OnDestroy {
     if (!this.executionMetrics) return;
 
     const endTime = new Date().toISOString();
-    const totalDuration = (Date.now() - new Date(this.executionMetrics.startTime).getTime()) / 1000;
+    const totalDuration =
+      (Date.now() - new Date(this.executionMetrics.startTime).getTime()) / 1000;
 
-    this.apiService.updatePlanExecution(this.executionMetrics.id!, {
-      endTime,
-      totalDuration,
-      completed: true,
-      currentStep: this.currentStep,
-      nextStepClicks: this.nextStepClicks,
-      previousStepClicks: this.previousStepClicks,
-      totalSteps: this.plano?.exercises?.length || 0,
-      stepTimings: this.stepTimings.map(timing => timing.timeSpent)
-    }).subscribe({
-      error: (error) => {
-        console.error('Erro ao finalizar execução:', error);
-      }
-    });
+    this.apiService
+      .updatePlanExecution(this.executionMetrics.id!, {
+        endTime,
+        totalDuration,
+        completed: true,
+        currentStep: this.currentStep,
+        nextStepClicks: this.nextStepClicks,
+        previousStepClicks: this.previousStepClicks,
+        totalSteps: this.plano?.exercises?.length || 0,
+        stepTimings: this.stepTimings.map((timing) => timing.timeSpent),
+      })
+      .subscribe({
+        error: (error) => {
+          console.error('Erro ao finalizar execução:', error);
+        },
+      });
   }
 
   finalizar() {

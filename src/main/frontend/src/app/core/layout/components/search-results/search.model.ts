@@ -1,8 +1,10 @@
+import { SelectOption } from '../select/select.component';
+
 export interface FilterField {
   name: string;
   label: string;
   type: 'text' | 'number' | 'date' | 'select';
-  options?: { id: number | string; value: string }[];
+  options?: SelectOption[];
 }
 
 export interface TableHeader {

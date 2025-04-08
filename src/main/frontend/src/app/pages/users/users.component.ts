@@ -33,9 +33,9 @@ export class UsersComponent implements OnInit {
       label: 'Perfil',
       type: 'select',
       options: [
-        { id: 'USER', value: 'Utilizador' },
-        { id: 'ADMIN', value: 'Administrador' },
-        { id: 'TECHNICAL', value: 'Técnico' },
+        { id: 'USER', descricao: 'Utilizador' },
+        { id: 'ADMIN', descricao: 'Administrador' },
+        { id: 'TECHNICAL', descricao: 'Técnico' },
       ],
     },
     { name: 'birthdate', label: 'Data de Nascimento', type: 'date' },

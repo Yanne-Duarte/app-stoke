@@ -4,6 +4,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 @import "node_modules/quill/dist/quill.snow.css";
+@import "node_modules/@ng-select/ng-select/themes/default.theme.css";
 
 /* Reset e estilos base */
 * {
@@ -156,7 +157,7 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 8px;
 }
 
 .notifications {
@@ -245,6 +246,7 @@ i {
 }
 .main-content {
   padding-top: 64px;
+  min-height: calc(100vh - 263px);
 }
 
 .content-wrapper {

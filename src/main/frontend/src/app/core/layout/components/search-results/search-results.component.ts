@@ -16,12 +16,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FilterField, TableHeader, ActionType } from './search.model';
 import { PlatformService } from 'src/app/api/platform.service';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { SelectComponent } from '../select/select.component';
+
 @Component({
   selector: 'app-search-results',
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DatepickerComponent],
+  imports: [CommonModule, ReactiveFormsModule, DatepickerComponent, SelectComponent],
 })
 export class SearchResultsComponent implements OnInit, OnChanges {
   private platformService = inject(PlatformService);
@@ -63,12 +65,12 @@ export class SearchResultsComponent implements OnInit, OnChanges {
 
   // Listas padrão para selects
   readonly lista1 = [
-    { id: 1, value: 'label 1' },
-    { id: 2, value: 'label 2' },
+    { id: 1, descricao: 'label 1' },
+    { id: 2, descricao: 'label 2' },
   ];
   readonly lista2 = [
-    { id: 1, value: 'label 1' },
-    { id: 2, value: 'label 2' },
+    { id: 1, descricao: 'label 1' },
+    { id: 2, descricao: 'label 2' },
   ];
 
   constructor(private fb: FormBuilder) {

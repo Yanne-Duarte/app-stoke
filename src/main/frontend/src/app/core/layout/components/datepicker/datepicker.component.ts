@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
-import { NgbAlertModule, NgbDate, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDate, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   ControlValueAccessor,
@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class DatepickerComponent implements OnInit, ControlValueAccessor, OnChanges {
-  control = new FormControl<NgbDate | null>(null);
+  control = new FormControl<NgbDateStruct | null>(null);
   private onChange: any = () => {};
   private onTouched: any = () => {};
   @Input() value: any;
@@ -53,9 +53,8 @@ export class DatepickerComponent implements OnInit, ControlValueAccessor, OnChan
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['value'] && changes['value'].currentValue) {
-      // Convert string date to NgbDate
-      const dateStr = changes['value'].currentValue;
-      const date = this.parseDate(dateStr);
+      // Convert string date to NgbDate using the built-in parser
+      const date = this.dateParser.parse(changes['value'].currentValue);
       this.control.setValue(date, { emitEvent: false });
     }
   }
@@ -63,8 +62,8 @@ export class DatepickerComponent implements OnInit, ControlValueAccessor, OnChan
   // ControlValueAccessor implementation
   writeValue(value: any): void {
     if (value) {
-      // Convert string date to NgbDate
-      const date = this.parseDate(value);
+      // Convert string date to NgbDate using the built-in parser
+      const date = this.dateParser.parse(value);
       this.control.setValue(date, { emitEvent: false });
     }
   }
@@ -83,19 +82,5 @@ export class DatepickerComponent implements OnInit, ControlValueAccessor, OnChan
     } else {
       this.control.enable();
     }
-  }
-
-  private parseDate(dateStr: string): NgbDate | null {
-    if (!dateStr) return null;
-    
-    const parts = dateStr.split('-');
-    if (parts.length === 3) {
-      return new NgbDate(
-        parseInt(parts[0], 10), // year
-        parseInt(parts[1], 10), // month
-        parseInt(parts[2], 10)  // day
-      );
-    }
-    return null;
   }
 }

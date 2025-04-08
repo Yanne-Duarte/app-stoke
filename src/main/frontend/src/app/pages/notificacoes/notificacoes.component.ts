@@ -36,9 +36,9 @@ export class NotificacoesComponent implements OnInit {
       label: 'Status',
       type: 'select',
       options: [
-        { id: '', value: 'Todos' },
-        { id: 'lida', value: 'Lida' },
-        { id: 'nao_lida', value: 'Não Lida' }
+        { id: '', descricao: 'Todos' },
+        { id: 'lida', descricao: 'Lida' },
+        { id: 'nao_lida', descricao: 'Não Lida' }
       ]
     }
   ];

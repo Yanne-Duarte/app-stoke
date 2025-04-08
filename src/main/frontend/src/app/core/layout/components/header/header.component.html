@@ -1,6 +1,6 @@
 <header class="header">
   <!-- Lado esquerdo -->
-  <div class="header-left">
+  <div class="header-left" [routerLink]="['/inicio']">
     <!-- Botão menu mobile -->
     <img src="assets/images/favicon.ico" alt="Logo" class="logo">
   </div>
@@ -34,7 +34,7 @@
 
 <!-- Menu Mobile Overlay -->
 @if (isMobile()) {
-<div class="mobile-menu" [class.active]="isMobileMenuOpen"  >
+<div class="mobile-menu" [class.active]="isMobileMenuOpen">
   <div class="mobile-menu-header">
     <button class="close-menu-btn" (click)="toggleMobileMenu()">
       <i class="fas fa-times"></i>
