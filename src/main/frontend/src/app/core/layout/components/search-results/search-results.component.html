@@ -5,10 +5,12 @@
             <h1>{{title}}</h1>
             <p *ngIf="subtitle">{{subtitle}}</p>
         </div>
+        @if(canCreate) {
         <button *ngIf="newButtonLabel" [class]="btnClass" (click)="onNew.emit()">
             <i *ngIf="newButtonIcon" [class]="newButtonIcon"></i>
             {{newButtonLabel}}
         </button>
+        }
     </div>
 
 

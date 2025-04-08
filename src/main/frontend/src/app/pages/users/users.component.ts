@@ -50,6 +50,7 @@ export class UsersComponent implements OnInit {
     { key: 'fisioterapeuta', label: 'Fisioterapeuta', useTemplate: true },
     { key: 'actions', label: 'Ações', useTemplate: true },
   ];
+  canCreateUser: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -60,6 +61,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.loadUsers();
+    this.canCreateUser =
+      JSON.parse(localStorage.getItem('user') ?? '').perfil === 'ADMIN';
   }
 
   loadUsers(filter?: UserFilterDTO) {

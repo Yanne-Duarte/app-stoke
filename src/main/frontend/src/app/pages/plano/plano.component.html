@@ -1,6 +1,6 @@
 <div class="page-container">
-    <app-search-results [title]="'Planos'" [subtitle]="'Gestão de planos'"
-        [newButtonLabel]="canCreatePlano ? 'Novo Plano' : ''" [btnClass]="'btn btn-primary w-100'"
+    <app-search-results [title]="'Planos'" [subtitle]="'Gestão de planos'" [canCreate]="canCreatePlano"
+        [newButtonLabel]=" 'Novo Plano' " [btnClass]="'btn btn-primary w-100'"
         [newButtonIcon]="'fas fa-plus'" [filterFields]="filterFields" [tableHeaders]="headers" [data]="planos"
         [loading]="loading" (onNew)="handleNew()" (onFilter)="handleFilter($event)" (onClear)="handleClear()"
         [actions]="true">

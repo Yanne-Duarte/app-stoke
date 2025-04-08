@@ -37,6 +37,8 @@ export class SearchResultsComponent implements OnInit, OnChanges {
   @Input() actions = false;
   @Input() perfil: any;
 
+  @Input() canCreate = false;
+
   @Output() onNew = new EventEmitter<void>();
   @Output() onFilter = new EventEmitter<any>();
   @Output() onClear = new EventEmitter<void>();

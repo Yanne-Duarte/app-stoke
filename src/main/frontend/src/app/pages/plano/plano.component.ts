@@ -62,7 +62,10 @@ export class PlanoComponent implements OnInit {
   ) {
     this.canPlayPlano =
       JSON.parse(localStorage.getItem('user') ?? '').perfil === 'USER' || false;
-    this.canCreatePlano = !this.canPlayPlano;
+    
+      this.canCreatePlano =
+      JSON.parse(localStorage.getItem('user') ?? '').perfil === 'TECHNICAL' ||
+      false;
   }
 
   ngOnInit() {

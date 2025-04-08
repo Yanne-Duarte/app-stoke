@@ -13,9 +13,9 @@
     </app-user-list>--->
 
     <app-search-results [title]="'Utilizadores'" [subtitle]="'Gestão dos utilizadores do sistema'"
-        [newButtonLabel]="'Novo Utilizador'" [btnClass]="'btn btn-primary w-100'" [newButtonIcon]="'fas fa-plus'"
-        [filterFields]="filterFields" [tableHeaders]="headers" [data]="users" [loading]="loading" (onNew)="handleNew()"
-        (onFilter)="handleFilter($event)" (onClear)="handleClear()">
+        [canCreate]="canCreateUser" [newButtonLabel]="'Novo Utilizador'" [btnClass]="'btn btn-primary w-100'"
+        [newButtonIcon]="'fas fa-plus'" [filterFields]="filterFields" [tableHeaders]="headers" [data]="users"
+        [loading]="loading" (onNew)="handleNew()" (onFilter)="handleFilter($event)" (onClear)="handleClear()">
 
         <ng-template #customCell let-value let-item="item" let-column="column">
 
