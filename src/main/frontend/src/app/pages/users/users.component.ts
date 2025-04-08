@@ -48,7 +48,6 @@ export class UsersComponent implements OnInit {
     { key: 'birthdate', label: 'Data de Nascimento' },
     { key: 'plano', label: 'Plano de Reabilitação' },
     { key: 'fisioterapeuta', label: 'Fisioterapeuta', useTemplate: true },
-    { key: 'actions', label: 'Ações', useTemplate: true },
   ];
   canCreateUser: boolean = false;
 

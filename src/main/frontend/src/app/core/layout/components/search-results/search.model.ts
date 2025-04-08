@@ -11,3 +11,5 @@ export interface TableHeader {
   useTemplate?: boolean;
   transform?: (value: any) => string;
 }
+
+export type ActionType = 'view' | 'edit' | 'delete' | 'play' | 'create' | 'update' | 'status';

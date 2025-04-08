@@ -1,6 +1,6 @@
 <div class="page-container">
     <app-search-results [title]="'Métricas'" [subtitle]="'Visualização das métricas de execução dos planos'"
-        [tableHeaders]="headers" [data]="summaries" [loading]="loading" [actions]="true"
+        [tableHeaders]="headers" [data]="summaries" [loading]="loading" [availableActions]="['view']"
         (onView)="showDetails($event.userId, $event.planId, $event.executionId)">
         <ng-template #customCell let-value let-item="item" let-column="column">
             <ng-container *ngIf="column.key === 'lastExecutionDate'">
