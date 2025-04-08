@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { UserDTO } from '../../../../api/models.dto';
+import { SelectComponent } from '../../../../core/layout/components/select/select.component';
 
 @Component({
   selector: 'app-notificacao-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SelectComponent],
   templateUrl: './notificacao-create.component.html',
   styleUrls: ['./notificacao-create.component.scss']
 })
@@ -19,7 +20,7 @@ export class NotificacaoCreateComponent implements OnInit {
     recipientUserId: null as number | null
   };
 
-  recipients: { id: number; label: string }[] = [];
+  recipients: { id: number; descricao: string }[] = [];
   loading = false;
 
   constructor(
@@ -41,7 +42,7 @@ export class NotificacaoCreateComponent implements OnInit {
         if (users && users.length > 0) {
           this.recipients = users.map(user => ({
             id: user.id!,
-            label: user.fullName
+            descricao: user.fullName
           }));
           console.log('Mapped recipients:', this.recipients);
         } else {

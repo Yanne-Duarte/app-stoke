@@ -7,7 +7,12 @@ import { NotificationDTO } from '../../api/models.dto';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SearchResultsComponent } from '../../core/layout/components/search-results/search-results.component';
-import { FilterField, TableHeader } from '../../core/layout/components/search-results/search.model';
+import {
+  FilterField,
+  TableHeader,
+} from '../../core/layout/components/search-results/search.model';
+import { ModalGlobalComponent } from 'src/app/core/layout/components/modal-global/modal-global.component';
+import { ModalComponent } from 'src/app/core/layout';
 
 @Component({
   selector: 'app-notificacoes',
@@ -24,12 +29,12 @@ export class NotificacoesComponent implements OnInit {
     {
       name: 'startDate',
       label: 'Data Início',
-      type: 'date'
+      type: 'date',
     },
     {
       name: 'endDate',
       label: 'Data Fim',
-      type: 'date'
+      type: 'date',
     },
     {
       name: 'readStatus',
@@ -38,25 +43,25 @@ export class NotificacoesComponent implements OnInit {
       options: [
         { id: '', descricao: 'Todos' },
         { id: 'lida', descricao: 'Lida' },
-        { id: 'nao_lida', descricao: 'Não Lida' }
-      ]
-    }
+        { id: 'nao_lida', descricao: 'Não Lida' },
+      ],
+    },
   ];
 
   tableHeaders: TableHeader[] = [
     { key: 'senderName', label: 'Remetente' },
     { key: 'title', label: 'Título' },
     { key: 'message', label: 'Mensagem', useTemplate: true },
-    { 
-      key: 'createdAt', 
+    {
+      key: 'createdAt',
       label: 'Data',
       useTemplate: true,
     },
-    { 
-      key: 'read', 
-      label: 'Lido', 
+    {
+      key: 'read',
+      label: 'Lido',
       useTemplate: true,
-    }
+    },
   ];
 
   constructor(
@@ -79,7 +84,7 @@ export class NotificacoesComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         console.error('Error loading notifications:', error);
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -92,7 +97,7 @@ export class NotificacoesComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => {
           console.error('Error marking notification as unread:', error);
-        }
+        },
       });
     } else {
       // Se estiver marcada como não lida, marcar como lida
@@ -102,7 +107,7 @@ export class NotificacoesComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => {
           console.error('Error marking notification as read:', error);
-        }
+        },
       });
     }
   }
@@ -119,7 +124,7 @@ export class NotificacoesComponent implements OnInit {
             },
             error: (error: HttpErrorResponse) => {
               console.error('Error deleting notification:', error);
-            }
+            },
           });
         }
       },
@@ -129,5 +134,22 @@ export class NotificacoesComponent implements OnInit {
 
   navigateToCreate() {
     this.router.navigate(['/notificacoes/criar']);
+  }
+
+  openView(notificacao: NotificationDTO) {
+    const modalRef = this.modalService.open(ModalComponent, { size: 'lg', centered: true });
+     
+    modalRef.componentInstance.title = 'Detalhes da Notificação';
+    modalRef.componentInstance.message = notificacao.message;
+    modalRef.componentInstance.buttonCancelLabel = 'Fechar'; 
+    modalRef.componentInstance.showConfirmButton = false;
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          //this.loadNotifications(); // Refresh list after deletion
+        }
+      },
+      () => {}
+    );
   }
 }

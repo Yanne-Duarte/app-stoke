@@ -64,30 +64,28 @@
     <!-- Results Section -->
     @if(isMobile()) {
     <div class="mobile-cards">
+        @if(data.length > 0) {
         @for(item of data; track item.id) {
         <div class="mobile-card">
             <div class="card-content">
                 @for(header of tableHeaders; track header.key) {
-
-                @if(header.key === 'fisioterapeuta'){
                 <div class="card-field">
                     <span class="field-label">{{header.label}}</span>
+                    @if(header.key === 'fisioterapeuta'){
                     <span class="field-value">{{item[header.key]?.fullName || 'N/A'}}</span>
-                </div>
-                }
-                @else {
-                <div class="card-field">
-                    <span class="field-label">{{header.label}}</span>
+                    }
+                    @if(header.key === 'createdAt'){
+                    <span class="field-value">{{(item[header.key]) | date:'dd/MM/yyyy HH:mm' }}</span>
+                    }
+                    @else {
                     <span class="field-value">{{item[header.key] || 'N/A'}}</span>
-                </div>
-                }
-                }
-            </div>
-            <div class="card-actions">
-                <div class="d-flex gap-2">
-                    @for(actionType of availableActions; track actionType) {
-                    @if(shouldShowAction(actionType)) {
-                    <button [class]="'btn ' + getActionClass(actionType, item)" (click)="
+                    }
+                </div>}
+                <div class="card-actions">
+                    <div class="d-flex gap-2">
+                        @for(actionType of availableActions; track actionType) {
+                        @if(shouldShowAction(actionType)) {
+                        <button [class]="'btn ' + getActionClass(actionType, item)" (click)="
                         actionType === 'view' ? handleView(item) :
                         actionType === 'edit' ? handleEdit(item) :
                         actionType === 'delete' ? handleDelete(item) :
@@ -96,12 +94,19 @@
                         actionType === 'status' ? handleStatus(item) :
                         actionType === 'read' ? handleRead(item) : null
                         " [title]="getActionTitle(actionType, item)">
-                        <i [class]="getActionIcon(actionType, item)"></i>
-                    </button>
-                    }
-                    }
+                            <i [class]="getActionIcon(actionType, item)"></i>
+                        </button>
+                        }
+                        }
+                    </div>
                 </div>
             </div>
+        </div>
+        }
+        }@else {
+        <div class="no-results">
+            <i class="fas fa-circle-exclamation" style="color: #6c757d;"></i> Não foram encontrados
+            resultados
         </div>
         }
     </div>
@@ -112,7 +117,6 @@
         <div *ngIf="loading" class="loading">
             <div class="spinner"></div>
         </div>
-
         <!-- Data Table -->
         <div *ngIf="!loading" class="table-wrapper">
             <div class="table-container">
@@ -166,7 +170,8 @@
 
                 <!-- No Results Message -->
                 <div *ngIf="data.length === 0" class="no-results">
-                    <i class="fas fa-circle-exclamation" style="color: #6c757d;"></i> Não foram encontrados resultados
+                    <i class="fas fa-circle-exclamation" style="color: #6c757d;"></i> Não foram encontrados
+                    resultados
                 </div>
             </div>
         </div>

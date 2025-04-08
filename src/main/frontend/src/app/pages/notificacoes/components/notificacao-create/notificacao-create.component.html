@@ -11,13 +11,14 @@
             <form #form="ngForm" (ngSubmit)="save()">
                 <div class="mb-3">
                     <label class="form-label">Destinatário</label>
-                    <select class="form-select" name="recipientUserId" [(ngModel)]="notification.recipientUserId"
-                        required [disabled]="loading">
-                        <option value="">Selecione um destinatário</option>
-                        <option *ngFor="let recipient of recipients" [value]="recipient.id">
-                            {{ recipient.label }}
-                        </option>
-                    </select>
+                    <app-select 
+                        [options]="recipients" 
+                        [(ngModel)]="notification.recipientUserId" 
+                        name="recipientUserId"
+                        placeholder="Selecione um destinatário"
+                        [disabled]="loading"
+                        required>
+                    </app-select>
                     <div *ngIf="loading" class="mt-2">
                         <div class="spinner-border spinner-border-sm text-primary" role="status">
                             <span class="visually-hidden">Carregando...</span>
