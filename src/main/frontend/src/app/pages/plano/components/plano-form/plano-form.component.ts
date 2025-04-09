@@ -11,11 +11,12 @@ import {
 import { ApiService } from '../../../../api/api.service';
 import { PlanDTO, ExerciseDTO, UserDTO, VideoRecordDTO } from '../../../../api/models.dto';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SelectComponent } from '../../../../core/layout/components/select/select.component';
 
 @Component({
   selector: 'app-plano-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SelectComponent],
   templateUrl: './plano-form.component.html',
 })
 export class PlanoFormComponent implements OnInit {
@@ -24,8 +25,8 @@ export class PlanoFormComponent implements OnInit {
   loading = false;
   error: string | null = null;
   isEdit = false;
-  availableUsers: UserDTO[] = [];
-  userVideos: VideoRecordDTO[] = [];
+  availableUsers: { id: number; descricao: string }[] = [];
+  userVideos: { id: string; descricao: string }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -81,7 +82,10 @@ export class PlanoFormComponent implements OnInit {
   private loadUserVideos(userId: number) {
     this.apiService.getVideosByUserId(userId).subscribe({
       next: (videos) => {
-        this.userVideos = videos;
+        this.userVideos = videos.map(video => ({
+          id: video.name,
+          descricao: `${video.name} - ${video.description}`
+        }));
       },
       error: (error) => {
         this.error = 'Erro ao carregar vídeos do usuário: ' + error.message;
@@ -92,7 +96,10 @@ export class PlanoFormComponent implements OnInit {
   private loadAvailableUsers() {
     this.apiService.getAvailableUsers().subscribe({
       next: (users) => {
-        this.availableUsers = users;
+        this.availableUsers = users.map(user => ({
+          id: user.id!,
+          descricao: user.fullName
+        }));
       },
       error: (error) => {
         this.error = 'Erro ao carregar utilizadores: ' + error.message;

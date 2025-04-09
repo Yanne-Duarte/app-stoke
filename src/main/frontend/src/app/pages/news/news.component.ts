@@ -32,6 +32,7 @@ export class NewsComponent implements OnInit {
     { key: 'authorName', label: 'Autor' },
     { key: 'createdAt', label: 'Data' },
   ];
+  canCreate: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -40,6 +41,8 @@ export class NewsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.canCreate =
+      JSON.parse(localStorage.getItem('user') ?? '').perfil === 'TECHNICAL';
     this.loadNews();
   }
 

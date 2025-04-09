@@ -1,4 +1,4 @@
-<app-search-results [title]="'Informações'" [subtitle]="'Gestão de informações'" [newButtonLabel]="'Nova Informação'"
+<app-search-results [title]="'Informações'" [canCreate]="canCreate" [subtitle]="'Gestão de informações'" [newButtonLabel]="'Nova Informação'"
     [btnClass]="'btn btn-primary'" [newButtonIcon]="'fas fa-plus-circle me-2'" [filterFields]="filterFields"
     [tableHeaders]="headers" [data]="news" [loading]="loading" (onNew)="navigateToCreate()"
     (onFilter)="handleFilter($event)" (onClear)="handleClear()" (onEdit)="navigateToEdit($event)"

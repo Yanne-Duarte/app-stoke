@@ -14,6 +14,8 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { SidebarItem } from '../navbar/sidebar.model';
 import { PlatformService } from '../../../../api/platform.service';
+import { ModalComponent } from '../modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
@@ -41,9 +43,10 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   private _perfil: string = '';
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private apiService: ApiService,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private modalService: NgbModal
   ) {
     effect(() => {
       console.log('***************** Mobile status changed:', this.isMobile());
@@ -74,16 +77,43 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   logout() {
-    this.apiService.logout().subscribe({
-      next: () => {
-        localStorage.clear();
-        this.router.navigate(['/login']);
-      },
-      error: (error) => {
-        localStorage.clear();
-        this.router.navigate(['/login']);
-      },
+    this.isMobileMenuOpen = false;
+    const modalRef = this.modalService.open(ModalComponent, {
+      size: 'sm',
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
     });
+
+    modalRef.componentInstance.title = 'Sair';
+    modalRef.componentInstance.message = 'Tem certeza que deseja sair?';
+    modalRef.componentInstance.buttonConfirmLabel = 'Confirmar';
+    modalRef.componentInstance.buttonCancelLabel = 'Cancelar';
+    modalRef.componentInstance.showConfirmButton = true;
+    modalRef.componentInstance.showCancelButton = true;
+
+    modalRef.result.then(
+      (result: boolean) => {
+        if (result) {
+          this.apiService.logout().subscribe({
+            next: () => {
+              localStorage.clear();
+              this.router.navigate(['/login']);
+            },
+            error: (error) => {
+              console.error('Erro ao fazer logout:', error);
+              localStorage.clear();
+              this.router.navigate(['/login']);
+            },
+          });
+        } else {
+          this.isMobileMenuOpen = true;
+        }
+      },
+      () => {
+        // Modal foi fechado sem confirmação
+      }
+    );
   }
 
   ngOnDestroy() {

@@ -17,12 +17,12 @@
       <form [formGroup]="planoForm" (ngSubmit)="onSubmit()">
         <div class="form-group mb-3">
           <label for="userId">Utente*</label>
-          <select id="userId" class="form-select" formControlName="user">
-            <option value="">Selecione um utente</option>
-            <option *ngFor="let user of availableUsers" [ngValue]="user">
-              {{ user.fullName }}
-            </option>
-          </select>
+          <app-select 
+            id="userId" 
+            [options]="availableUsers" 
+            formControlName="user"
+            placeholder="Selecione um utente">
+          </app-select>
           <div class="invalid-feedback"
             *ngIf="planoForm.get('user')?.errors?.['required'] && planoForm.get('user')?.touched">
             O utente é obrigatório
@@ -63,12 +63,11 @@
 
                 <div class="form-group">
                   <label>Caminho do Vídeo*</label>
-                  <select class="form-select" formControlName="videoPath">
-                    <option value="">Selecione um vídeo</option>
-                    <option *ngFor="let video of userVideos" [value]="video.name">
-                      {{ video.name }} - {{ video.description }}
-                    </option>
-                  </select>
+                  <app-select 
+                    [options]="userVideos" 
+                    formControlName="videoPath"
+                    placeholder="Selecione um vídeo">
+                  </app-select>
                   <div class="invalid-feedback" *ngIf="exercises.at(i).get('videoPath')?.errors?.['required'] && exercises.at(i).get('videoPath')?.touched">
                     O vídeo é obrigatório
                   </div>

@@ -21,10 +21,9 @@ export class ModalComponent {
 
   constructor(private activeModal: NgbActiveModal) {}
   onConfirm() {
-    this.result.emit(true);
-    this.activeModal.dismiss();
+    this.activeModal.close(true);
   }
   onCancel() {
-    this.activeModal.dismiss();
+    this.activeModal.close(false);
   }
 }

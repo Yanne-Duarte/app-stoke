@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, OnInit, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +7,10 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ApiService } from '../../api/api.service';  
+import { ApiService } from '../../api/api.service';
+import { PlatformService } from 'src/app/api/platform.service';
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule],
@@ -15,16 +18,18 @@ import { ApiService } from '../../api/api.service';
   styleUrls: ['./login.component.scss'],
   standalone: true,
 })
-export class LoginComponent {
-  
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   errorMessage: string = '';
+  private formSubscription: Subscription | null = null;
+
+  isMobileSignal = computed(() => this.platformService.isMobile());
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private apiService: ApiService,
-    
+    private platformService: PlatformService
   ) {
     // Clear all data from local storage
     localStorage.clear();
@@ -33,6 +38,22 @@ export class LoginComponent {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+  }
+
+  ngOnInit() {
+    // Subscribe to form changes to clear error message
+    this.formSubscription = this.loginForm.valueChanges.subscribe(() => {
+      if (this.errorMessage) {
+        this.errorMessage = '';
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription
+    if (this.formSubscription) {
+      this.formSubscription.unsubscribe();
+    }
   }
 
   onSubmit() {
@@ -61,7 +82,7 @@ export class LoginComponent {
           });
         },
         error: (error) => {
-          this.errorMessage = 'Username ou password inválidos';
+          this.errorMessage = 'Nome de utilizador ou palavra-passe inválidos';
         },
       });
     }
