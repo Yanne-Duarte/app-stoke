@@ -2,8 +2,9 @@
     <app-search-results [title]="'Planos'" [subtitle]="'Gestão de planos'" [canCreate]="canCreatePlano"
         [newButtonLabel]=" 'Novo Plano' " [btnClass]="'btn btn-primary w-100'" [newButtonIcon]="'fas fa-plus'"
         [filterFields]="filterFields" [tableHeaders]="headers" [data]="planos" [loading]="loading" (onNew)="handleNew()"
-        (onFilter)="handleFilter($event)" (onClear)="handleClear()" (onPlay)="handlePlay($event)" (onEdit)="handleEdit($event)"
-        (onDelete)="handleDelete($event)" (onView)="handleView($event)" [availableActions]="availableActions">
+        (onFilter)="handleFilter($event)" (onClear)="handleClear()" (onPlay)="handlePlay($event)"
+        (onEdit)="handleEdit($event)" (onDelete)="handleDelete($event)" (onView)="handleView($event)"
+        [availableActions]="availableActions">
 
         <ng-template #customCell let-value let-item="item" let-column="column">
 

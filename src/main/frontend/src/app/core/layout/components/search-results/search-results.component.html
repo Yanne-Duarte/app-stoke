@@ -75,6 +75,7 @@
                         <span class="field-value" *ngSwitchCase="'fisioterapeuta'">{{item[header.key]?.fullName || 'N/A'}}</span>
                         <span class="field-value" *ngSwitchCase="'user'">{{item[header.key]?.fullName || 'N/A'}}</span>
                         <span class="field-value" *ngSwitchCase="'enabled'">{{item[header.key]? 'Ativo' : 'Inativo'}}</span>
+                        <span class="field-value" *ngSwitchCase="'read'">{{item[header.key]? 'Lida' : 'Não Lida'}}</span>
                         <span class="field-value" *ngSwitchCase="'createdAt'">{{(item[header.key]) | date:'dd/MM/yyyy HH:mm' }}</span>
                         <span class="field-value" *ngSwitchCase="'creationDate'">{{(item[header.key]) | date:'dd/MM/yyyy' }}</span>
                         <span class="field-value" *ngSwitchCase="'validityDate'">{{(item[header.key]) | date:'dd/MM/yyyy' }}</span>

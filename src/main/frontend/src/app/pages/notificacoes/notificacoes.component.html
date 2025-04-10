@@ -1,13 +1,14 @@
 <!-- Lista de Notificações -->
 <app-search-results [title]="'Notificações'" [subtitle]="'Gestão das notificações do sistema'"
-    [newButtonLabel]="'Nova Notificação'" [newButtonIcon]="'bi bi-plus-circle me-2'" [btnClass]="'btn btn-primary'"
+    [newButtonLabel]="'Nova Notificação'" [newButtonIcon]="'fas fa-plus'" [btnClass]="'btn btn-primary'"
     [canCreate]="true" [filterFields]="filterFields" [tableHeaders]="tableHeaders" [data]="notificacoes"
     [loading]="loading" [availableActions]="['view', 'read', 'delete']" [checkReadRow]="true" [readField]="'read'"
-    (onNew)="navigateToCreate()" (onDelete)="openDeleteModal($event)" (onRead)="toggleReadStatus($event)"(onView)="openView($event)">
+    (onNew)="navigateToCreate()" (onDelete)="openDeleteModal($event)" (onRead)="toggleReadStatus($event)"
+    (onView)="openView($event)">
 
     <ng-template #customCell let-value let-item="item" let-column="column">
         <ng-container *ngIf="column.key === 'read'">
-            {{ item.read ? 'Lido' : 'Não Lido' }}
+            {{ item.read ? 'Lida' : 'Não Lida' }}
         </ng-container>
 
         <ng-container *ngIf="column.key === 'message'">

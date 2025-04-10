@@ -1,7 +1,7 @@
-<app-search-results [title]="'Informações'" [canCreate]="canCreate" [subtitle]="'Gestão de informações'" [newButtonLabel]="'Nova Informação'"
-    [btnClass]="'btn btn-primary'" [newButtonIcon]="'fas fa-plus-circle me-2'" [filterFields]="filterFields"
-    [tableHeaders]="headers" [data]="news" [loading]="loading" (onNew)="navigateToCreate()"
-    (onFilter)="handleFilter($event)" (onClear)="handleClear()" (onEdit)="navigateToEdit($event)"
-    (onView)="navigateToView($event)" (onDelete)="openDeleteConfirmation($event)"
+<app-search-results [title]="'Informações'" [canCreate]="canCreate" [subtitle]="'Gestão de informações'"
+    [newButtonLabel]="'Nova Informação'" [btnClass]="'btn btn-primary'" [newButtonIcon]="'fas fa-plus'"
+    [filterFields]="filterFields" [tableHeaders]="headers" [data]="news" [loading]="loading"
+    (onNew)="navigateToCreate()" (onFilter)="handleFilter($event)" (onClear)="handleClear()"
+    (onEdit)="navigateToEdit($event)" (onView)="navigateToView($event)" (onDelete)="openDeleteConfirmation($event)"
     [availableActions]="['view', 'edit', 'delete']">
 </app-search-results>

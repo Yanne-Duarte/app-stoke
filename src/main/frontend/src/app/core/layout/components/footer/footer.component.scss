@@ -87,3 +87,16 @@
     }
   }
 }
+// Responsive adjustments
+@media (min-width: 768px) {
+  .footer {
+    margin-left: 6% !important;
+  }
+}
+
+// Responsive adjustments
+@media (min-width: 998px) {
+  .footer {
+    margin-left: 15% !important;
+  }
+}

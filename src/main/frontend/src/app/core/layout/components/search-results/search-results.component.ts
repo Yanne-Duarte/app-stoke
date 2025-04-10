@@ -23,12 +23,17 @@ import { SelectComponent } from '../select/select.component';
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DatepickerComponent, SelectComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DatepickerComponent,
+    SelectComponent,
+  ],
 })
 export class SearchResultsComponent implements OnInit, OnChanges {
   private platformService = inject(PlatformService);
   isMobile = computed(() => this.platformService.isMobile());
-  
+
   @Input() title = '';
   @Input() subtitle = '';
   @Input() newButtonLabel = '';
@@ -60,8 +65,6 @@ export class SearchResultsComponent implements OnInit, OnChanges {
 
   @ContentChild('customCell') customCell!: TemplateRef<any>;
 
-
-
   filterForm: FormGroup;
   isCollapsed = true;
 
@@ -87,12 +90,16 @@ export class SearchResultsComponent implements OnInit, OnChanges {
     if (changes['filterFields'] && !changes['filterFields'].firstChange) {
       this.initializeForm();
     }
+
+    if (changes['loading']) {
+      this.loading = changes['loading'].currentValue;
+    }
   }
 
   private initializeForm() {
     // Clear existing form
     this.filterForm = this.fb.group({});
-    
+
     // Add controls for each filter field
     this.filterFields.forEach((field) => {
       this.filterForm.addControl(field.name, this.fb.control(''));
@@ -142,30 +149,37 @@ export class SearchResultsComponent implements OnInit, OnChanges {
 
   shouldShowAction(actionType: ActionType): boolean {
     // Lógica padrão para mostrar/ocultar ações
-    if (actionType === 'play' && (this.title === 'Gravações' || this.title !== 'Progresso')) {
+    if (
+      actionType === 'play' &&
+      (this.title === 'Gravações' || this.title !== 'Progresso')
+    ) {
       return true;
     }
-    
+
     if (actionType === 'view' && this.title !== 'Gravações') {
       return true;
     }
-    
-    if ((actionType === 'edit' || actionType === 'update') && this.title !== 'Gravações' && this.title !== 'Progresso') {
+
+    if (
+      (actionType === 'edit' || actionType === 'update') &&
+      this.title !== 'Gravações' &&
+      this.title !== 'Progresso'
+    ) {
       return true;
     }
-    
+
     if (actionType === 'delete' && this.title !== 'Progresso') {
       return true;
     }
-    
+
     if (actionType === 'status') {
       return true;
     }
-    
+
     if (actionType === 'read') {
       return true;
     }
-    
+
     return false;
   }
 
@@ -175,18 +189,27 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       const isRead = item[this.readField];
       return isRead === true ? 'fas fa-envelope-open' : 'fas fa-envelope';
     }
-    
+
     // Para outros tipos de ação, usa o ícone padrão
     switch (actionType) {
-      case 'view': return 'fas fa-eye';
-      case 'edit': return 'fas fa-pencil-alt';
-      case 'delete': return 'fas fa-trash';
-      case 'play': return 'fas fa-play';
-      case 'update': return 'fas fa-sync';
-      case 'create': return 'fas fa-plus';
-      case 'status': return 'fas fa-user-check'; // Ícone mais sugestivo para alterar status
-      case 'read': return 'fas fa-envelope-open'; // Ícone padrão caso não tenha item ou checkReadRow seja false
-      default: return '';
+      case 'view':
+        return 'fas fa-eye';
+      case 'edit':
+        return 'fas fa-pencil-alt';
+      case 'delete':
+        return 'fas fa-trash';
+      case 'play':
+        return 'fas fa-play';
+      case 'update':
+        return 'fas fa-sync';
+      case 'create':
+        return 'fas fa-plus';
+      case 'status':
+        return 'fas fa-user-check'; // Ícone mais sugestivo para alterar status
+      case 'read':
+        return 'fas fa-envelope-open'; // Ícone padrão caso não tenha item ou checkReadRow seja false
+      default:
+        return '';
     }
   }
 
@@ -196,24 +219,33 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       const status = item[this.statusField];
       return status === true ? 'btn-outline-success' : 'btn-outline-danger';
     }
-    
+
     // Se for o botão de leitura, checkReadRow for true e tiver um item, verifica o estado de leitura
     if (actionType === 'read' && this.checkReadRow && item) {
       const isRead = item[this.readField];
       return isRead === true ? 'btn-outline-success' : 'btn-outline-primary';
     }
-    
+
     // Para outros tipos de ação, usa a classe padrão
     switch (actionType) {
-      case 'view': return 'btn-outline-secondary';
-      case 'edit': return 'btn-outline-primary';
-      case 'delete': return 'btn-outline-danger';
-      case 'play': return 'btn-outline-success';
-      case 'update': return 'btn-outline-info';
-      case 'create': return 'btn-outline-success';
-      case 'status': return 'btn-outline-warning'; // Classe padrão caso não tenha item ou checkStatusRow seja false
-      case 'read': return 'btn-outline-primary'; // Classe padrão caso não tenha item ou checkReadRow seja false
-      default: return 'btn-outline-secondary';
+      case 'view':
+        return 'btn-outline-secondary';
+      case 'edit':
+        return 'btn-outline-primary';
+      case 'delete':
+        return 'btn-outline-danger';
+      case 'play':
+        return 'btn-outline-success';
+      case 'update':
+        return 'btn-outline-info';
+      case 'create':
+        return 'btn-outline-success';
+      case 'status':
+        return 'btn-outline-warning'; // Classe padrão caso não tenha item ou checkStatusRow seja false
+      case 'read':
+        return 'btn-outline-primary'; // Classe padrão caso não tenha item ou checkReadRow seja false
+      default:
+        return 'btn-outline-secondary';
     }
   }
 
@@ -223,24 +255,33 @@ export class SearchResultsComponent implements OnInit, OnChanges {
       const status = item[this.statusField];
       return status === true ? 'Desativar' : 'Ativar';
     }
-    
+
     // Se for o botão de leitura, checkReadRow for true e tiver um item, personaliza o título
     if (actionType === 'read' && this.checkReadRow && item) {
       const isRead = item[this.readField];
       return isRead === true ? 'Marcar como não lida' : 'Marcar como lida';
     }
-    
+
     // Para outros tipos de ação, usa o título padrão
     switch (actionType) {
-      case 'view': return 'Ver';
-      case 'edit': return 'Editar';
-      case 'delete': return 'Apagar';
-      case 'play': return 'Reproduzir';
-      case 'update': return 'Atualizar';
-      case 'create': return 'Criar';
-      case 'status': return 'Alterar Status';
-      case 'read': return 'Alterar Leitura';
-      default: return actionType;
+      case 'view':
+        return 'Ver';
+      case 'edit':
+        return 'Editar';
+      case 'delete':
+        return 'Apagar';
+      case 'play':
+        return 'Reproduzir';
+      case 'update':
+        return 'Atualizar';
+      case 'create':
+        return 'Criar';
+      case 'status':
+        return 'Alterar Status';
+      case 'read':
+        return 'Alterar Leitura';
+      default:
+        return actionType;
     }
   }
 }

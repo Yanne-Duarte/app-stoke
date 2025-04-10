@@ -59,7 +59,7 @@ export class NotificacoesComponent implements OnInit {
     },
     {
       key: 'read',
-      label: 'Lido',
+      label: 'Estado',
       useTemplate: true,
     },
   ];
