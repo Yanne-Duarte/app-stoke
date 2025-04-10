@@ -6,12 +6,12 @@
 <!-- Chat widget -->
 <div class="chat-widget" *ngIf="isOpen">
   <div class="chat-header d-flex justify-content-between" (click)="toggleChat()">
-    <p *ngIf="currentUser?.perfil === 'TECHNICAL'">
+    <span *ngIf="currentUser?.perfil === 'TECHNICAL'">
       {{ selectedPatient?.fullName || 'Não selecionado'}}
-    </p>
-    <p *ngIf="currentUser?.perfil !== 'TECHNICAL'">
+    </span>
+    <span *ngIf="currentUser?.perfil !== 'TECHNICAL'">
       Fisioterapeuta
-    </p>
+    </span>
     <i class="fas fa-close"></i>
   </div>
 

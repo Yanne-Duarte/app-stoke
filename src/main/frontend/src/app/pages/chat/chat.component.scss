@@ -4,7 +4,7 @@
   right: 20px;
   width: 60px;
   height: 60px;
-  background: #128c7e;
+  background: #2d9cdb;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -37,17 +37,18 @@
   width: fit-content;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   margin-left: 16px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   .chat-header {
     padding: 15px;
-    background: #128c7e;
-    color: white;
+    background: #2d9cdb;
+    color: white !important;
     border-radius: 10px 10px 0 0;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-weight: bold;
 
     p {
       margin: 0;
@@ -131,9 +132,10 @@
       }
 
       &.selected {
-        background: #e7f3ff;
-        color: #128c7e;
-        font-weight: 500;
+        font-weight: bold;
+        color: white;
+        background-color: #2d9cdb;
+        box-shadow: 0 0 10px #2d9cdb !important;
       }
     }
 
@@ -221,7 +223,7 @@
       .message-content {
         .delete-message-btn {
           i {
-            color: #128c7e;
+            color: #2d9cdb;
           }
 
           &:hover {
@@ -284,7 +286,7 @@
       }
 
       button {
-        background: #128c7e;
+        background: #2d9cdb;
         color: white;
         border: none;
         border-radius: 50%;

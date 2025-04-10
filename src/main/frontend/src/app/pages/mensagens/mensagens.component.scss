@@ -72,9 +72,10 @@
   }
 
   &.selected {
-    background: #e7f3ff;
-    color: #128c7e;
-    font-weight: 500;
+    font-weight: bold;
+    color: white;
+    background-color: #2d9cdb;
+    box-shadow: 0 0 10px #2d9cdb !important;
   }
 }
 
@@ -132,7 +133,7 @@
 
   .message-status {
     font-size: 0.7em;
-    color: #128c7e;
+    color: #2d9cdb;
     font-style: italic;
   }
 
@@ -168,7 +169,7 @@
   .message-content {
     .delete-message-btn {
       i {
-        color: #128c7e;
+        color: #2d9cdb;
       }
 
       &:hover {
@@ -231,7 +232,7 @@
   }
 
   button {
-    background: #128c7e;
+    background: #2d9cdb;
     color: white;
     border: none;
     border-radius: 50%;
