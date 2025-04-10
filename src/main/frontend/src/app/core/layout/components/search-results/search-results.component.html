@@ -71,16 +71,17 @@
                 @for(header of tableHeaders; track header.key) {
                 <div class="card-field">
                     <span class="field-label">{{header.label}}</span>
-                    @if(header.key === 'fisioterapeuta'){
-                    <span class="field-value">{{item[header.key]?.fullName || 'N/A'}}</span>
-                    }
-                    @if(header.key === 'createdAt'){
-                    <span class="field-value">{{(item[header.key]) | date:'dd/MM/yyyy HH:mm' }}</span>
-                    }
-                    @else {
-                    <span class="field-value">{{item[header.key] || 'N/A'}}</span>
-                    }
-                </div>}
+                    <ng-container [ngSwitch]="header.key">
+                        <span class="field-value" *ngSwitchCase="'fisioterapeuta'">{{item[header.key]?.fullName || 'N/A'}}</span>
+                        <span class="field-value" *ngSwitchCase="'user'">{{item[header.key]?.fullName || 'N/A'}}</span>
+                        <span class="field-value" *ngSwitchCase="'enabled'">{{item[header.key]? 'Ativo' : 'Inativo'}}</span>
+                        <span class="field-value" *ngSwitchCase="'createdAt'">{{(item[header.key]) | date:'dd/MM/yyyy HH:mm' }}</span>
+                        <span class="field-value" *ngSwitchCase="'creationDate'">{{(item[header.key]) | date:'dd/MM/yyyy' }}</span>
+                        <span class="field-value" *ngSwitchCase="'validityDate'">{{(item[header.key]) | date:'dd/MM/yyyy' }}</span>
+                        <span class="field-value" *ngSwitchDefault>{{item[header.key] || 'N/A'}}</span>
+                    </ng-container>
+                </div>
+                }
                 <div class="card-actions">
                     <div class="d-flex gap-2">
                         @for(actionType of availableActions; track actionType) {
