@@ -1,4 +1,4 @@
-<app-search-results [title]="'Gravações'" [subtitle]="'Gestão das gravações do sistema'"
+<app-search-results [title]="'Gravações'" [subtitle]="'Gestão das gravações do sistema'" [canCreate]="canCreate"
   [newButtonLabel]="'Nova Gravação'" [btnClass]="'btn btn-primary w-100'" [newButtonIcon]="'fas fa-plus'"
   [tableHeaders]="headers" [data]="videos" [loading]="loading" (onNew)="handleNew()"
   [availableActions]="availableActions" (onDelete)="handleDelete($event)" (onPlay)="handlePlay($event)"

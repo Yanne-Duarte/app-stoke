@@ -61,12 +61,15 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <label class="form-label">Perfil</label>
-            <select class="form-select" formControlName="perfil">
-              <option value="">Selecione um perfil</option>
-              <option value="ADMIN">Administrador</option>
-              <option value="TECHNICAL">Técnico</option>
-              <option value="USER">Utilizador</option>
-            </select>
+            <app-select 
+              [options]="[
+                { id: 'ADMIN', descricao: 'Administrador' },
+                { id: 'TECHNICAL', descricao: 'Técnico' },
+                { id: 'USER', descricao: 'Utilizador' }
+              ]"
+              formControlName="perfil"
+              placeholder="Selecione um perfil">
+            </app-select>
             <div class="text-danger"
               *ngIf="userForm.get('perfil')?.errors?.['required'] && userForm.get('perfil')?.touched">
               Perfil é obrigatório
@@ -80,12 +83,11 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <label class="form-label">Fisioterapeuta</label>
-            <select class="form-select" formControlName="fisioterapeutaId">
-              <option value="">Selecione um fisioterapeuta</option>
-              <option *ngFor="let technical of technicalUsers" [value]="technical.id">
-                {{technical.fullName}}
-              </option>
-            </select>
+            <app-select 
+              [options]="technicalUsers"
+              formControlName="fisioterapeutaId"
+              placeholder="Selecione um fisioterapeuta">
+            </app-select>
           </div>
         </div>
         }

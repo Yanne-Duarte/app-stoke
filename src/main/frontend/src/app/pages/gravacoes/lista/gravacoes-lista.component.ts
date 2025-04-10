@@ -4,7 +4,10 @@ import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { VideoRecordDTO } from '../../../api/models.dto';
 import { ApiService } from '../../../api/api.service';
 import { SearchResultsComponent } from 'src/app/core/layout/components/search-results/search-results.component';
-import { ActionType, TableHeader } from 'src/app/core/layout/components/search-results/search.model';
+import {
+  ActionType,
+  TableHeader,
+} from 'src/app/core/layout/components/search-results/search.model';
 import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlayVideoComponent } from '../play-video/play-video.component';
@@ -30,7 +33,15 @@ export class GravacoesListaComponent implements OnInit {
     { key: 'size', label: 'Tamanho', useTemplate: true },
   ];
   perfil: any;
-  availableActions: ActionType[] = ['view', 'edit', 'delete', 'play', 'create', 'update'];
+  availableActions: ActionType[] = [
+    'view',
+    'edit',
+    'delete',
+    'play',
+    'create',
+    'update',
+  ];
+  canCreate: boolean = false;
 
   constructor(
     private apiService: ApiService,
@@ -41,7 +52,8 @@ export class GravacoesListaComponent implements OnInit {
 
   ngOnInit() {
     this.loadVideos();
-    this.perfil = JSON.parse(localStorage.getItem('perfil') || '{}');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.canCreate = user.perfil === 'USER';
   }
 
   private loadVideos() {

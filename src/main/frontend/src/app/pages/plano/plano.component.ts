@@ -1,16 +1,16 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlanoListComponent } from './components/plano-list/plano-list.component';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchResultsComponent } from '../../core/layout/components/search-results/search-results.component';
 import { PlanDTO, PlanFilterDTO } from 'src/app/api/models.dto';
-import { PlanoDeleteModalComponent } from './components/plano-delete-modal/plano-delete-modal.component';
 import {
+  ActionType,
   FilterField,
   TableHeader,
 } from 'src/app/core/layout/components/search-results/search.model';
 import { ApiService } from 'src/app/api/api.service';
+import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
 
 @Component({
   selector: 'app-plano',
@@ -20,6 +20,8 @@ import { ApiService } from 'src/app/api/api.service';
 })
 export class PlanoComponent implements OnInit {
   canCreatePlano: boolean;
+  currentUser: any;
+  availableActions: ActionType[] = [];
   handlePlay(item: any) {
     this.router.navigate([item.id, 'executar'], { relativeTo: this.route });
   }
@@ -68,6 +70,19 @@ export class PlanoComponent implements OnInit {
 
   ngOnInit() {
     this.carregarPlanos();
+
+    this.currentUser = JSON.parse(localStorage.getItem('user') ?? 'null');
+    
+    const perfil = this.currentUser?.perfil || '';
+    
+    const profilePermissions: Record<string, { canCreate: boolean; actions: ActionType[] }> = {     
+      'TECHNICAL': { canCreate: true, actions: ['view', 'edit', 'delete'] },
+      'USER': { canCreate: false, actions: ['view','play'] }
+    };
+
+    const permissions = profilePermissions[perfil] || profilePermissions['USER'];
+    this.canCreatePlano = permissions.canCreate;
+    this.availableActions = permissions.actions;
   }
 
   handleNew() {
@@ -78,12 +93,24 @@ export class PlanoComponent implements OnInit {
     }
   }
   handleDelete(plano: PlanDTO) {
-    const modalRef = this.modalService.open(PlanoDeleteModalComponent);
-    modalRef.componentInstance.plano = plano;
+    const modalRef = this.modalService.open(ModalComponent, {
+      size: 'md',
+      centered: true,
+    });
+    modalRef.componentInstance.title = 'Eliminar Plano';
+    modalRef.componentInstance.message =
+      'Tem certeza que deseja eliminar este plano?';
 
     modalRef.result.then((result: any) => {
       if (result) {
-        this.apagar(plano.id!);
+        this.apiService.deletePlan(plano.id!).subscribe({
+          next: () => {
+            this.planos = this.planos.filter((p) => p.id !== plano.id);
+          },
+          error: (error) => {
+            this.error = 'Erro ao eliminar plano: ' + error.message;
+          },
+        });
       }
     });
   }
@@ -141,17 +168,6 @@ export class PlanoComponent implements OnInit {
       },
       error: (error) => {
         this.error = 'Erro ao atualizar estado: ' + error.message;
-      },
-    });
-  }
-
-  private apagar(id: number) {
-    this.apiService.deletePlan(id).subscribe({
-      next: () => {
-        this.planos = this.planos.filter((p) => p.id !== id);
-      },
-      error: (error) => {
-        this.error = 'Erro ao eliminar plano: ' + error.message;
       },
     });
   }

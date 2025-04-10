@@ -1,30 +1,33 @@
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ApiService } from '../../api/api.service';
+import { UserDTO } from '../../api/models.dto';
+import { SearchResultsComponent } from 'src/app/core/layout/components/search-results/search-results.component';
+import { FilterField, TableHeader } from 'src/app/core/layout/components/search-results/search.model';
+import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserFormComponent } from './components/user-form/user-form.component';
-import { CommonModule } from '@angular/common';
-import { ApiService } from '../../api/api.service';
-import { UserDTO, UserFilterDTO } from '../../api/models.dto';
-import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { UserFilterDTO } from '../../api/models.dto';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DeleteConfirmationComponent } from '../news/components/delete-confirmation/delete-confirmation.component';
 import { ChangeStatusConfirmationComponent } from './components/change-status-confirmation/change-status-confirmation.component';
-import { SearchResultsComponent } from '../../core/layout/components/search-results/search-results.component';
-import {
-  FilterField,
-  TableHeader,
-} from 'src/app/core/layout/components/search-results/search.model';
-import { ActionType } from 'src/app/core/layout/components/search-results/search.model';
+
+type ActionType = 'view' | 'edit' | 'status' | 'delete';
 
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [CommonModule, RouterModule, SearchResultsComponent],
-  templateUrl: './users.component.html',
+  templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit {
-  availableActions: ActionType[] = ['view', 'edit', 'status', 'delete'];
   users: UserDTO[] = [];
   loading = false;
+  error = '';
+  canCreateUser = false;
+  availableActions: ActionType[] = [];
+  currentUser: UserDTO | null = null;
   filterFields: FilterField[] = [
     { name: 'fullName', label: 'Nome', type: 'text' },
     { name: 'username', label: 'Username', type: 'text' },
@@ -51,7 +54,6 @@ export class UsersComponent implements OnInit {
     { key: 'plano', label: 'Plano de Reabilitação' },
     { key: 'fisioterapeuta', label: 'Fisioterapeuta', useTemplate: true },
   ];
-  canCreateUser: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -60,10 +62,21 @@ export class UsersComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadUsers();
-    this.canCreateUser =
-      JSON.parse(localStorage.getItem('user') ?? '').perfil === 'ADMIN';
+    this.currentUser = JSON.parse(localStorage.getItem('user') ?? 'null');
+    
+    const perfil = this.currentUser?.perfil || '';
+    
+    const profilePermissions: Record<string, { canCreate: boolean; actions: ActionType[] }> = {
+      'ADMIN': { canCreate: true, actions: ['view', 'edit', 'status', 'delete'] },
+      'TECHNICAL': { canCreate: false, actions: ['view', 'edit', 'status'] },
+      'USER': { canCreate: false, actions: ['view'] }
+    };
+
+    const permissions = profilePermissions[perfil] || profilePermissions['USER'];
+    this.canCreateUser = permissions.canCreate;
+    this.availableActions = permissions.actions;
   }
 
   loadUsers(filter?: UserFilterDTO) {
@@ -90,20 +103,38 @@ export class UsersComponent implements OnInit {
 
   handleDelete(user: UserDTO) {
     if (!user.id) {
-      console.error('ID do usuário não encontrado');
       return;
     } else {
-      const modalRef = this.modalService.open(DeleteConfirmationComponent);
-      modalRef.componentInstance.user = user;
+      const modalRef = this.modalService.open(ModalComponent, {
+        size: 'md',
+        centered: true,
+        backdrop: 'static',
+        keyboard: false,
+      });
+
+      modalRef.componentInstance.title = `Utilizador inativar: ${user.fullName}`;
+      modalRef.componentInstance.message = `Tem certeza que deseja inativar o utilizador?`;
+      modalRef.componentInstance.buttonConfirmLabel = 'Confirmar';
+      modalRef.componentInstance.buttonCancelLabel = 'Cancelar';
+      modalRef.componentInstance.showConfirmButton = true;
+      modalRef.componentInstance.showCancelButton = true;
+
       modalRef.result.then(
-        (result) => {
+        (result: boolean) => {
           if (result) {
-            this.apiService.deleteUser(user.id!).subscribe(() => {
-              this.loadUsers();
+            this.apiService.deleteUser(user.id!).subscribe({
+              next: () => {
+                this.loadUsers();
+              },
+              error: (error) => {
+                console.warn('Erro ao apagar o utilizador:', error);
+              },
             });
           }
         },
-        () => {}
+        () => {
+          // Modal foi fechado sem confirmação
+        }
       );
     }
   }

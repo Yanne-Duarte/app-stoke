@@ -472,7 +472,7 @@ export class ApiService {
   }
 
   updatePlanExecution(executionId: number, metrics: Partial<PlanExecutionMetricsDTO>): Observable<PlanExecutionMetricsDTO> {
-    return this.http.patch<PlanExecutionMetricsDTO>(`${this.apiUrl}/plan-executions/${executionId}`, metrics);
+    return this.http.put<PlanExecutionMetricsDTO>(`${this.apiUrl}/plan-executions/${executionId}`, metrics);
   }
 
   getPlanExecutionSummary(): Observable<PlanExecutionSummaryDTO[]> {

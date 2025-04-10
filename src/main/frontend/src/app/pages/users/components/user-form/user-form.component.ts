@@ -11,17 +11,24 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { UpdateUserByAdminDto } from '../../../../api/models.dto';
 import { DatepickerComponent } from 'src/app/core/layout/components/datepicker/datepicker.component';
+import { SelectComponent } from 'src/app/core/layout/components/select/select.component';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, DatepickerComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    DatepickerComponent,
+    SelectComponent,
+  ],
   standalone: true,
 })
 export class UserFormComponent implements OnInit {
   isEditing = false;
   userForm: FormGroup;
-  technicalUsers: { id: number; fullName: string }[] = [];
+  technicalUsers: { id: number; descricao: string }[] = [];
   loading = false;
   error = '';
 
@@ -44,7 +51,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTechnicalUsers();
-    
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditing = true;
@@ -62,17 +69,18 @@ export class UserFormComponent implements OnInit {
           console.error('Erro ao carregar usuário:', error);
           this.error = 'Erro ao carregar dados do usuário';
           this.loading = false;
-        }
+        },
       });
     }
   }
 
   loadTechnicalUsers(): void {
-    this.apiService.getAllTechnicalUsers().subscribe(
-      (users) => {
-        this.technicalUsers = users;
-      }
-    );
+    this.apiService.getAllTechnicalUsers().subscribe((users) => {
+      this.technicalUsers = users.map((user) => ({
+        id: user.id!,
+        descricao: user.fullName,
+      }));
+    });
   }
 
   onSubmit(): void {
@@ -86,9 +94,9 @@ export class UserFormComponent implements OnInit {
           perfil: this.userForm.get('perfil')?.value,
           plano: this.userForm.get('plano')?.value,
           fisioterapeuta: this.userForm.get('fisioterapeutaId')?.value,
-          password: this.userForm.get('password')?.value
+          password: this.userForm.get('password')?.value,
         };
-        
+
         this.apiService.updateUserByAdmin(Number(id), updateData).subscribe({
           next: () => {
             this.router.navigate(['/users']);
@@ -96,7 +104,7 @@ export class UserFormComponent implements OnInit {
           error: (error) => {
             console.error('Erro ao atualizar usuário:', error);
             this.error = 'Erro ao atualizar usuário';
-          }
+          },
         });
       } else {
         this.apiService.registerUser(this.userForm.value).subscribe({
@@ -106,7 +114,7 @@ export class UserFormComponent implements OnInit {
           error: (error) => {
             console.error('Erro ao criar usuário:', error);
             this.error = 'Erro ao criar usuário';
-          }
+          },
         });
       }
     }

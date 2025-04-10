@@ -41,7 +41,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
       this.onChange(value);
     });
 
-    if (this.showDefaultOption && this.options && this.options.length > 0) {
+    if (this.showDefaultOption && this.options && this.options.length > 0 && !this.options.some(opt => opt.id === 0)) {
       const defaultOption: SelectOption = { id: 0, descricao: 'Selecione...' };
       this.options = [defaultOption, ...this.options];
     }
@@ -49,7 +49,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
 
   // ControlValueAccessor implementation
   writeValue(value: any): void {
-    this.control.setValue(value, { emitEvent: false });
+    this.control.setValue(value !== undefined ? value : null, { emitEvent: false });
   }
 
   registerOnChange(fn: any): void {

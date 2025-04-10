@@ -9,7 +9,12 @@ import {
   FormArray,
 } from '@angular/forms';
 import { ApiService } from '../../../../api/api.service';
-import { PlanDTO, ExerciseDTO, UserDTO, VideoRecordDTO } from '../../../../api/models.dto';
+import {
+  PlanDTO,
+  ExerciseDTO,
+  UserDTO,
+  VideoRecordDTO,
+} from '../../../../api/models.dto';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SelectComponent } from '../../../../core/layout/components/select/select.component';
 
@@ -36,8 +41,8 @@ export class PlanoFormComponent implements OnInit {
   ) {
     this.planoForm = this.fb.group({
       user: [null, Validators.required],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      exercises: this.fb.array([])
+      description: ['', [Validators.required]],
+      exercises: this.fb.array([]),
     });
   }
 
@@ -51,59 +56,102 @@ export class PlanoFormComponent implements OnInit {
       this.apiService.getPlanById(parseInt(id)).subscribe({
         next: (plano) => {
           this.plano = plano;
-          this.planoForm.patchValue({
-            user: plano.user,
-            description: plano.description,
-          });
-
-          // Carregar exercícios existentes
-          plano.exercises?.forEach(exercise => {
-            this.addExercise(exercise);
-          });
+          
+          // Aguardar que os usuários disponíveis sejam carregados antes de definir o valor do usuário
+          if (this.availableUsers.length > 0) {
+            this.setFormValues(plano);
+          } else {
+            // Se os usuários ainda não foram carregados, aguardar o próximo ciclo
+            setTimeout(() => {
+              this.setFormValues(plano);
+            }, 100);
+          }
+          
           this.loading = false;
         },
         error: (error) => {
           this.error = 'Erro ao carregar plano: ' + error.message;
           this.loading = false;
-        }
+        },
       });
     }
 
     // Observar mudanças no usuário selecionado
-    this.planoForm.get('user')?.valueChanges.subscribe(user => {
-      if (user?.id) {
-        this.loadUserVideos(user.id);
+    this.planoForm.get('user')?.valueChanges.subscribe((userId) => {
+      if (userId) {
+        this.loadUserVideos(userId);
       } else {
         this.userVideos = [];
       }
     });
   }
 
+  private setFormValues(plano: PlanDTO) {
+    try {
+      // Encontrar o ID do usuário nos usuários disponíveis
+      const userOption = this.availableUsers.find(user => user.descricao === plano.user.fullName);
+      
+      if (!userOption) {
+        console.warn(`Usuário ${plano.user.fullName} não encontrado nos usuários disponíveis`);
+      }
+      
+      this.planoForm.patchValue({
+        user: userOption ? userOption.id : null,
+        description: plano.description,
+      });
+
+      // Carregar exercícios existentes
+      plano.exercises?.forEach((exercise) => {
+        this.addExercise(exercise);
+      });
+      
+      // Carregar vídeos do usuário
+      if (userOption) {
+        this.loadUserVideos(userOption.id);
+      }
+    } catch (error) {
+      console.error('Erro ao definir valores do formulário:', error);
+      this.error = 'Erro ao carregar dados do plano para edição';
+    }
+  }
+
   private loadUserVideos(userId: number) {
+    if (!userId) {
+      this.userVideos = [];
+      return;
+    }
+    
     this.apiService.getVideosByUserId(userId).subscribe({
       next: (videos) => {
-        this.userVideos = videos.map(video => ({
+        this.userVideos = videos.map((video) => ({
           id: video.name,
-          descricao: `${video.name} - ${video.description}`
+          descricao: `${video.name} - ${video.description}`,
         }));
       },
       error: (error) => {
-        this.error = 'Erro ao carregar vídeos do usuário: ' + error.message;
-      }
+        console.error('Erro ao carregar vídeos do usuário:', error);
+        this.userVideos = [];
+        // Não mostrar erro para o usuário, apenas registrar no console
+      },
     });
   }
 
   private loadAvailableUsers() {
     this.apiService.getAvailableUsers().subscribe({
       next: (users) => {
-        this.availableUsers = users.map(user => ({
+        this.availableUsers = users.map((user) => ({
           id: user.id!,
-          descricao: user.fullName
+          descricao: user.fullName,
         }));
+        
+        // Se estiver editando e o plano já foi carregado, definir o valor do usuário
+        if (this.isEdit && this.plano) {
+          this.setFormValues(this.plano);
+        }
       },
       error: (error) => {
         this.error = 'Erro ao carregar utilizadores: ' + error.message;
-      }
+      },
     });
   }
 
@@ -114,7 +162,7 @@ export class PlanoFormComponent implements OnInit {
   addExercise(exercise?: ExerciseDTO) {
     const exerciseForm = this.fb.group({
       description: [exercise?.description || '', Validators.required],
-      videoPath: [exercise?.videoPath || '', Validators.required]
+      videoPath: [exercise?.videoPath || '', Validators.required],
     });
 
     this.exercises.push(exerciseForm);
@@ -129,31 +177,50 @@ export class PlanoFormComponent implements OnInit {
       this.loading = true;
       this.error = null;
 
-      const planData: PlanDTO = {
-        ...this.planoForm.value,
-        id: this.plano?.id
-      };
-
-      // Apenas incluir datas e enabled se for edição
-      if (this.isEdit) {
-        planData.creationDate = this.plano!.creationDate;
-        planData.validityDate = this.plano!.validityDate;
-        planData.enabled = this.plano!.enabled;
+      const selectedUser = this.availableUsers.find(user => user.id === this.planoForm.value.user);
+      if (!selectedUser) {
+        this.error = 'Usuário não encontrado';
+        this.loading = false;
+        return;
       }
 
-      const request = this.isEdit
-        ? this.apiService.updatePlan(this.plano!.id!, planData)
-        : this.apiService.createPlan(planData);
+      try {
+        const planData: PlanDTO = {
+          ...this.planoForm.value,
+          id: this.plano?.id,
+          user: {
+            id: selectedUser.id,
+            fullName: selectedUser.descricao,
+            username: '', // These fields will be populated by the backend
+            birthdate: '',
+            perfil: '',
+            plano: '',
+            fisioterapeuta: null
+          },
+          creationDate: this.plano?.creationDate || new Date().toISOString(),
+          validityDate: this.plano?.validityDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          enabled: this.plano?.enabled !== undefined ? this.plano.enabled : true,
+          exercises: this.planoForm.value.exercises
+        };
 
-      request.subscribe({
-        next: () => {
-          this.router.navigate(['/plano']);
-        },
-        error: (error) => {
-          this.error = 'Erro ao Guardar plano: ' + error.message;
-          this.loading = false;
-        }
-      });
+        const request = this.isEdit
+          ? this.apiService.updatePlan(this.plano!.id!, planData)
+          : this.apiService.createPlan(planData);
+
+        request.subscribe({
+          next: () => {
+            this.loading = false;
+            this.router.navigate(['/plano']);
+          },
+          error: (error) => {
+            this.error = `Erro ao ${this.isEdit ? 'atualizar' : 'criar'} plano: ${error.message}`;
+            this.loading = false;
+          }
+        });
+      } catch (error: any) {
+        this.error = `Erro ao preparar dados do plano: ${error.message || 'Erro desconhecido'}`;
+        this.loading = false;
+      }
     }
   }
 
