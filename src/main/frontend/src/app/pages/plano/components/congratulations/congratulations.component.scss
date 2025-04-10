@@ -1,0 +1,146 @@
+.congratulations-container {
+  padding: 10px;
+  text-align: center;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  @media (min-width: 768px) {
+    padding: 20px;
+  }
+}
+
+.congratulations-icon {
+  font-size: 2.5rem;
+  color: #ffc107;
+  margin-bottom: 0.5rem;
+  
+  @media (min-width: 768px) {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 1rem 0;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+}
+
+.stat-item {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  @media (min-width: 768px) {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+}
+
+.stat-label {
+  font-weight: bold;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.stat-value {
+  font-size: 0.9rem;
+  color: #212529;
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+  }
+}
+
+.message-container {
+  background-color: #e9f7fe;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-top: 0.75rem;
+  
+  @media (min-width: 768px) {
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  p {
+    margin-bottom: 0;
+    color: #0c5460;
+    font-size: 0.8rem;
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Estilos para o modal em dispositivos móveis
+:host ::ng-deep .congratulations-modal {
+  .modal-dialog {
+    margin: 1rem auto;
+    max-width: 90%;
+    
+    @media (min-width: 768px) {
+      max-width: 600px;
+    }
+  }
+  
+  .modal-content {
+    border-radius: 0.3rem;
+  }
+  
+  .modal-header {
+    padding: 0.5rem 1rem;
+    
+    @media (min-width: 768px) {
+      padding: 1rem 1.5rem;
+    }
+    
+    h3 {
+      font-size: 1.25rem;
+      margin: 0;
+
+      @media (min-width: 768px) {
+        font-size: 1.75rem;
+      }
+    }
+  }
+  
+  .modal-body {
+    padding: 0.5rem;
+
+    @media (min-width: 768px) {
+      padding: 1rem;
+    }
+  }
+  
+  .modal-footer {
+    padding: 0.5rem 1rem;
+
+    @media (min-width: 768px) {
+      padding: 1rem 1.5rem;
+    }
+
+    .btn {
+      @media (min-width: 768px) {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}

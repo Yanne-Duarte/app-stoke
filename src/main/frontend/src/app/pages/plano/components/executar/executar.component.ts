@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../../api/api.service';
 import { PlanDTO, PlanExecutionMetricsDTO } from '../../../../api/models.dto';
 import { PlayVideoComponent } from '../../../gravacoes/play-video/play-video.component';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CongratulationsComponent } from '../congratulations/congratulations.component';
+import { PlatformService } from 'src/app/api/platform.service';
 
 @Component({
   selector: 'app-executar',
@@ -14,6 +16,8 @@ import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./executar.component.scss'],
 })
 export class ExecutarComponent implements OnInit, OnDestroy {
+  private platformService = inject(PlatformService);
+  isMobile = computed(() => this.platformService.isMobile());
   plano?: PlanDTO;
   loading = false;
   error: string | null = null;
@@ -164,7 +168,18 @@ export class ExecutarComponent implements OnInit, OnDestroy {
 
   finalizar() {
     this.finalizarExecucao();
-    this.router.navigate(['/plano']);
+
+    // Abrir o modal de congratulações
+    const modalRef = this.modalService.open(CongratulationsComponent, {
+      size: this.isMobile() ? 'sm' : 'lg',
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+      windowClass: 'congratulations-modal',
+    });
+
+    // Passar os dados da execução para o componente de congratulações
+    modalRef.componentInstance.executionMetrics = this.executionMetrics;
   }
 
   getProgressPercentage(): number {

@@ -27,6 +27,8 @@ import { SelectComponent } from '../select/select.component';
 })
 export class SearchResultsComponent implements OnInit, OnChanges {
   private platformService = inject(PlatformService);
+  isMobile = computed(() => this.platformService.isMobile());
+  
   @Input() title = '';
   @Input() subtitle = '';
   @Input() newButtonLabel = '';
@@ -58,7 +60,7 @@ export class SearchResultsComponent implements OnInit, OnChanges {
 
   @ContentChild('customCell') customCell!: TemplateRef<any>;
 
-  isMobile = computed(() => this.platformService.isMobile());
+
 
   filterForm: FormGroup;
   isCollapsed = true;

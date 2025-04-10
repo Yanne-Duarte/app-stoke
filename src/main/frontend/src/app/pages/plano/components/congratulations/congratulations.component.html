@@ -1,1 +1,44 @@
-<p>congratulations works!</p>
+<modal-global>
+  <div header>
+    <h3>Parabéns! 🎉</h3>
+  </div>
+  
+  <div body>
+    <div class="congratulations-container">
+      <div class="text-center mb-2">
+        <i class="fas fa-trophy congratulations-icon"></i>
+        <h5>Plano Concluído!</h5>
+      </div>
+      
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-label">Tempo</div>
+          <div class="stat-value">{{ formatDuration(executionMetrics?.totalDuration || 0) }}</div>
+        </div>
+        
+        <div class="stat-item">
+          <div class="stat-label">Exercícios</div>
+          <div class="stat-value">{{ executionMetrics?.totalSteps || 0 }}</div>
+        </div>
+        
+        <div class="stat-item">
+          <div class="stat-label">Média</div>
+          <div class="stat-value">{{ formatDuration(getAverageTimePerStep()) }}</div>
+        </div>
+        
+        <div class="stat-item">
+          <div class="stat-label">Navegações</div>
+          <div class="stat-value">{{ executionMetrics?.nextStepClicks || 0 }}/{{ executionMetrics?.previousStepClicks || 0 }}</div>
+        </div>
+      </div>
+      
+      <div class="message-container mt-2">
+        <p>Continue assim! Consistência é a chave.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div footer>
+    <button class="btn btn-primary btn-sm" (click)="closeModal()">Fechar</button>
+  </div>
+</modal-global>
