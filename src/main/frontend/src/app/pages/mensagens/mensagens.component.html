@@ -22,7 +22,7 @@
                         <div class="message-text">{{message.content}}</div>
                         <div class="message-footer">
                             <span class="message-time">{{message.timestamp | date:'yyyy/MM/dd HH:mm'}}</span>
-
+                            <span *ngIf="message.pending" class="message-status">Enviando...</span>
                         </div>
                         <button *ngIf="message.sender === currentUser?.username && message.id"
                             class="delete-message-btn" (click)="deleteMessage(message.id)">
@@ -35,8 +35,8 @@
             </div>
 
             <form [formGroup]="form" (ngSubmit)="sendMessage()" class="message-form">
-                <input type="text" formControlName="mensagem" placeholder="Escreva a sua mensagem..."
-                    (keyup.enter)="sendMessage()">
+                <textarea #messageInput formControlName="mensagem" placeholder="Escreva aqui..."
+                    (keyup.enter)="sendMessage()" (input)="autoResize(messageInput)" rows="1"></textarea>
                 <button type="submit" [disabled]="!form.value.mensagem?.trim()">
                     <i class="fas fa-paper-plane"></i>
                 </button>

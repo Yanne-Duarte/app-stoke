@@ -56,6 +56,15 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
+  autoResize(textarea: HTMLTextAreaElement): void {
+    // Reset height to auto to get the correct scrollHeight
+    textarea.style.height = 'auto';
+    
+    // Set the height to match the content
+    const newHeight = Math.min(textarea.scrollHeight, 300);
+    textarea.style.height = `${newHeight}px`;
+  }
+
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
@@ -122,6 +131,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           patient.fisioterapeuta?.id === this.currentUser?.id
         );
         console.log('Loaded patients:', this.patients);
+        
+        // Auto-select the first patient if none is selected and there are patients available
+        if (this.patients.length > 0 && !this.selectedPatient) {
+          this.selectPatient(this.patients[0]);
+        }
       },
       error: (error) => {
         console.error('Error loading patients:', error);

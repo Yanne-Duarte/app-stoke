@@ -22,6 +22,8 @@ interface ChatMessage {
   mensagem: string;
   senderUser?: UserDTO;
   recipientUser?: UserDTO;
+  pending?: boolean;
+  tempId?: number;
 }
 
 @Component({
@@ -53,6 +55,15 @@ export class MensagensComponent implements OnInit, OnDestroy {
       content: new FormControl(''),
       timestamp: new FormControl(new Date().toISOString()),
     });
+  }
+
+  autoResize(textarea: HTMLTextAreaElement): void {
+    // Reset height to auto to get the correct scrollHeight
+    textarea.style.height = 'auto';
+    
+    // Set the height to match the content
+    const newHeight = Math.min(textarea.scrollHeight, 300);
+    textarea.style.height = `${newHeight}px`;
   }
 
   ngAfterViewChecked(): void {
@@ -124,6 +135,11 @@ export class MensagensComponent implements OnInit, OnDestroy {
           (patient) => patient.fisioterapeuta?.id === this.currentUser?.id
         );
         console.log('Loaded patients:', this.patients);
+        
+        // Auto-select the first patient if none is selected and there are patients available
+        if (this.patients.length > 0 && !this.selectedPatient) {
+          this.selectPatient(this.patients[0]);
+        }
       },
       error: (error) => {
         console.error('Error loading patients:', error);
@@ -207,7 +223,28 @@ export class MensagensComponent implements OnInit, OnDestroy {
 
             if (isBetweenCurrentPhysioAndSelectedPatient) {
               console.log('Adding message to chat (physiotherapist):', message);
-              this.messages.push(message);
+              
+              // Verificar se a mensagem já existe (para evitar duplicação)
+              const existingMessageIndex = this.messages.findIndex(
+                (msg) => 
+                  // Se for uma mensagem pendente, verificar pelo conteúdo e remetente
+                  (msg.pending && msg.content === message.content && msg.sender === message.sender) ||
+                  // Se for uma mensagem já salva, verificar pelo ID
+                  (msg.id && msg.id === message.id)
+              );
+              
+              if (existingMessageIndex !== -1) {
+                // Atualizar a mensagem existente
+                this.messages[existingMessageIndex] = {
+                  ...message,
+                  pending: false, // Remover o flag de pendente
+                  tempId: undefined // Remover o ID temporário
+                };
+              } else {
+                // Adicionar a nova mensagem
+                this.messages.push(message);
+              }
+              
               this.scrollToBottom();
             }
           } else {
@@ -222,7 +259,28 @@ export class MensagensComponent implements OnInit, OnDestroy {
 
             if (isBetweenCurrentPatientAndPhysio) {
               console.log('Adding message to chat (patient):', message);
-              this.messages.push(message);
+              
+              // Verificar se a mensagem já existe (para evitar duplicação)
+              const existingMessageIndex = this.messages.findIndex(
+                (msg) => 
+                  // Se for uma mensagem pendente, verificar pelo conteúdo e remetente
+                  (msg.pending && msg.content === message.content && msg.sender === message.sender) ||
+                  // Se for uma mensagem já salva, verificar pelo ID
+                  (msg.id && msg.id === message.id)
+              );
+              
+              if (existingMessageIndex !== -1) {
+                // Atualizar a mensagem existente
+                this.messages[existingMessageIndex] = {
+                  ...message,
+                  pending: false, // Remover o flag de pendente
+                  tempId: undefined // Remover o ID temporário
+                };
+              } else {
+                // Adicionar a nova mensagem
+                this.messages.push(message);
+              }
+              
               this.scrollToBottom();
             }
           }
@@ -286,9 +344,17 @@ export class MensagensComponent implements OnInit, OnDestroy {
         timestamp: new Date().toISOString(),
         sender: this.currentUser?.username,
         recipient: recipient,
+        pending: true, // Flag para identificar mensagens pendentes
+        tempId: Date.now(), // ID temporário para identificar a mensagem
       };
 
       console.log('Sending message:', message);
+      
+      // Adicionar a mensagem localmente antes de enviar
+      this.messages.push(message);
+      this.scrollToBottom();
+      
+      // Enviar a mensagem para o servidor
       this.apiService.sendMessage(message);
       this.form.patchValue({ mensagem: '' });
     }
