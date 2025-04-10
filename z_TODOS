@@ -1,22 +1,15 @@
-1. Utilizadores
- - ok 
-2. Chat
-  - ok
-3. Gravação
- - videos ok 
- - imgs??
-4. Plano
- - ok (50%) 
- - falta faz execução=> consumir lista de videos | fazer plano em step | marcar como concluido
- - ao fazer execução, obter o que se passou 
- - feedback automatico - gameficação
-5. Conteudos
- - produzir texto
- - todo: aplicar um rich text no texto
-6. notificações
- - ok 
-7. relatorios 
- - em falta
-8. dashboard 
-  - melhorar
-9. feedback aut
+- melhorar o feedback 
+- melhorar o feedback metricas e reports
+- tratar erros no backend
+- melhorar o  select
+- adicinar toast 
+- adicionar as mensagens de push
+- dar alguma ractividade ao site
+- remover prints e console logs
+- melhorar a acesbilidade do site
+- melhorar o design do site
+- melhorar o feedback dos inputs
+- melhorar o feedback dos modais
+- melhorar o feedback dos botões
+- melhorar o feedback dos links
+- melhorar o feedback dos inputs 
