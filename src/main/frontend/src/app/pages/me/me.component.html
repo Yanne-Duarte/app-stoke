@@ -1,53 +1,74 @@
 <div class="profile-container">
-    <div class="profile-card" *ngIf="userData">
-        <div class="profile-header">
-            <div class="avatar">
-                {{ userData.fullName?.charAt(0) }}
-            </div>
-            <h1 class="name">{{ userData.fullName }}</h1>
-            <p class="username">{{ userData.username }}</p>
-        </div>
-
-        <div class="profile-details">
-            <div class="detail-item">
-                <span class="label">Perfil</span>
-                <span class="value">{{ userData.perfil == 'ADMIN' ? 'Administrador' : userData.perfil == 'USER' ?
-                    'Utilizador' : 'Técnico ' }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Data de Nascimento</span>
-                <span class="value">{{ userData.birthdate | date:'dd/MM/yyyy' }}</span>
-            </div>
-            <div class="detail-item" *ngIf="userData.fisioterapeuta">
-                <span class="label">Fisioterapeuta</span>
-                <span class="value">{{ userData.fisioterapeuta }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Conta Expirada</span>
-                <span class="value">{{ userData.accountNonExpired ? 'Não': 'Sim' }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Conta Bloqueada</span>
-                <span class="value">{{ userData.accountNonLocked ? 'Não': 'Sim' }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Data de Criação</span>
-                <span class="value">{{ userData.createdAt | date:'dd/MM/yyyy' }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Ativo</span>
-                <span class="value">{{ userData.enabled ? 'Sim' : 'Não' }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Data de Atualização</span>
-                <span class="value">{{ userData.updatedAt | date:'dd/MM/yyyy' }}</span>
-            </div>
-
-
-        </div>
+  <div class="profile-card" *ngIf="userData">
+    <div class="profile-header">
+      <div class="avatar">
+        {{ userData.fullName?.charAt(0) }}
+      </div>
+      <h1 class="name">{{ userData.fullName }}</h1>
+      <p class="username">{{ userData.username }}</p>
     </div>
 
-    <div class="no-data" *ngIf="!userData">
-        <p>Nenhum dado de usuário encontrado.</p>
+    <div class="profile-details">
+      <div class="detail-item">
+        <span class="label">Perfil</span>
+        <span class="value">{{
+          userData.perfil == "ADMIN"
+            ? "Administrador"
+            : userData.perfil == "USER"
+            ? "Utilizador"
+            : "Técnico "
+        }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Data de Nascimento</span>
+        <span class="value">{{
+          userData.birthdate | date : "dd/MM/yyyy"
+        }}</span>
+      </div>
+      <div class="detail-item" *ngIf="userData.fisioterapeuta">
+        <span class="label">Fisioterapeuta</span>
+        <span class="value">{{ userData.fisioterapeuta }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Conta Expirada</span>
+        <span class="value">{{
+          userData.accountNonExpired ? "Não" : "Sim"
+        }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Conta Bloqueada</span>
+        <span class="value">{{
+          userData.accountNonLocked ? "Não" : "Sim"
+        }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Data de Criação</span>
+        <span class="value">{{
+          userData.createdAt | date : "dd/MM/yyyy"
+        }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Ativo</span>
+        <span class="value">{{ userData.enabled ? "Sim" : "Não" }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Data de Atualização</span>
+        <span class="value">{{
+          userData.updatedAt | date : "dd/MM/yyyy"
+        }}</span>
+      </div>
     </div>
+
+    @if(userData.perfil == 'TECHNICAL') {
+    <div class="mt-3">
+      <app-pin></app-pin>
+    </div>
+    
+
+    }
+  </div>
+
+  <div class="no-data" *ngIf="!userData">
+    <p>Nenhum dado de utilizador encontrado.</p>
+  </div>
 </div>

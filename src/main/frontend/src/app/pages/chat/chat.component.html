@@ -23,7 +23,7 @@
     </div>
 
     <div class="chat-container" *ngIf="currentUser?.perfil === 'TECHNICAL' || currentUser?.fisioterapeuta">
-      <!-- Layout para usuário técnico -->
+      <!-- Layout para utilizador técnico -->
       <div class="technical-layout" *ngIf="currentUser?.perfil === 'TECHNICAL'">
         <!-- Lista de pacientes -->
         <div class="patients-sidebar">
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <!-- Layout para usuário normal -->
+      <!-- Layout para utilizador normal -->
       <div class="user-layout" *ngIf="currentUser?.perfil !== 'TECHNICAL'">
         <div class="messages" #messagesContainer>
           <div *ngFor="let message of messages" class="message"

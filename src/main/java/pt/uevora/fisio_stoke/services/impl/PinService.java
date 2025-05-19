@@ -38,14 +38,17 @@ public class PinService {
     }
 
     public boolean validatePin(String pinCode, User user) {
-        Optional<Pin> pinOpt = pinRepository.findByPinCodeAndUserAndExpiresAtAfterAndUsedFalse(
+        Optional<Pin> pinOpt = pinRepository.findByPinCodeAndExpiresAtAfterAndUsedFalse(
             pinCode, 
-            user, 
             LocalDateTime.now()
         );
 
         if (pinOpt.isPresent()) {
             Pin pin = pinOpt.get();
+            // Check if the PIN belongs to a technical user
+            if (pin.getUser().getPerfil() != Perfil.TECHNICAL) {
+                return false;
+            }
             pin.setUsed(true);
             pinRepository.save(pin);
             return true;

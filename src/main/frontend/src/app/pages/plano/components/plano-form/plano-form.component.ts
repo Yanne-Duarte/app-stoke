@@ -57,11 +57,11 @@ export class PlanoFormComponent implements OnInit {
         next: (plano) => {
           this.plano = plano;
           
-          // Aguardar que os usuários disponíveis sejam carregados antes de definir o valor do usuário
+          // Aguardar que os utilizadors disponíveis sejam carregados antes de definir o valor do utilizador
           if (this.availableUsers.length > 0) {
             this.setFormValues(plano);
           } else {
-            // Se os usuários ainda não foram carregados, aguardar o próximo ciclo
+            // Se os utilizadors ainda não foram carregados, aguardar o próximo ciclo
             setTimeout(() => {
               this.setFormValues(plano);
             }, 100);
@@ -76,7 +76,7 @@ export class PlanoFormComponent implements OnInit {
       });
     }
 
-    // Observar mudanças no usuário selecionado
+    // Observar mudanças no utilizador selecionado
     this.planoForm.get('user')?.valueChanges.subscribe((userId) => {
       if (userId) {
         this.loadUserVideos(userId);
@@ -88,11 +88,11 @@ export class PlanoFormComponent implements OnInit {
 
   private setFormValues(plano: PlanDTO) {
     try {
-      // Encontrar o ID do usuário nos usuários disponíveis
+      // Encontrar o ID do utilizador nos utilizadors disponíveis
       const userOption = this.availableUsers.find(user => user.descricao === plano.user.fullName);
       
       if (!userOption) {
-        console.warn(`Usuário ${plano.user.fullName} não encontrado nos usuários disponíveis`);
+        console.warn(`utilizador ${plano.user.fullName} não encontrado nos utilizadors disponíveis`);
       }
       
       this.planoForm.patchValue({
@@ -105,7 +105,7 @@ export class PlanoFormComponent implements OnInit {
         this.addExercise(exercise);
       });
       
-      // Carregar vídeos do usuário
+      // Carregar vídeos do utilizador
       if (userOption) {
         this.loadUserVideos(userOption.id);
       }
@@ -129,9 +129,9 @@ export class PlanoFormComponent implements OnInit {
         }));
       },
       error: (error) => {
-        console.error('Erro ao carregar vídeos do usuário:', error);
+        console.error('Erro ao carregar vídeos do utilizador:', error);
         this.userVideos = [];
-        // Não mostrar erro para o usuário, apenas registrar no console
+        // Não mostrar erro para o utilizador, apenas registrar no console
       },
     });
   }
@@ -144,7 +144,7 @@ export class PlanoFormComponent implements OnInit {
           descricao: user.fullName,
         }));
         
-        // Se estiver editando e o plano já foi carregado, definir o valor do usuário
+        // Se estiver editando e o plano já foi carregado, definir o valor do utilizador
         if (this.isEdit && this.plano) {
           this.setFormValues(this.plano);
         }
@@ -179,7 +179,7 @@ export class PlanoFormComponent implements OnInit {
 
       const selectedUser = this.availableUsers.find(user => user.id === this.planoForm.value.user);
       if (!selectedUser) {
-        this.error = 'Usuário não encontrado';
+        this.error = 'utilizador não encontrado';
         this.loading = false;
         return;
       }

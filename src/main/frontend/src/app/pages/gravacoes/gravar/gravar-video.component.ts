@@ -154,6 +154,7 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Erro ao iniciar gravação:', error);
       this.recordingError = 'Erro ao iniciar a gravação.';
+      clearInterval(this.durationInterval);
     }
   }
 
@@ -192,18 +193,18 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
         centered: true,
       });
 
-      // Aguardar a descrição do usuário
+      // Aguardar a descrição do utilizador
       const description = await new Promise<string>((resolve) => {
         descriptionModalRef.result.then(
           (result: string) => {
             if (result) {
               resolve(result);
             } else {
-              resolve('Sem descrição'); // Valor padrão se o usuário cancelar
+              resolve('Sem descrição'); // Valor padrão se o utilizador cancelar
             }
           },
           () => {
-            resolve('Sem descrição'); // Valor padrão se o usuário cancelar
+            resolve('Sem descrição'); // Valor padrão se o utilizador cancelar
           }
         );
       });

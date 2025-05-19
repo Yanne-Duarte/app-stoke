@@ -1,1 +1,10 @@
-<p>pin works!</p>
+<div class="pin-container">
+  <h3>Geração de PIN</h3>
+  <button class="btn btn-primary" (click)="generatePin()" [disabled]="!canGeneratePin()">
+    {{ isGenerating ? 'Gerando...' : 'Gerar PIN' }}
+  </button>
+  <div *ngIf="pin" class="pin-info">
+    <p>PIN gerado: <span class="pin-number bold">{{ formatPin(pin) }}</span></p>
+    <p>Expira em: {{ expiraEm | date : "dd/MM/yyyy HH:mm" }}</p>
+  </div>
+</div>

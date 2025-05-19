@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserDTO } from '../../api/models.dto';
+import { PinComponent } from './pin/pin.component';
 
 @Component({
   selector: 'app-me',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PinComponent],
   templateUrl: './me.component.html',
   styleUrl: './me.component.scss',
 })

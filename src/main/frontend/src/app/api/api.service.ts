@@ -486,4 +486,18 @@ export class ApiService {
   getUserPlanExecutions(userId: number): Observable<PlanExecutionDetailDTO[]> {
     return this.http.get<PlanExecutionDetailDTO[]>(`${this.apiUrl}/plan-executions/user/${userId}`);
   }
+
+
+  //__________________________________________________________________________
+  // PIN
+  //__________________________________________________________________________
+  generatePin() {
+    return this.http.post<{pin: string, expiraEm: string}>(`${this.apiUrl}/pin/create`, {});
+  }
+
+  validatePin(pin: string): Observable<{valido: boolean, message: string}> {
+    return this.http.post<{valido: boolean, message: string}>(`${this.apiUrl}/pin/validate`, { pin });
+  }
+  
+  
 }

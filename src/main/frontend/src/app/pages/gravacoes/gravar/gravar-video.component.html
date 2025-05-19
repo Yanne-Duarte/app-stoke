@@ -3,11 +3,11 @@
     <h1 class="text-2xl font-bold">
       <ng-container *ngIf="!isRecording && !isSaving">Nova Gravação | Nº {{lastID}}</ng-container>
       <ng-container *ngIf="isRecording">
-        Gravando... {{ duration | number:'2.0' }}s
+        A gravar... {{ duration | number:'2.0' }}s
         <span class="animate-pulse text-red-500 ml-2">●</span>
       </ng-container>
       <ng-container *ngIf="isSaving">
-        Salvando gravação...
+        A guardar gravação...
         <i class="fas fa-spinner fa-spin ml-2"></i>
       </ng-container>
     </h1>
@@ -34,7 +34,7 @@
       <!-- Mensagem quando não há preview -->
       <div *ngIf="!isPreviewActive" class="d-flex flex-col items-center justify-center p-8 bg-gray-100 aspect-video gap-2">
         <i class="fas fa-video text-4xl text-gray-400 mb-3"></i>
-        <p class="text-gray-500">Aguardando acesso à câmera...</p>
+        <p class="text-gray-500">A aguardar acesso à câmara...</p>
       </div>
     </div>
 

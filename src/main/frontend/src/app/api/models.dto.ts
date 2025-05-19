@@ -179,3 +179,29 @@ export interface PlanExecutionDetailDTO extends PlanExecutionMetricsDTO {
     timeSpent: number; // in seconds
   }[];
 }
+
+
+// PIN
+export interface PinDTO {
+  pin: string;
+  expiresAt: string;
+}
+
+export interface PinValidationDTO {
+  pin: string;
+  userId: number;
+}
+
+export interface PinGenerationDTO {
+  pin: string;
+  expiresAt: string;
+}
+
+export interface PinValidationResponseDTO {
+  valid: boolean;
+}
+
+export interface PinGenerationResponseDTO {
+  pin: string;
+  expiresAt: string;
+}

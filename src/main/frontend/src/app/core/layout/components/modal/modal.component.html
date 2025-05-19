@@ -8,7 +8,15 @@
 
     <div class="modal-body">
 
+        @if(tipo === 'gravar'){
+        <div>
+            <label for="name" class="form-label">Introduza o código de autenticação</label>
+            <input type="text" class="form-control" id="name" [(ngModel)]="pin">
+        </div>
+        }
+        @if(tipo === 'outros'){
         <p>{{ message }}</p>
+        }
     </div>
 
     <div class="modal-footer">

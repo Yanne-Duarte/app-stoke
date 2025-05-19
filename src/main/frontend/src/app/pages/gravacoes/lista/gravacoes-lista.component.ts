@@ -11,6 +11,7 @@ import {
 import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlayVideoComponent } from '../play-video/play-video.component';
+import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-gravacoes-lista',
   standalone: true,
@@ -43,11 +44,21 @@ export class GravacoesListaComponent implements OnInit {
   ];
   canCreate: boolean = false;
 
+  form = this.fb.group({
+    pin: [
+      '',
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(6),
+    ],
+  });
+
   constructor(
     private apiService: ApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -231,9 +242,35 @@ export class GravacoesListaComponent implements OnInit {
   }
 
   handleNew() {
-    this.router.navigate(['gravar'], {
-      relativeTo: this.route,
-      fragment: this.lastID().toString(),
+    const modalRef = this.modalService.open(ModalComponent, {
+      size: 'md',
+      centered: true,
+    });
+    modalRef.componentInstance.title = 'Nova Gravação';
+    modalRef.componentInstance.message = 'Deseja criar uma nova gravação?';
+    modalRef.componentInstance.perfil = this.perfil;
+    modalRef.componentInstance.tipo = 'gravar';
+    modalRef.componentInstance.buttonConfirmLabel = 'Validar';
+    modalRef.componentInstance.buttonCancelLabel = 'Cancelar';
+
+    modalRef.result.then((result) => {
+      if (result) {
+
+        this.apiService.validatePin(result).subscribe({
+          next: (result) => {
+            if (result.valido) {
+              this.router.navigate(['gravar'], {
+                relativeTo: this.route,
+                fragment: this.lastID().toString(),
+              });
+            }  
+          },
+        });
+        /*this.router.navigate(['gravar'], {
+          relativeTo: this.route,
+          fragment: this.lastID().toString(),
+        });*/
+      }
     });
   }
 

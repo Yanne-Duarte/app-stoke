@@ -87,7 +87,7 @@ export class UsersComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Erro ao carregar usuários:', error);
+        console.error('Erro ao carregar utilizadors:', error);
         this.loading = false;
       },
     });

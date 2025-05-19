@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface PinRepository extends CrudRepository<Pin, Long> {
     Optional<Pin> findByPinCodeAndUserAndExpiresAtAfterAndUsedFalse(String pinCode, User user, LocalDateTime now);
     Optional<Pin> findFirstByUserAndExpiresAtAfterAndUsedFalseOrderByCreatedAtDesc(User user, LocalDateTime now);
+    Optional<Pin> findByPinCodeAndExpiresAtAfterAndUsedFalse(String pinCode, LocalDateTime now);
 } 

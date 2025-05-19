@@ -66,8 +66,8 @@ export class UserFormComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          console.error('Erro ao carregar usuário:', error);
-          this.error = 'Erro ao carregar dados do usuário';
+          console.error('Erro ao carregar utilizador:', error);
+          this.error = 'Erro ao carregar dados do utilizador';
           this.loading = false;
         },
       });
@@ -102,8 +102,8 @@ export class UserFormComponent implements OnInit {
             this.router.navigate(['/users']);
           },
           error: (error) => {
-            console.error('Erro ao atualizar usuário:', error);
-            this.error = 'Erro ao atualizar usuário';
+            console.error('Erro ao atualizar utilizador:', error);
+            this.error = 'Erro ao atualizar utilizador';
           },
         });
       } else {
@@ -112,8 +112,8 @@ export class UserFormComponent implements OnInit {
             this.router.navigate(['/users']);
           },
           error: (error) => {
-            console.error('Erro ao criar usuário:', error);
-            this.error = 'Erro ao criar usuário';
+            console.error('Erro ao criar utilizador:', error);
+            this.error = 'Erro ao criar utilizador';
           },
         });
       }
