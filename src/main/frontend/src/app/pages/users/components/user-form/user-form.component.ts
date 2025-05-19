@@ -84,7 +84,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.userForm.valid) {
+  //  if (this.userForm.valid) {
       const id = this.route.snapshot.paramMap.get('id');
       if (id) {
         const updateData: UpdateUserByAdminDto = {
@@ -117,7 +117,7 @@ export class UserFormComponent implements OnInit {
           },
         });
       }
-    }
+   // }
   }
 
   goBack(): void {

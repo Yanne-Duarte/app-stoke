@@ -39,7 +39,7 @@
 
       <div class="col-md-6 mb-3">
         <label class="fw-bold">Fisioterapeuta:</label>
-        <p>{{user.fisioterapeuta || 'Não atribuído'}}</p>
+        <p>{{user.fisioterapeuta?.fullName || 'Não atribuído'}}</p>
       </div>
     </div>
   </div>

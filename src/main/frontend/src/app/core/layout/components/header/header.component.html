@@ -4,12 +4,19 @@
     <!-- Botão menu mobile -->
     <!--<img src="assets/images/favicon.ico" alt="Logo" class="logo">-->
     <div class="LOGO">
-      <span>FS</span>
+      <span title="FisioStroke">FS</span>
     </div>
   </div>
 
   <!-- Lado direito -->
   <div class="header-right">
+    <!-- Informações do utilizador (esconder em mobile) -->
+    <div class="user-info" *ngIf="!isMobile()">
+      <a [routerLink]="['/me']"  >
+        <i class="fas fa-user pe-2"></i>
+        <span class="user-name">{{ fullName }}</span>
+      </a>
+    </div>
     <!-- Ícone de notificações com badge -->
     <div class="notifications" [routerLink]="['/notificacoes']">
       <i class="fas fa-bell"></i>
@@ -19,18 +26,11 @@
       <i class="fas fa-bars"></i>
     </div>
 
-    <!-- Informações do utilizador (esconder em mobile) -->
-    <div class="user-info" *ngIf="!isMobile()">
-      <a [routerLink]="['/me']" style="color: #fff;">
-        <i class="fas fa-user pe-2"></i>
-        <span class="user-name">{{ fullName }}</span>
-      </a>
-    </div>
 
     <!-- Botão de logout (esconder em mobile) -->
     <div class="logout" (click)="logout()" *ngIf="!isMobile()">
       <i class="fas fa-sign-out-alt"></i>
-      <span>Terminar Sessão</span>
+      <span>Sair</span>
     </div>
   </div>
 </header>
