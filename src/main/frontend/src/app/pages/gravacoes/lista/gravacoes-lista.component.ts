@@ -263,13 +263,12 @@ export class GravacoesListaComponent implements OnInit {
                 relativeTo: this.route,
                 fragment: this.lastID().toString(),
               });
-            }  
+            } else {
+              this.error = result.message;
+            }
           },
         });
-        /*this.router.navigate(['gravar'], {
-          relativeTo: this.route,
-          fragment: this.lastID().toString(),
-        });*/
+          
       }
     });
   }
