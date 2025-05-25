@@ -34,7 +34,7 @@ export class SidebarItem {
       route: '/inicio',
     },
     {
-      label: 'Utilizadores',
+      label: 'Utentes',
       icon: 'fas fa-users',
       route: '/users',
     },
@@ -58,11 +58,11 @@ export class SidebarItem {
       icon: 'fas fa-plus',
       route: '/criar-conteudo',
     },
-    {
+    /*{
       label: 'Relatórios',
       icon: 'fas fa-chart-bar',
       route: '/reports',
-    },
+    },*/
     {
       label: 'Métricas',
       icon: 'fas fa-chart-line',

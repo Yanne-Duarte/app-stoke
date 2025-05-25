@@ -1,12 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import {
-  LoginDTO,
-  MemorizarDTO,
+import { 
   RegisterDTO,
-  UserDTO,
-  UserStatusDTO,
-  UserFilterDTO,
+  UserDTO,  
   NotificationDTO,
   UpdateUserByUserDto,
   UpdateUserByAdminDto,
@@ -19,7 +15,7 @@ import {
 } from './models.dto';
 import { environment } from 'src/environments/environment.production';
 import { Injectable } from '@angular/core';
-import { tap, catchError, throwError } from 'rxjs';
+import {   catchError, throwError } from 'rxjs';
 
 import { Client, Message } from '@stomp/stompjs';
 import { default as SockJS } from 'sockjs-client';

@@ -1,19 +1,35 @@
 <div class="page-container">
-    <app-search-results [title]="'Utilizadores'" [subtitle]="'Gestão dos utilizadores do sistema'"
-        [canCreate]="canCreateUser" [newButtonLabel]="'Novo Utilizador'" [btnClass]="'btn btn-primary w-100'"
-        [newButtonIcon]="'fas fa-plus'" [filterFields]="filterFields" [tableHeaders]="headers" [data]="users"
-        [loading]="loading" (onNew)="handleNew()" (onFilter)="handleFilter($event)" (onClear)="handleClear()"
-        [availableActions]="availableActions" (onView)="handleView($event)" (onEdit)="handleEdit($event)"
-        (onDelete)="handleDelete($event)" (onStatus)="handleStatus($event)" [checkStatusRow]="true">
-        <ng-template #customCell let-value let-item="item" let-column="column">
-            <ng-container *ngIf="column.key === 'perfil'">
-                <span *ngIf="value === 'USER'">Utente</span>
-                <span *ngIf="value === 'ADMIN'">Administrador</span>
-                <span *ngIf="value === 'TECHNICAL'">Técnico</span>
-            </ng-container>
-            <ng-container *ngIf="column.key === 'fisioterapeuta'">
-                {{item.fisioterapeuta?.fullName || ''}}
-            </ng-container>
-        </ng-template>
-    </app-search-results>
+  <app-search-results
+    [btnClass]="'btn btn-primary w-100'"
+    [newButtonIcon]="'fas fa-plus'"
+    [title]="title"
+    [subtitle]="subtitle"
+    [canCreate]="canCreateUser"
+    [newButtonLabel]="newButtonLabel"
+    [filterFields]="filterFields"
+    [tableHeaders]="headers"
+    [availableActions]="availableActions"
+    [data]="users"
+    [loading]="loading"
+    [checkStatusRow]="true"
+    (onNew)="handleNew()"
+    (onFilter)="handleFilter($event)"
+    (onClear)="handleClear()"
+    (onView)="handleView($event)"
+    (onEdit)="handleEdit($event)"
+    (onDelete)="handleDelete($event)"
+    (onStatus)="handleStatus($event)"
+  >
+    <ng-template #customCell let-value let-item="item" let-column="column">
+      <ng-container *ngIf="column.key === 'perfil'">
+        <span *ngIf="value === 'USER'">Utente</span>
+        <span *ngIf="value === 'ADMIN'">Administrador</span>
+        <span *ngIf="value === 'TECHNICAL'">Técnico</span>
+      </ng-container>
+
+      <ng-container *ngIf="column.key === 'fisioterapeuta'">
+        {{ item.fisioterapeuta?.fullName || "" }}
+      </ng-container>
+    </ng-template>
+  </app-search-results>
 </div>

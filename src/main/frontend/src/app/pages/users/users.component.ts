@@ -4,7 +4,10 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../api/api.service';
 import { UserDTO } from '../../api/models.dto';
 import { SearchResultsComponent } from 'src/app/core/layout/components/search-results/search-results.component';
-import { FilterField, TableHeader } from 'src/app/core/layout/components/search-results/search.model';
+import {
+  FilterField,
+  TableHeader,
+} from 'src/app/core/layout/components/search-results/search.model';
 import { ModalComponent } from 'src/app/core/layout/components/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserFormComponent } from './components/user-form/user-form.component';
@@ -19,9 +22,14 @@ type ActionType = 'view' | 'edit' | 'status' | 'delete';
   selector: 'app-users',
   standalone: true,
   imports: [CommonModule, RouterModule, SearchResultsComponent],
-  templateUrl: './users.component.html'
+  templateUrl: './users.component.html',
 })
 export class UsersComponent implements OnInit {
+  title = '';
+  subtitle = '';
+
+  newButtonLabel = '';
+
   users: UserDTO[] = [];
   loading = false;
   error = '';
@@ -65,16 +73,28 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.loadUsers();
     this.currentUser = JSON.parse(localStorage.getItem('user') ?? 'null');
-    
+
     const perfil = this.currentUser?.perfil || '';
-    
-    const profilePermissions: Record<string, { canCreate: boolean; actions: ActionType[] }> = {
-      'ADMIN': { canCreate: true, actions: ['view', 'edit', 'status', 'delete'] },
-      'TECHNICAL': { canCreate: false, actions: ['view', 'edit', 'status'] },
-      'USER': { canCreate: false, actions: ['view'] }
+
+    this.title = perfil === 'TECHNICAL' ? 'Utentes' : 'Utilizadores';
+    this.subtitle =
+      perfil === 'TECHNICAL'
+        ? 'Gestão dos utentes do sistema'
+        : 'Gestão dos utilizadores do sistema';
+    this.newButtonLabel =
+      perfil === 'TECHNICAL' ? 'Novo Utente' : 'Novo Utilizador';
+
+    const profilePermissions: Record<
+      string,
+      { canCreate: boolean; actions: ActionType[] }
+    > = {
+      ADMIN: { canCreate: true, actions: ['view', 'edit', 'status', 'delete'] },
+      TECHNICAL: { canCreate: false, actions: ['view', 'edit', 'status'] },
+      USER: { canCreate: false, actions: ['view'] },
     };
 
-    const permissions = profilePermissions[perfil] || profilePermissions['USER'];
+    const permissions =
+      profilePermissions[perfil] || profilePermissions['USER'];
     this.canCreateUser = permissions.canCreate;
     this.availableActions = permissions.actions;
   }
