@@ -38,7 +38,6 @@ export class ApiService {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        console.error('No authentication token found');
         return;
       }
 
@@ -53,7 +52,6 @@ export class ApiService {
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
         debug: (str) => {
-          console.log('STOMP: ' + str);
         },
         connectHeaders: {
           'Authorization': `Bearer ${token}`
@@ -61,45 +59,35 @@ export class ApiService {
       });
 
       this.stompClient.onConnect = (frame) => {
-        console.log('Connected to STOMP');
         this.stompClient.subscribe('/topic/messages', (message: Message) => {
           try {
             const msgBody = JSON.parse(message.body);
-            console.log('Mensagem recebida:', msgBody);
             this.messageSubject.next(msgBody);
           } catch (error) {
-            console.error('Error parsing message:', error);
           }
         });
       };
 
       this.stompClient.onStompError = (frame) => {
-        console.error('STOMP error:', frame);
       };
 
       this.stompClient.onWebSocketError = (event) => {
-        console.error('WebSocket error:', event);
       };
 
       this.stompClient.onWebSocketClose = (event) => {
-        console.log('WebSocket closed:', event);
       };
 
       this.stompClient.activate();
     } catch (error) {
-      console.error('Error connecting to WebSocket:', error);
     }
   }
 
   sendMessage(msg: any) {
     if (this.stompClient && this.stompClient.connected) {
-      console.log('Enviando mensagem:', msg);
       this.stompClient.publish({
         destination: '/app/send',
         body: JSON.stringify(msg),
       });
-    } else {
-      console.error('STOMP client not connected');
     }
   }
 
