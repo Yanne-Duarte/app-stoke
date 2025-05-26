@@ -58,7 +58,6 @@ public class UserService {
                         user.getUsername(),
                         user.getBirthdate(),
                         null,
-                        null,
                         user.getPerfil().toString(),
                         user.getPlano(),
                         user.getFisioterapeuta() != null ? user.getFisioterapeuta().getId() : null,

@@ -10,7 +10,6 @@ public class UserDTO {
     private String fullName;
     private String username;
     private String birthdate;
-    private String password;
     private String token;
     private String perfil;
     private String plano;
@@ -22,7 +21,6 @@ public class UserDTO {
         String fullName,
         String username,
         String birthdate,
-        String password,
         String token,
         String perfil,
         String plano,
@@ -33,7 +31,6 @@ public class UserDTO {
         this.fullName = fullName;
         this.username = username;
         this.birthdate = birthdate;
-        this.password = password;
         this.token = token;
         this.perfil = perfil;
         this.plano = plano;

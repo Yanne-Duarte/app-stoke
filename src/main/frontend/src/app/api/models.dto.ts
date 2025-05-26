@@ -3,7 +3,6 @@ export interface UserDTO {
   fullName: string;
   username: string;
   birthdate: string;
-  password?: string;
   token?: string;
   perfil: string;
   plano: string;

@@ -186,8 +186,7 @@ public class PlanService {
                 entity.getUser().getFullName(),
                 entity.getUser().getUsername(),
                 entity.getUser().getBirthdate(),
-                null, // não enviar password
-                null, // não enviar token
+                null, // token
                 entity.getUser().getPerfil().toString(),
                 entity.getUser().getPlano(),
                 entity.getUser().getFisioterapeuta() != null ? entity.getUser().getFisioterapeuta().getId() : null,
