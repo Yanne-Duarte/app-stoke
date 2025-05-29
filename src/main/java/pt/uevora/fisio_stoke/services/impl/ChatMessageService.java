@@ -43,7 +43,7 @@ public class ChatMessageService {
             
             // Get current user from the message sender username
             User currentUser = userRepository.findByUsername(message.getSender())
-                .orElseThrow(() -> new RuntimeException("Sender not found: " + message.getSender()));
+                .orElseThrow(() -> new RuntimeException("Remetente não encontrado: " + message.getSender()));
             
             logger.info("Current user: {} with role: {}", currentUser.getUsername(), currentUser.getPerfil());
             
@@ -52,13 +52,13 @@ public class ChatMessageService {
             if (currentUser.getPerfil() == Perfil.TECHNICAL) {
                 // If sender is physiotherapist, recipient is the patient
                 recipient = userRepository.findByUsername(message.getRecipient())
-                    .orElseThrow(() -> new RuntimeException("Patient not found: " + message.getRecipient()));
+                    .orElseThrow(() -> new RuntimeException("Paciente não encontrado: " + message.getRecipient()));
                 logger.info("Physiotherapist sending to patient: {}", recipient.getUsername());
             } else {
                 // If sender is patient, recipient is their physiotherapist
                 recipient = currentUser.getFisioterapeuta();
                 if (recipient == null) {
-                    throw new RuntimeException("Patient has no assigned physiotherapist");
+                    throw new RuntimeException("O paciente não tem fisioterapeuta atribuído");
                 }
                 logger.info("Patient sending to physiotherapist: {}", recipient.getUsername());
             }
@@ -89,7 +89,7 @@ public class ChatMessageService {
             logger.info("Message also sent to general topic for debugging");
             
         } catch (Exception e) {
-            logger.error("Error processing message: {}", e.getMessage(), e);
+            logger.error("Erro ao processar mensagem: {}", e.getMessage(), e);
             throw e;
         }
     }
@@ -102,15 +102,15 @@ public class ChatMessageService {
         if (currentUser.getPerfil() == Perfil.TECHNICAL) {
             // Physiotherapists can view messages with their patients
             User otherUser = userRepository.findById(user2Id)
-                .orElseThrow(() -> new RuntimeException("User not found: " + user2Id));
+                .orElseThrow(() -> new RuntimeException("Utilizador não encontrado: " + user2Id));
             
             if (!otherUser.getFisioterapeuta().getId().equals(currentUser.getId())) {
-                throw new RuntimeException("Unauthorized access to chat history");
+                throw new RuntimeException("Acesso não autorizado ao histórico de chat");
             }
         } else {
             // Regular users can only view their own messages
             if (!currentUser.getId().equals(user1Id)) {
-                throw new RuntimeException("Unauthorized access to chat history");
+                throw new RuntimeException("Acesso não autorizado ao histórico de chat");
             }
         }
         
@@ -133,7 +133,7 @@ public class ChatMessageService {
             
             // Find message and verify if user is the sender
             ChatMessage message = chatMessageRepository.findByIdAndSender(messageId, currentUser)
-                .orElseThrow(() -> new RuntimeException("Message not found or user is not the sender"));
+                .orElseThrow(() -> new RuntimeException("Mensagem não encontrada ou o utilizador não é o remetente"));
             
             // Delete the message
             chatMessageRepository.delete(message);
@@ -144,10 +144,10 @@ public class ChatMessageService {
                 Math.min(message.getSenderUser().getId(), message.getRecipientUser().getId()),
                 Math.max(message.getSenderUser().getId(), message.getRecipientUser().getId()));
             
-            messagingTemplate.convertAndSend(topic, new ChatMessageDTO("system", "Message deleted"));
+            messagingTemplate.convertAndSend(topic, new ChatMessageDTO("sistema", "Mensagem eliminada"));
             
         } catch (Exception e) {
-            logger.error("Error deleting message: {}", e.getMessage(), e);
+            logger.error("Erro ao eliminar mensagem: {}", e.getMessage(), e);
             throw e;
         }
     }

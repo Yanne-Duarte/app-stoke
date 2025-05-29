@@ -20,7 +20,7 @@ public class NotificationService {
 
     public Notification createNotification(String title, String message, Integer recipientUserId, User sender) {
         User recipient = userRepository.findById(recipientUserId)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário destinatário não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Utilizador destinatário não encontrado"));
 
         Notification notification = new Notification();
         notification.setTitle(title);
@@ -41,7 +41,7 @@ public class NotificationService {
 
     public Notification getNotification(Long id) {
         return notificationRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Notification not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Notificação não encontrada"));
     }
 
     public Notification markAsRead(Long id) {
@@ -57,7 +57,9 @@ public class NotificationService {
     }
 
     public void deleteNotification(Long id) {
-        notificationRepository.deleteById(id);
+        Notification notification = notificationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Notificação não encontrada"));
+        notificationRepository.delete(notification);
     }
 
     public long getUnreadCount(User user) {
@@ -68,5 +70,33 @@ public class NotificationService {
         List<Notification> unreadNotifications = getUnreadNotifications(user);
         unreadNotifications.forEach(notification -> notification.setRead(true));
         notificationRepository.saveAll(unreadNotifications);
+    }
+
+    public Notification createNotification(Notification notification) {
+        if (notification.getMessage() == null || notification.getMessage().trim().isEmpty()) {
+            throw new RuntimeException("A mensagem da notificação não pode estar vazia");
+        }
+        if (notification.getTitle() == null || notification.getTitle().trim().isEmpty()) {
+            throw new RuntimeException("O título da notificação não pode estar vazio");
+        }
+        return notificationRepository.save(notification);
+    }
+
+    public Notification updateNotification(Long id, Notification notification) {
+        Notification existingNotification = notificationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Notificação não encontrada"));
+        
+        if (notification.getMessage() == null || notification.getMessage().trim().isEmpty()) {
+            throw new RuntimeException("A mensagem da notificação não pode estar vazia");
+        }
+        if (notification.getTitle() == null || notification.getTitle().trim().isEmpty()) {
+            throw new RuntimeException("O título da notificação não pode estar vazio");
+        }
+        
+        existingNotification.setTitle(notification.getTitle());
+        existingNotification.setMessage(notification.getMessage());
+        existingNotification.setRead(notification.isRead());
+        
+        return notificationRepository.save(existingNotification);
     }
 } 

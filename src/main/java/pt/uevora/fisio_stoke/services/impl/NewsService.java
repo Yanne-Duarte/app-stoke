@@ -33,19 +33,19 @@ public class NewsService {
 
     public NewsDTO getNewsById(Long id) {
         News news = newsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("News not found"));
+                .orElseThrow(() -> new RuntimeException("Notícia não encontrada"));
         return convertToDTO(news);
     }
 
     public NewsDTO createNews(NewsDTO newsDTO) {
         // Validate content
         if (newsDTO.getContent() == null || newsDTO.getContent().trim().isEmpty()) {
-            throw new IllegalArgumentException("Content cannot be empty");
+            throw new IllegalArgumentException("O conteúdo não pode estar vazio");
         }
         
         // Validate title
         if (newsDTO.getTitle() == null || newsDTO.getTitle().trim().isEmpty()) {
-            throw new IllegalArgumentException("Title cannot be empty");
+            throw new IllegalArgumentException("O título não pode estar vazio");
         }
         
         News news = new News();
@@ -60,7 +60,7 @@ public class NewsService {
         // Obter informações do autor a partir do token
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User author = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Utilizador não encontrado"));
         
         // Definir informações do autor
         news.setAuthorId(author.getId().toString());
@@ -75,16 +75,16 @@ public class NewsService {
     public NewsDTO updateNews(Long id, NewsDTO newsDTO) {
         // Validate content
         if (newsDTO.getContent() == null || newsDTO.getContent().trim().isEmpty()) {
-            throw new IllegalArgumentException("Content cannot be empty");
+            throw new IllegalArgumentException("O conteúdo não pode estar vazio");
         }
         
         // Validate title
         if (newsDTO.getTitle() == null || newsDTO.getTitle().trim().isEmpty()) {
-            throw new IllegalArgumentException("Title cannot be empty");
+            throw new IllegalArgumentException("O título não pode estar vazio");
         }
         
         News existingNews = newsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("News not found"));
+                .orElseThrow(() -> new RuntimeException("Notícia não encontrada"));
         
         // Atualizar apenas título e conteúdo
         existingNews.setTitle(newsDTO.getTitle().trim());
@@ -96,7 +96,7 @@ public class NewsService {
 
     public void deleteNews(Long id) {
         if (!newsRepository.existsById(id)) {
-            throw new RuntimeException("News not found");
+            throw new RuntimeException("Notícia não encontrada");
         }
         newsRepository.deleteById(id);
     }

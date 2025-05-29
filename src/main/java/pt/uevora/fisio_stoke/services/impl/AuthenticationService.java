@@ -84,4 +84,10 @@ public class AuthenticationService {
         // Clear the authentication from the security context
         SecurityContextHolder.clearContext();
     }
+
+    public User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("Utilizador não encontrado"));
+    }
 }

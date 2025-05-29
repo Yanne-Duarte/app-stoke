@@ -18,12 +18,5 @@
 - BATCH -> 15 DIAS SEM LOGIN -> ENVIAR NOTIFICAÇÃO PARA O TECHNICIAN
 - BATCH -> 30 DIAS SEM LOGIN ->  ENVIAR NOTIFICAÇÃO E BLOQUEAR ACESSO - USER E TECHNICIAN
 
-resultados dos teste:
-
-- um pin para gravar
-- gerar um pin gravar -> token 
-- modo fisio -> ter codigo de acesso a gravações 
 
 
-// 4 semanas
-6 utentes * 4 utentes

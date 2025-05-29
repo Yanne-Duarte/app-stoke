@@ -1,0 +1,14 @@
+java -jar fisio-stoke-0.0.1-SNAPSHOT.jar --spring.config.location=./application.yaml
+
+
+node: 'v18.19.1'
+npm: '8.1.0' 
+java: v21.0.4
+spring-boot:
+msyql: 
+
+user: password:
+joe.due  -> qwerty
+demo_1   -> querty
+demo_2   -> querty
+demo_3   -> querty
