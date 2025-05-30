@@ -35,14 +35,7 @@ public class PlanController {
     @PreAuthorize("hasRole('TECHNICAL')")
     public ResponseEntity<PlanDTO> createPlan(@RequestBody PlanDTO planDTO) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Creating new plan");
-        System.out.println("Current user: " + auth.getName());
-        System.out.println("User authorities: " + auth.getAuthorities());
-        System.out.println("Plan data: " + planDTO);
-        
         PlanDTO createdPlan = planService.createPlan(planDTO);
-        System.out.println("Plan created successfully with ID: " + createdPlan.getId());
-        
         return ResponseEntity.ok(createdPlan);
     }
 
@@ -88,13 +81,7 @@ public class PlanController {
     @PreAuthorize("hasAnyRole('TECHNICAL', 'USER')")
     public ResponseEntity<PlanDTO> getPlan(@PathVariable Long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Getting plan with id: " + id);
-        System.out.println("Current user: " + auth.getName());
-        System.out.println("User authorities: " + auth.getAuthorities());
-        
         PlanDTO plan = planService.getPlan(id);
-        System.out.println("Plan found: " + plan);
-        
         return ResponseEntity.ok(plan);
     }
 
@@ -103,13 +90,7 @@ public class PlanController {
     @PreAuthorize("hasRole('TECHNICAL')")
     public ResponseEntity<List<UserDTO>> getAvailableUsers() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Getting available users");
-        System.out.println("Current user: " + auth.getName());
-        System.out.println("User authorities: " + auth.getAuthorities());
-        
         List<UserDTO> users = userService.getUsersByProfile(Perfil.USER);
-        System.out.println("Found " + users.size() + " available users");
-        
         return ResponseEntity.ok(users);
     }
 

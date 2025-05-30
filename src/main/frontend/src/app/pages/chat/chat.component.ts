@@ -43,6 +43,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private chatTopic: string = '';
   patients: UserDTO[] = [];
   selectedPatient: UserDTO | null = null;
+  error: string | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -81,14 +82,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       // Get current user
       const user = await this.apiService.getCurrentUser().toPromise();
       if (!user) {
-        console.error('No user data received');
+        this.error = 'No user data received';
         return;
       }
-      this.currentUser = user;
-      console.log('Current user:', this.currentUser);
-
+      this.currentUser = user; 
       if (!this.currentUser.id) {
-        console.error('Current user has no ID');
+        this.error = 'Current user has no ID';
         return;
       }
 
@@ -112,14 +111,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.currentUser.fisioterapeuta.id
           );
           this.chatTopic = `/topic/chat/${minId}/${maxId}`;
-          console.log('Subscribing to topic:', this.chatTopic);
           this.setupMessageSubscription();
           // Load chat history for patient
           this.loadChatHistory(this.currentUser.id, this.currentUser.fisioterapeuta.id);
         }
       }
     } catch (error) {
-      console.error('Error setting up chat:', error);
+      this.error = 'Error setting up chat: ' + error;
     }
   }
 
@@ -130,7 +128,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.patients = patients.filter(patient => 
           patient.fisioterapeuta?.id === this.currentUser?.id
         );
-        console.log('Loaded patients:', this.patients);
         
         // Auto-select the first patient if none is selected and there are patients available
         if (this.patients.length > 0 && !this.selectedPatient) {
@@ -138,14 +135,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       },
       error: (error) => {
-        console.error('Error loading patients:', error);
+        this.error = 'Error loading patients: ' + error;
       }
     });
   }
 
   selectPatient(patient: UserDTO) {
     if (!patient.id || !this.currentUser?.id) {
-      console.error('Cannot select patient: missing IDs');
+      this.error = 'Cannot select patient: missing IDs';
       return;
     }
 
@@ -167,10 +164,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.selectedPatient.id
       );
       this.chatTopic = `/topic/chat/${minId}/${maxId}`;
-      console.log('Setting up chat topic:', this.chatTopic);
       this.setupMessageSubscription();
     } else {
-      console.error('Cannot setup chat topic: missing user IDs');
+      this.error = 'Cannot setup chat topic: missing user IDs';
     }
   }
 
@@ -193,11 +189,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       // Subscribe to new topic
       this.messageSubscription = this.apiService.messageSubject.subscribe(
-        (message: ChatMessage) => {
-          console.log('Received message in subscription:', message);
-          console.log('Current user:', this.currentUser?.username);
-          console.log('Selected patient:', this.selectedPatient?.username);
-          console.log('Physiotherapist:', this.currentUser?.fisioterapeuta?.username);
+        (message: ChatMessage) => { 
           
           // Check if this message is for the current chat
           const isFromCurrentUser = message.sender === this.currentUser?.username;
@@ -213,7 +205,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               (isFromSelectedPatient && message.recipient === this.currentUser?.username);
 
             if (isBetweenCurrentPhysioAndSelectedPatient) {
-              console.log('Adding message to chat (physiotherapist):', message);
               this.messages.push(message);
               this.scrollToBottom();
             }
@@ -225,7 +216,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               (isFromPhysiotherapist && message.recipient === this.currentUser?.username);
 
             if (isBetweenCurrentPatientAndPhysio) {
-              console.log('Adding message to chat (patient):', message);
               this.messages.push(message);
               this.scrollToBottom();
             }
@@ -241,7 +231,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
       }
     } catch (err) {
-      console.error('Error scrolling to bottom:', err);
+      this.error = 'Error scrolling to bottom: ' + err;
     }
   }
 
@@ -271,7 +261,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         : this.currentUser?.fisioterapeuta?.username;
 
       if (!recipient) {
-        console.error('No recipient found');
+        this.error = 'No recipient found';
         return;
       }
 
@@ -283,7 +273,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         recipient: recipient
       };
 
-      console.log('Sending message:', message);
       this.apiService.sendMessage(message);
       this.form.patchValue({ mensagem: '' });
     }
@@ -291,12 +280,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private loadChatHistory(user1Id: number, user2Id: number): void {
     if (!user1Id || !user2Id) {
-      console.error('Invalid user IDs for chat history:', { user1Id, user2Id });
+      this.error = 'Invalid user IDs for chat history: ' + { user1Id, user2Id };
       return;
     }
     this.apiService.getChatHistory(user1Id, user2Id).subscribe({
       next: (history: ChatMessage[]) => {
-        console.log('********************** Chat history loaded:', history);
         this.messages = history.map((msg: ChatMessage) => ({
           id: msg.id,
           sender: msg.sender,
@@ -310,14 +298,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.scrollToBottom();
       },
       error: (error: any) => {
-        console.error('Error loading chat history:', error);
+        this.error = 'Error loading chat history: ' + error;
       }
     });
   }
 
   deleteMessage(messageId: number) {
     if (!messageId) {
-      console.error('Cannot delete message: no message ID');
+      this.error = 'Cannot delete message: no message ID';
       return;
     }
 
@@ -328,7 +316,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
-        console.error('Error deleting message:', error);
+        this.error = 'Error deleting message: ' + error;
       }
     });
   }

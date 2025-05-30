@@ -89,7 +89,7 @@ export class PlanoComponent implements OnInit {
     if (this.canCreatePlano) {
       this.router.navigate(['criar'], { relativeTo: this.route });
     } else {
-      console.warn('Não tem permissão para criar planos');
+     this.error = 'Não tem permissão para criar planos';
     }
   }
   handleDelete(plano: PlanDTO) {

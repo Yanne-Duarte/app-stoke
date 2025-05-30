@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private formSubscription: Subscription | null = null;
 
   isMobileSignal = computed(() => this.platformService.isMobile());
+  error: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -77,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.router.navigate(['/inicio']);
             },
             error: (error) => {
-              console.error('Error fetching user data:', error);
+              this.error = 'Error fetching user data: ' + error;
             },
           });
         },

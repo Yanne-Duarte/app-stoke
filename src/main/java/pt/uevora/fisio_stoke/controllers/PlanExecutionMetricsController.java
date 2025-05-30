@@ -51,7 +51,7 @@ public class PlanExecutionMetricsController {
     }
 
     @GetMapping("/user/{userId}")
-    @Operation(summary = "Execuções do usuário", description = "Obtém as execuções detalhadas de um usuário")
+    @Operation(summary = "Execuções do utilizador", description = "Obtém as execuções detalhadas de um utilizador")
     public ResponseEntity<List<PlanExecutionDetailDTO>> getUserExecutions(@PathVariable Integer userId) {
         return ResponseEntity.ok(metricsService.getUserExecutions(userId));
     }

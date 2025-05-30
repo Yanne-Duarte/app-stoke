@@ -85,8 +85,7 @@ export class GravacoesListaComponent implements OnInit {
           );
         }
       },
-      error: (error) => {
-        console.error('Erro ao carregar vídeos:', error);
+      error: (error) => { 
         this.error = 'Erro ao carregar os vídeos. Por favor, tente novamente.';
         this.loading = false;
       },
@@ -233,8 +232,7 @@ export class GravacoesListaComponent implements OnInit {
         next: () => {
           this.loadVideos(); // Recarregar a lista após excluir
         },
-        error: (error) => {
-          console.error('Erro ao excluir vídeo:', error);
+        error: (error) => { 
           this.error = 'Erro ao excluir o vídeo. Por favor, tente novamente.';
         },
       });

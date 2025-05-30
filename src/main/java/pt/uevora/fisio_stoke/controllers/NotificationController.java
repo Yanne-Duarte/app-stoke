@@ -24,7 +24,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @PostMapping
-    @Operation(summary = "Create a new notification", description = "Cria uma nova notificação para um usuário específico")
+    @Operation(summary = "Create a new notification", description = "Cria uma nova notificação para um utilizador específico")
     public ResponseEntity<NotificationResponseDTO> createNotification(
             @AuthenticationPrincipal User sender,
             @Valid @RequestBody NotificationCreateDTO dto) {

@@ -31,15 +31,11 @@ public class UserService {
     }
 
     public List<UserDTO> getUsersByProfile(Perfil perfil) {
-        System.out.println("Getting users by profile: " + perfil);
-
         // Get current user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
-        System.out.println("Current user: " + currentUser.getUsername() + " with role: " + currentUser.getPerfil());
 
         List<User> users = userRepository.findByPerfil(perfil);
-        System.out.println("Found " + users.size() + " users with profile " + perfil);
 
         // If current user is TECHNICAL, filter users to show only those assigned to
         // them
@@ -48,7 +44,6 @@ public class UserService {
                     .filter(user -> user.getFisioterapeuta() != null &&
                             user.getFisioterapeuta().getId().equals(currentUser.getId()))
                     .collect(Collectors.toList());
-            System.out.println("After filtering for technical user: " + users.size() + " users");
         }
 
         return users.stream()
@@ -100,7 +95,7 @@ public class UserService {
     }
 
     public User registerUser(RegisterUserDto registerUserDto) {
-        // Se for um usuário comum, valida e busca o fisioterapeuta
+        // Se for um utilizador comum, valida e busca o fisioterapeuta
         User fisioterapeuta = null;
         if (registerUserDto.getPerfil() == Perfil.USER && registerUserDto.getFisioterapeutaId() != null) {
             fisioterapeuta = userRepository.findById(registerUserDto.getFisioterapeutaId())

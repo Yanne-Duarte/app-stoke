@@ -33,6 +33,7 @@ export class NewsComponent implements OnInit {
     { key: 'createdAt', label: 'Data' },
   ];
   canCreate: boolean = false;
+  error: string | null = null;
 
   constructor(
     private modalService: NgbModal,
@@ -54,7 +55,7 @@ export class NewsComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading news:', error);
+        this.error = 'Error loading news: ' + error;
         this.loading = false;
       },
     });
@@ -83,7 +84,7 @@ export class NewsComponent implements OnInit {
               this.loadNews();
             },
             error: (error) => {
-              console.error('Error deleting news:', error);
+              this.error = 'Error deleting news: ' + error;
             },
           });
         }

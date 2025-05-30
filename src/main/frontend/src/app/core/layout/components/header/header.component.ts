@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   isMobile = computed(() => this.platformService.isMobile());
   isMobileMenuOpen: boolean = false;
   menuItems!: any[];
+  error: string | null = null;
 
   @Input() set perfil(value: string) {
     if (value) {
@@ -49,8 +50,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     private platformService: PlatformService,
     private modalService: NgbModal
   ) {
-    effect(() => {
-      console.log('***************** Mobile status changed:', this.isMobile());
+    effect(() => { 
     });
   }
 
@@ -102,7 +102,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
               this.router.navigate(['/login']);
             },
             error: (error) => {
-              console.error('Erro ao fazer logout:', error);
+              this.error = 'Erro ao fazer logout: ' + error;
               localStorage.clear();
               this.router.navigate(['/login']);
             },

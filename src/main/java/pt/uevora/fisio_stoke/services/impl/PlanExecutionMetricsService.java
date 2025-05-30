@@ -37,14 +37,14 @@ public class PlanExecutionMetricsService {
     @Transactional
     public PlanExecutionMetricsDTO startExecution(Long planId, Integer userId) {
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new RuntimeException("Utilizador não encontrado"));
         
         Plan plan = planRepository.findById(planId)
-            .orElseThrow(() -> new RuntimeException("Plan not found"));
+            .orElseThrow(() -> new RuntimeException("Plano não encontrado"));
 
-        // Verificar se o usuário tem acesso ao plano
+        // Verificar se o utilizador tem acesso ao plano
         if (!hasAccessToPlan(user, plan)) {
-            throw new RuntimeException("User does not have access to this plan");
+            throw new RuntimeException("O utilizador não tem acesso a este plano");
         }
 
         PlanExecutionMetrics metrics = new PlanExecutionMetrics();
@@ -64,12 +64,12 @@ public class PlanExecutionMetricsService {
     @Transactional
     public PlanExecutionMetricsDTO updateExecution(Long executionId, PlanExecutionMetricsDTO updateDTO) {
         PlanExecutionMetrics metrics = metricsRepository.findById(executionId)
-            .orElseThrow(() -> new RuntimeException("Execution not found"));
+            .orElseThrow(() -> new RuntimeException("Execução não encontrada"));
 
-        // Verificar se o usuário atual tem acesso a esta execução
+        // Verificar se o utilizador atual tem acesso a esta execução
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!hasAccessToExecution(currentUser, metrics)) {
-            throw new RuntimeException("User does not have access to this execution");
+            throw new RuntimeException("O utilizador não tem acesso a esta execução");
         }
 
         if (updateDTO.getCurrentStep() != null) {
@@ -171,7 +171,7 @@ public class PlanExecutionMetricsService {
         } else {
             // Usuário comum vê apenas suas próprias métricas
             if (!currentUser.getId().equals(userId)) {
-                throw new RuntimeException("User can only view their own executions");
+                throw new RuntimeException("O utilizador só pode ver as suas próprias execuções");
             }
             executions = metricsRepository.findByUserId(userId);
         }
@@ -184,12 +184,12 @@ public class PlanExecutionMetricsService {
     @Transactional(readOnly = true)
     public PlanExecutionDetailDTO getExecutionDetails(Long executionId) {
         PlanExecutionMetrics metrics = metricsRepository.findById(executionId)
-            .orElseThrow(() -> new RuntimeException("Execution not found"));
+            .orElseThrow(() -> new RuntimeException("Execução não encontrada"));
 
-        // Verificar se o usuário atual tem acesso a esta execução
+        // Verificar se o utilizador atual tem acesso a esta execução
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!hasAccessToExecution(currentUser, metrics)) {
-            throw new RuntimeException("User does not have access to this execution");
+            throw new RuntimeException("O utilizador não tem acesso a esta execução");
         }
 
         return convertToDetailDTO(metrics);

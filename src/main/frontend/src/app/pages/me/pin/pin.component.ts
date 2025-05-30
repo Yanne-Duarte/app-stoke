@@ -15,6 +15,7 @@ export class PinComponent {
   pin: string | undefined;
   expiraEm: string | undefined;
   isGenerating = false;
+  error: string | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -35,7 +36,7 @@ export class PinComponent {
         this.isGenerating = false;
       },
       error: (error) => {
-        console.error('Erro ao gerar PIN:', error);
+        this.error = 'Erro ao gerar PIN: ' + error;
         this.isGenerating = false;
       }
     });

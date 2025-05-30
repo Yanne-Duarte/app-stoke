@@ -12,6 +12,7 @@ import { NewsDTO } from '../../../api/models.dto';
 })
 export class NewsletterComponent implements OnInit {
   newsletters: NewsDTO[] = [];
+  error: string | null = null;
 
   constructor(private ApiService: ApiService) {}
 
@@ -28,7 +29,7 @@ export class NewsletterComponent implements OnInit {
         );
       },
       error: (error) => {
-        console.error('Error fetching newsletters:', error);
+        this.error = 'Error fetching newsletters: ' + error;
         // You might want to handle errors appropriately in your UI
       },
     });

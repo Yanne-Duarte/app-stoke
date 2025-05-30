@@ -48,8 +48,7 @@ export class MetricasComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Erro ao carregar resumos das execuções';
-        console.error('Erro:', error);
+        this.error = 'Erro ao carregar resumos das execuções'; 
         this.loading = false;
       },
     });

@@ -69,7 +69,7 @@ public class AuthenticationService {
         
         // Return the authenticated user
         return userRepository.findByUsername(input.getUsername())
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new RuntimeException("Utilizador não encontrado"));
     }
 
     public List<User> allUsers() {

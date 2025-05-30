@@ -15,6 +15,7 @@ export class NewsDetailComponent implements OnInit {
   news: NewsDTO | null = null;
   loading = false;
   safeContent: SafeHtml | null = null;
+  error: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,7 +39,7 @@ export class NewsDetailComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading news:', error);
+        this.error = 'Error loading news: ' + error;
         this.loading = false;
       }
     });

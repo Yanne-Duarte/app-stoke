@@ -33,8 +33,8 @@ public class AuthenticationController {
 
    /* @PostMapping("/signup")
     @Operation(
-        summary = "Registrar novo usuário",
-        description = "Cria um novo usuário no sistema"
+        summary = "Registrar novo utilizador",
+        description = "Cria um novo utilizador no sistema"
     )
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
@@ -45,7 +45,7 @@ public class AuthenticationController {
     @Operation(
         summary = "Fazer login",
         description = """
-            Autentica o usuário e retorna um token JWT.
+            Autentica o utilizador e retorna um token JWT.
             
             Para usar o token retornado:
             1. Copie o valor do token da resposta
@@ -64,8 +64,8 @@ public class AuthenticationController {
                         summary = "Credenciais do administrador",
                         value = """
                         {
-                            "username": "joe.due",
-                            "password": "qwerty"
+                            "username": "admin",
+                            "password": "admin"
                         }
                         """
                     )
@@ -97,7 +97,7 @@ public class AuthenticationController {
     @PostMapping("/logout")
     @Operation(
         summary = "Fazer logout",
-        description = "Invalida a sessão atual do usuário"
+        description = "Invalida a sessão atual do utilizador"
     )
     public ResponseEntity<Void> logout() {
         authenticationService.logout();

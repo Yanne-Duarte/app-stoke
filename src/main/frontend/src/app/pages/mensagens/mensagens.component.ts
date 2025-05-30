@@ -44,6 +44,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
   private chatTopic: string = '';
   patients: UserDTO[] = [];
   selectedPatient: UserDTO | null = null;
+  error: string | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -82,14 +83,13 @@ export class MensagensComponent implements OnInit, OnDestroy {
       // Get current user
       const user = await this.apiService.getCurrentUser().toPromise();
       if (!user) {
-        console.error('No user data received');
+        this.error = 'No user data received';
         return;
       }
       this.currentUser = user;
-      console.log('Current user:', this.currentUser);
 
       if (!this.currentUser.id) {
-        console.error('Current user has no ID');
+        this.error = 'Current user has no ID';
         return;
       }
 
@@ -112,8 +112,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
             this.currentUser.id,
             this.currentUser.fisioterapeuta.id
           );
-          this.chatTopic = `/topic/chat/${minId}/${maxId}`;
-          console.log('Subscribing to topic:', this.chatTopic);
+          this.chatTopic = `/topic/chat/${minId}/${maxId}`; 
           this.setupMessageSubscription();
           // Load chat history for patient
           this.loadChatHistory(
@@ -123,7 +122,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
         }
       }
     } catch (error) {
-      console.error('Error setting up chat:', error);
+      this.error = 'Error setting up chat: ' + error;
     }
   }
 
@@ -134,7 +133,6 @@ export class MensagensComponent implements OnInit, OnDestroy {
         this.patients = patients.filter(
           (patient) => patient.fisioterapeuta?.id === this.currentUser?.id
         );
-        console.log('Loaded patients:', this.patients);
         
         // Auto-select the first patient if none is selected and there are patients available
         if (this.patients.length > 0 && !this.selectedPatient) {
@@ -142,14 +140,14 @@ export class MensagensComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        console.error('Error loading patients:', error);
+        this.error = 'Error loading patients: ' + error;
       },
     });
   }
 
   selectPatient(patient: UserDTO) {
     if (!patient.id || !this.currentUser?.id) {
-      console.error('Cannot select patient: missing IDs');
+      this.error = 'Cannot select patient: missing IDs';
       return;
     }
 
@@ -165,10 +163,9 @@ export class MensagensComponent implements OnInit, OnDestroy {
       const minId = Math.min(this.currentUser.id, this.selectedPatient.id);
       const maxId = Math.max(this.currentUser.id, this.selectedPatient.id);
       this.chatTopic = `/topic/chat/${minId}/${maxId}`;
-      console.log('Setting up chat topic:', this.chatTopic);
       this.setupMessageSubscription();
     } else {
-      console.error('Cannot setup chat topic: missing user IDs');
+      this.error = 'Cannot setup chat topic: missing user IDs';
     }
   }
 
@@ -191,14 +188,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
 
       // Subscribe to new topic
       this.messageSubscription = this.apiService.messageSubject.subscribe(
-        (message: ChatMessage) => {
-          console.log('Received message in subscription:', message);
-          console.log('Current user:', this.currentUser?.username);
-          console.log('Selected patient:', this.selectedPatient?.username);
-          console.log(
-            'Physiotherapist:',
-            this.currentUser?.fisioterapeuta?.username
-          );
+        (message: ChatMessage) => {         
 
           // Check if this message is for the current chat
           const isFromCurrentUser =
@@ -222,7 +212,6 @@ export class MensagensComponent implements OnInit, OnDestroy {
                 message.recipient === this.currentUser?.username);
 
             if (isBetweenCurrentPhysioAndSelectedPatient) {
-              console.log('Adding message to chat (physiotherapist):', message);
               
               // Verificar se a mensagem já existe (para evitar duplicação)
               const existingMessageIndex = this.messages.findIndex(
@@ -258,7 +247,6 @@ export class MensagensComponent implements OnInit, OnDestroy {
                 message.recipient === this.currentUser?.username);
 
             if (isBetweenCurrentPatientAndPhysio) {
-              console.log('Adding message to chat (patient):', message);
               
               // Verificar se a mensagem já existe (para evitar duplicação)
               const existingMessageIndex = this.messages.findIndex(
@@ -296,7 +284,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
           this.messagesContainer.nativeElement.scrollHeight;
       }
     } catch (err) {
-      console.error('Error scrolling to bottom:', err);
+      this.error = 'Error scrolling to bottom: ' + err;
     }
   }
 
@@ -334,7 +322,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
           : this.currentUser?.fisioterapeuta?.username;
 
       if (!recipient) {
-        console.error('No recipient found');
+        this.error = 'No recipient found';
         return;
       }
 
@@ -347,8 +335,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
         pending: true, // Flag para identificar mensagens pendentes
         tempId: Date.now(), // ID temporário para identificar a mensagem
       };
-
-      console.log('Sending message:', message);
+ 
       
       // Adicionar a mensagem localmente antes de enviar
       this.messages.push(message);
@@ -362,12 +349,11 @@ export class MensagensComponent implements OnInit, OnDestroy {
 
   private loadChatHistory(user1Id: number, user2Id: number): void {
     if (!user1Id || !user2Id) {
-      console.error('Invalid user IDs for chat history:', { user1Id, user2Id });
+      this.error = 'Invalid user IDs for chat history: ' + { user1Id, user2Id };
       return;
     }
     this.apiService.getChatHistory(user1Id, user2Id).subscribe({
       next: (history: ChatMessage[]) => {
-        console.log('********************** Chat history loaded:', history);
         this.messages = history.map((msg: ChatMessage) => ({
           id: msg.id,
           sender: msg.sender,
@@ -381,14 +367,14 @@ export class MensagensComponent implements OnInit, OnDestroy {
         this.scrollToBottom();
       },
       error: (error: any) => {
-        console.error('Error loading chat history:', error);
+        this.error = 'Error loading chat history: ' + error;
       },
     });
   }
 
   deleteMessage(messageId: number) {
     if (!messageId) {
-      console.error('Cannot delete message: no message ID');
+      this.error = 'Cannot delete message: no message ID';
       return;
     }
 
@@ -399,7 +385,7 @@ export class MensagensComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
-        console.error('Error deleting message:', error);
+        this.error = 'Error deleting message: ' + error;
       },
     });
   }

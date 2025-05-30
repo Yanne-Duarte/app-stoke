@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Erro ao carregar utilizadors:', error);
+        //TODO: handle error
         this.loading = false;
       },
     });
@@ -146,8 +146,8 @@ export class UsersComponent implements OnInit {
               next: () => {
                 this.loadUsers();
               },
-              error: (error) => {
-                console.warn('Erro ao apagar o utilizador:', error);
+              error: (error) => { 
+                //TODO: handle error
               },
             });
           }

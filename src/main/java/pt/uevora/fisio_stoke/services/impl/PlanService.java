@@ -41,9 +41,9 @@ public class PlanService {
             // Se for técnico, busca pelos planos que ele criou
             plans = planRepository.findByCreatedBy(currentUsername);
         } else {
-            // Se for usuário comum, busca pelos planos associados a ele
+            // Se for utilizador comum, busca pelos planos associados a ele
             User currentUser = userRepository.findByUsername(currentUsername)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Utilizador não encontrado"));
             plans = planRepository.findByUser(currentUser);
         }
         
@@ -146,10 +146,10 @@ public class PlanService {
         Plan plan = new Plan();
         plan.setId(dto.getId());
         
-        // Buscar o usuário pelo ID do DTO
+        // Buscar o utilizador pelo ID do DTO
         if (dto.getUser() != null && dto.getUser().getId() != null) {
             User user = userRepository.findById(dto.getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Utilizador não encontrado"));
             plan.setUser(user);
         }
         
@@ -216,7 +216,7 @@ public class PlanService {
     private void updatePlanFields(Plan existingPlan, PlanDTO planDTO) {
         if (planDTO.getUser() != null && planDTO.getUser().getId() != null) {
             User user = userRepository.findById(planDTO.getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Utilizador não encontrado"));
             existingPlan.setUser(user);
         }
         

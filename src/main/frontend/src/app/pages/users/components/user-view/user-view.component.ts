@@ -31,7 +31,6 @@ export class UserViewComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          console.error('Erro ao carregar utilizador:', error);
           this.error = 'Erro ao carregar dados do utilizador';
           this.loading = false;
         }

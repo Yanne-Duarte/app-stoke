@@ -1,7 +1,5 @@
 package pt.uevora.fisio_stoke.services.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,6 @@ import java.util.List;
 
 @Service
 public class ChatMessageService {
-    private static final Logger logger = LoggerFactory.getLogger(ChatMessageService.class);
     private final SimpMessagingTemplate messagingTemplate;
     private final UserRepository userRepository;
     private final ChatMessageRepository chatMessageRepository;
@@ -39,13 +36,9 @@ public class ChatMessageService {
     @Async
     public void processAndSendMessage(ChatMessageDTO message) {
         try {
-            logger.info("Processing message asynchronously: {}", message);
-            
             // Get current user from the message sender username
             User currentUser = userRepository.findByUsername(message.getSender())
                 .orElseThrow(() -> new RuntimeException("Remetente não encontrado: " + message.getSender()));
-            
-            logger.info("Current user: {} with role: {}", currentUser.getUsername(), currentUser.getPerfil());
             
             // Determine the recipient based on the current user's role
             User recipient;
@@ -53,14 +46,12 @@ public class ChatMessageService {
                 // If sender is physiotherapist, recipient is the patient
                 recipient = userRepository.findByUsername(message.getRecipient())
                     .orElseThrow(() -> new RuntimeException("Paciente não encontrado: " + message.getRecipient()));
-                logger.info("Physiotherapist sending to patient: {}", recipient.getUsername());
             } else {
                 // If sender is patient, recipient is their physiotherapist
                 recipient = currentUser.getFisioterapeuta();
                 if (recipient == null) {
                     throw new RuntimeException("O paciente não tem fisioterapeuta atribuído");
                 }
-                logger.info("Patient sending to physiotherapist: {}", recipient.getUsername());
             }
             
             // Save message to database
@@ -72,7 +63,6 @@ public class ChatMessageService {
             chatMessage.setSenderUser(currentUser);
             chatMessage.setRecipientUser(recipient);
             chatMessageRepository.save(chatMessage);
-            logger.info("Message saved to database with ID: {}", chatMessage.getId());
             
             // Create a unique topic for this conversation
             String topic = String.format("/topic/chat/%d/%d", 
@@ -81,15 +71,11 @@ public class ChatMessageService {
             
             // Send message to the specific topic
             messagingTemplate.convertAndSend(topic, message);
-            logger.info("Message sent to topic: {} from {} to {}", 
-                topic, currentUser.getUsername(), recipient.getUsername());
             
             // Also send to the general messages topic for debugging
             messagingTemplate.convertAndSend("/topic/messages", message);
-            logger.info("Message also sent to general topic for debugging");
             
         } catch (Exception e) {
-            logger.error("Erro ao processar mensagem: {}", e.getMessage(), e);
             throw e;
         }
     }
@@ -137,7 +123,6 @@ public class ChatMessageService {
             
             // Delete the message
             chatMessageRepository.delete(message);
-            logger.info("Message {} deleted by user {}", messageId, currentUser.getUsername());
             
             // Notify other users about the deletion
             String topic = String.format("/topic/chat/%d/%d", 
@@ -147,7 +132,6 @@ public class ChatMessageService {
             messagingTemplate.convertAndSend(topic, new ChatMessageDTO("sistema", "Mensagem eliminada"));
             
         } catch (Exception e) {
-            logger.error("Erro ao eliminar mensagem: {}", e.getMessage(), e);
             throw e;
         }
     }

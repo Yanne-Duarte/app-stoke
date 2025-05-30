@@ -35,8 +35,7 @@ export const myGuardGuard: CanActivateFn = (route, state) => {
     }
 
     return true;
-  } catch (error) {
-    console.error('Error parsing user data:', error);
+  } catch (error) { 
     router.navigate(['/login']);
     return false;
   }

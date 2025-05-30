@@ -63,6 +63,7 @@ export class NotificacoesComponent implements OnInit {
       useTemplate: true,
     },
   ];
+  error: string | null = null;
 
   constructor(
     private modalService: NgbModal,
@@ -82,7 +83,7 @@ export class NotificacoesComponent implements OnInit {
         this.loading = false;
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error loading notifications:', error);
+        this.error = 'Error loading notifications: ' + error;
         this.loading = false;
       },
     });
@@ -96,7 +97,7 @@ export class NotificacoesComponent implements OnInit {
           this.loadNotifications(); // Recarrega a lista após a alteração
         },
         error: (error: HttpErrorResponse) => {
-          console.error('Error marking notification as unread:', error);
+          this.error = 'Error marking notification as unread: ' + error;
         },
       });
     } else {
@@ -106,7 +107,7 @@ export class NotificacoesComponent implements OnInit {
           this.loadNotifications(); // Recarrega a lista após a alteração
         },
         error: (error: HttpErrorResponse) => {
-          console.error('Error marking notification as read:', error);
+          this.error = 'Error marking notification as read: ' + error;
         },
       });
     }
@@ -123,7 +124,7 @@ export class NotificacoesComponent implements OnInit {
               this.loadNotifications(); // Refresh list after deletion
             },
             error: (error: HttpErrorResponse) => {
-              console.error('Error deleting notification:', error);
+              this.error = 'Error deleting notification: ' + error;
             },
           });
         }

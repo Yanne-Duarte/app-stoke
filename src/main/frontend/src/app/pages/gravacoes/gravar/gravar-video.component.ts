@@ -38,6 +38,7 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
   private startTime: number = 0;
   isSaving = false;
   username: any;
+  error: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -96,7 +97,6 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
         this.isPreviewActive = true;
       }
     } catch (error) {
-      console.error('Erro ao configurar câmera:', error);
       this.recordingError =
         'Erro ao acessar a câmera. Por favor, verifique as permissões.';
       throw error;
@@ -152,7 +152,6 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
         this.duration = Math.floor((Date.now() - this.startTime) / 1000);
       }, 1000);
     } catch (error) {
-      console.error('Erro ao iniciar gravação:', error);
       this.recordingError = 'Erro ao iniciar a gravação.';
       clearInterval(this.durationInterval);
     }
@@ -229,7 +228,7 @@ export class GravarVideoComponent implements OnInit, OnDestroy {
 
       this.router.navigate(['/gravacoes']);
     } catch (error) {
-      console.error('Erro ao Guardar gravação:', error);
+      this.error = 'Erro ao Guardar gravação: ' + error;
       this.recordingError = 'Erro ao Guardar a gravação.';
     } finally {
       this.isSaving = false;

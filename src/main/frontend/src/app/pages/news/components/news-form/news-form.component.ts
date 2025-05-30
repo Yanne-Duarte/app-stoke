@@ -19,6 +19,7 @@ export class NewsFormComponent implements OnInit {
   isEditing = false;
   newsId?: number;
   loading = false;
+  error: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -52,7 +53,7 @@ export class NewsFormComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading news:', error);
+        this.error = 'Error loading news: ' + error;
         this.loading = false;
         this.router.navigate(['/criar-conteudo']);
       }
@@ -61,8 +62,7 @@ export class NewsFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.newsForm.valid) {
-      const formValue = this.newsForm.value;
-      console.log('Form content:', formValue.content);
+      const formValue = this.newsForm.value; 
       
       const newsData: Partial<NewsDTO> = {
         title: formValue.title.trim(),
@@ -75,7 +75,7 @@ export class NewsFormComponent implements OnInit {
             this.router.navigate(['/criar-conteudo']);
           },
           error: (error) => {
-            console.error('Error updating news:', error);
+            this.error = 'Error updating news: ' + error;
             alert('Erro ao atualizar a notícia. Por favor, tente novamente.');
           }
         });
@@ -85,7 +85,7 @@ export class NewsFormComponent implements OnInit {
             this.router.navigate(['/criar-conteudo']);
           },
           error: (error) => {
-            console.error('Error creating news:', error);
+            this.error = 'Error creating news: ' + error;
             alert('Erro ao criar a notícia. Por favor, tente novamente.');
           }
         });

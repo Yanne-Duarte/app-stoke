@@ -43,26 +43,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         try {
             final String authHeader = request.getHeader("Authorization");
-            System.out.println("Request URL: " + request.getRequestURL());
-            System.out.println("Auth Header: " + authHeader);
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                System.out.println("No valid Authorization header found");
                 filterChain.doFilter(request, response);
                 return;
             }
 
             final String jwt = authHeader.substring(7);
             final String username = jwtService.extractUsername(jwt);
-            System.out.println("JWT User: " + username);
 
             Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-            System.out.println("Existing Authentication: " + existingAuth);
 
             if (username != null && existingAuth == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                System.out.println("Loaded UserDetails: " + userDetails);
-                System.out.println("User Authorities: " + userDetails.getAuthorities());
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -73,10 +66,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    System.out.println("Authentication set in SecurityContext: " + authToken);
-                    System.out.println("Authorities in SecurityContext: " + authToken.getAuthorities());
-                } else {
-                    System.out.println("Token validation failed");
                 }
             }
 

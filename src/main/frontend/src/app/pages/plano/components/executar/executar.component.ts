@@ -56,8 +56,7 @@ export class ExecutarComponent implements OnInit, OnDestroy {
     this.error = null;
 
     this.apiService.getPlanById(id).subscribe({
-      next: (plano) => {
-        console.log('Plano carregado:', plano);
+      next: (plano) => { 
         this.plano = plano;
         this.loading = false;
         this.iniciarExecucao(id);
@@ -76,7 +75,7 @@ export class ExecutarComponent implements OnInit, OnDestroy {
         this.stepStartTime = Date.now();
       },
       error: (error) => {
-        console.error('Erro ao iniciar execução:', error);
+        this.error = 'Erro ao iniciar execução: ' + error;
       },
     });
   }
@@ -112,7 +111,7 @@ export class ExecutarComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         error: (error) => {
-          console.error('Erro ao atualizar métricas:', error);
+          this.error = 'Erro ao atualizar métricas: ' + error;
         },
       });
 
@@ -161,7 +160,8 @@ export class ExecutarComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         error: (error) => {
-          console.error('Erro ao finalizar execução:', error);
+          //TODO: handle error
+
         },
       });
   }
@@ -203,12 +203,12 @@ export class ExecutarComponent implements OnInit, OnDestroy {
 
     modalRef.componentInstance.result.subscribe((result: boolean) => {
       if (result) {
-        // Video was successfully played
-        console.log('Video played successfully');
-      } else {
-        // User cancelled or there was an error
-        console.log('Video playback cancelled or failed');
-      }
+        // Video was successfully played 
+        // TODO: handle video played
+        } else {
+          // User cancelled or there was an error 
+
+        }
     });
   }
 }

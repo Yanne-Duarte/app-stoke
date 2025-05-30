@@ -22,36 +22,33 @@ export class NotificacaoCreateComponent implements OnInit {
 
   recipients: { id: number; descricao: string }[] = [];
   loading = false;
+  error: string | null = null;
 
   constructor(
     private router: Router,
     private apiService: ApiService
   ) {}
 
-  ngOnInit() {
-    console.log('Component initialized, loading users...');
+  ngOnInit() { 
     this.loadUsers();
   }
 
   loadUsers() {
-    this.loading = true;
-    console.log('Calling API to get users...');
+    this.loading = true; 
     this.apiService.getAllUsers({}).subscribe({
-      next: (users: UserDTO[]) => {
-        console.log('Users received from API:', users);
+      next: (users: UserDTO[]) => { 
         if (users && users.length > 0) {
           this.recipients = users.map(user => ({
             id: user.id!,
             descricao: user.fullName
-          }));
-          console.log('Mapped recipients:', this.recipients);
+            })); 
         } else {
-          console.warn('No users received from API');
+          this.error = 'No users received from API';
         }
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading users:', error);
+        this.error = 'Error loading users: ' + error;
         this.loading = false;
       }
     });
@@ -68,7 +65,7 @@ export class NotificacaoCreateComponent implements OnInit {
           this.router.navigate(['/notificacoes']);
         },
         error: (error) => {
-          console.error('Error creating notification:', error);
+         this.error = 'Error creating notification: ' + error;
         }
       });
     }

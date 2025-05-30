@@ -38,8 +38,7 @@ export class MetricasDetalheComponent implements OnInit {
         this.loading = false;
       },
       error: (error: any) => {
-        this.error = 'Erro ao carregar detalhes da execução';
-        console.error('Erro:', error);
+        this.error = 'Erro ao carregar detalhes da execução'; 
         this.loading = false;
       }
     });

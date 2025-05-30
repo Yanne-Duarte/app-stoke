@@ -20,6 +20,6 @@ public class NotificationCreateDTO {
     private String message;
 
     @NotNull(message = "Recipient user ID is required")
-    @Schema(description = "ID do usuário que receberá a notificação", example = "1")
+    @Schema(description = "ID do utilizador que receberá a notificação", example = "1")
     private Integer recipientUserId;
 } 

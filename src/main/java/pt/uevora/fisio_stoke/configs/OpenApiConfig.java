@@ -16,12 +16,12 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Fisio Stoke API")
+                        .title("FisioStroke API")
                         .version("1.0")
-                        .description("API para o sistema Fisio Stoke")
+                        .description("API para o sistema FisioStroke")
                         .contact(new Contact()
-                                .name("Equipe Fisio Stoke")
-                                .email("contato@fisiostoke.com")))
+                                .name("Equipe FisioStroke")
+                                .email("contato@fisiostroke.com")))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components()
                         .addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
