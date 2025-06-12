@@ -1,5 +1,5 @@
 // Ambiente de produção
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8086'
+  apiUrl: 'http://localhost:8088'
 };

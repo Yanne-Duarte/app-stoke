@@ -9,6 +9,5 @@ msyql:
 
 user: password:
 joe.due  -> qwerty
-demo_1   -> querty
-demo_2   -> querty
-demo_3   -> querty
+
+
